@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\FleetTypeController;use App\Http\Controllers\company\CarOrFleetController;use App\Http\Controllers\company\CompanyController;
+use App\Http\Controllers\admin\FleetTypeController;use App\Http\Controllers\admin\TollController;use App\Http\Controllers\company\CarOrFleetController;use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -49,6 +49,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/fleetType/store', [FleetTypeController::class, 'store'])->name('admin.fleetType.store');
         Route::put('/fleetType/update/{id}', [FleetTypeController::class, 'update'])->name('admin.fleetType.update');
         Route::get('/fleetType/delete/{id}', [FleetTypeController::class, 'destroy'])->name('admin.fleetType.delete');
+
+        //fleet type routes
+        Route::get('/toll', [TollController::class, 'index'])->name('admin.toll');
+        Route::post('/toll/store', [TollController::class, 'store'])->name('admin.toll.store');
+        Route::put('/toll/update/{id}', [TollController::class, 'update'])->name('admin.toll.update');
+        Route::get('/toll/delete/{id}', [TollController::class, 'destroy'])->name('admin.toll.delete');
 
     });
 

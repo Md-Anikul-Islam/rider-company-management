@@ -9,6 +9,7 @@ class CarOrFleet extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'company_id',
         'car_type_id',
         'car_image',
         'plate_no',

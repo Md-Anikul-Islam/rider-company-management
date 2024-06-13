@@ -71,6 +71,16 @@
                      </div>
 
 
+                      <div class="menu-item">
+                         <a class="menu-link" href="{{route('admin.toll')}}">
+                             <span class="menu-icon">
+                                 <i class="ki-outline ki-rocket fs-2"></i>
+                             </span>
+                             <span class="menu-title">Toll</span>
+                         </a>
+                      </div>
+
+
 
                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                             <span class="menu-link">
