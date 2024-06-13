@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="menu-item">
-                            <a class="menu-link" href="#">
+                            <a class="menu-link" href="{{route('company.car')}}">
                                 <span class="menu-icon">
                                     <i class="ki-outline ki-rocket fs-2"></i>
                                 </span>

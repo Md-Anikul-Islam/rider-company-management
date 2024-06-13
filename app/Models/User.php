@@ -24,6 +24,7 @@ class User extends Authenticatable
         'address',
         'role',
         'logo',
+        'trade_license',
         'status',
         'password',
     ];

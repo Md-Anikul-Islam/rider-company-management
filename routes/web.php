@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\company\CompanyController;
+use App\Http\Controllers\admin\FleetTypeController;use App\Http\Controllers\company\CarOrFleetController;use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -44,10 +44,23 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/company/update/{id}', [App\Http\Controllers\admin\CompanyController::class, 'update'])->name('admin.company.update');
         Route::get('/company/delete/{id}', [App\Http\Controllers\admin\CompanyController::class, 'destroy'])->name('admin.company.delete');
 
+        //fleet type routes
+        Route::get('/fleetType', [FleetTypeController::class, 'index'])->name('admin.fleetType');
+        Route::post('/fleetType/store', [FleetTypeController::class, 'store'])->name('admin.fleetType.store');
+        Route::put('/fleetType/update/{id}', [FleetTypeController::class, 'update'])->name('admin.fleetType.update');
+        Route::get('/fleetType/delete/{id}', [FleetTypeController::class, 'destroy'])->name('admin.fleetType.delete');
+
     });
 
     Route::middleware(['company'])->prefix('company')->group(function () {
         Route::get('/dashboard', [CompanyController::class, 'index'])->name('company.dashboard');
+
+        //fleet or car routes
+        Route::get('/car', [CarOrFleetController::class, 'index'])->name('company.car');
+        Route::post('/car/store', [CarOrFleetController::class, 'store'])->name('company.car.store');
+        Route::put('/car/update/{id}', [CarOrFleetController::class, 'update'])->name('company.car.update');
+        Route::get('/car/delete/{id}', [CarOrFleetController::class, 'destroy'])->name('company.car.delete');
+
     });
 });
 

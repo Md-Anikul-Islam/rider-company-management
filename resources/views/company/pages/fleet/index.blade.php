@@ -1,0 +1,294 @@
+@extends('company.layout')
+@section('company_content')
+<div class="toolbar" id="kt_toolbar">
+    <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
+        <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap lh-1">
+            <h1 class="d-flex align-items-center text-dark fw-bold my-1 fs-3"> Admin</h1>
+            <span class="h-20px border-gray-200 border-start mx-4"></span>
+            <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
+                <li class="breadcrumb-item text-muted">
+                    <a href="#" class="text-muted text-hover-primary">Fleet</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="post d-flex flex-column-fluid mb-5" id="kt_post">
+    <div id="kt_content_container" class="container-fluid">
+        <div class="card card-flush">
+            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <div class="card-title">
+                    <div id="kt_datatable_example_1_export" class="d-none"></div>
+                </div>
+                <div class="card-toolbar flex-row-fluid justify-content-end gap-5">
+                    <a href="#" data-bs-toggle="modal" data-bs-target="#modalFormDataSave" class="btn btn-primary">Add New</a>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
+                    <thead>
+                        <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                            <th>S/N</th>
+                            <th>Image</th>
+                            <th>Type</th>
+                            <th>Plate No</th>
+                            <th>Name</th>
+                            <th>Model</th>
+                            <th>Car Make</th>
+                            <th>Year</th>
+                            <th>Color</th>
+                            <th>Passenger</th>
+                            <th>Bag</th>
+                            <th>Base</th>
+                            <th>Registered Card</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
+                    @foreach($cars as $key=>$carData)
+                    <tr>
+                            <td>{{$key+1}}</td>
+                            <td>
+                                <img src="{{ asset($carData->car_image) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
+                            </td>
+                            <td>{{$carData->fleetType->name}}</td>
+                            <td>{{$carData->plate_no}}</td>
+                            <td>{{$carData->car_name}}</td>
+                            <td>{{$carData->car_model}}</td>
+                            <td>{{$carData->car_make}}</td>
+                            <td>{{$carData->year}}</td>
+                            <td>{{$carData->car_color}}</td>
+                            <td>{{$carData->passengers}}</td>
+                            <td>{{$carData->car_bag}}</td>
+                            <td>{{$carData->car_base}}</td>
+                            <td>
+                                <img src="{{ asset($carData->car_register_card) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
+                            </td>
+                            <td>
+                                @if( $carData->status == 'active')
+                                    <span class="badge badge-success">Active</span>
+                                @elseif( $carData->status == 'inactive')
+                                    <span class="badge badge-danger">Inactive</span>
+                                @endif
+                            </td>
+                            <td>
+                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$carData->id}}">Edit</button>
+                                <a href="{{route('company.car.delete',$carData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$carData->id}}" data-category-id="{{$carData->id}}">Delete</a>
+                            </td>
+                        </tr>
+                        <!-- Edit Modal for Current Relation -->
+                        <div class="modal fade" id="modalFormDataEdit{{$carData->id}}" aria-labelledby="editModalLabel{{$carData->id}}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered mw-1000px">
+                                <div class="modal-content rounded">
+                                    <div class="modal-header pb-0 border-0 justify-content-end">
+                                        <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                            <i class="ki-outline ki-cross fs-1"></i>
+                                        </div>
+                                    </div>
+                                    <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                        <form action="{{route('company.car.update',$carData->id)}}" method="post" class="form" enctype="multipart/form-data">
+                                        @csrf @method('PUT')
+                                        <div class="mb-13 text-center">
+                                                <h1 id="editModalLabel{{$carData->id}}" class="mb-3">Edit Car/Fleet</h1>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Type</label>
+                                                    <select name="car_type_id" class="form-select form-select-solid" required>
+                                                        @foreach($carTypes as $carTypeData)
+                                                            <option value="{{$carTypeData->id}}" {{$carData->car_type_id == $carTypeData->id ? 'selected' : ''}}>{{$carTypeData->name}}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Image</label>
+                                                    <input type="file" name="car_image" class="form-control form-control-solid" value="{{$carData->car_image}}" placeholder="Enter Car Image" />
+                                                </div>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Register Card</label>
+                                                    <input type="file" name="car_register_card" class="form-control form-control-solid" value="{{$carData->car_register_card}}" placeholder="Enter Car Register Card" />
+                                                </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Plate No</label>
+                                                    <input type="text" name="plate_no" class="form-control form-control-solid" value="{{$carData->plate_no}}" placeholder="Enter Car Plate No" />
+                                                </div>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Name</label>
+                                                    <input type="text" name="car_name" class="form-control form-control-solid" value="{{$carData->car_name}}" placeholder="Enter Car Name" />
+                                                </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Model</label>
+                                                    <input type="text" name="car_model" class="form-control form-control-solid" value="{{$carData->car_model}}" placeholder="Enter Car Model" />
+                                                </div>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Make</label>
+                                                    <input type="text" name="car_make" class="form-control form-control-solid" value="{{$carData->car_make}}" placeholder="Enter Car Make Company Name" />
+                                                </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Year</label>
+                                                    <select name="year" class="form-select form-select-solid">
+                                                        @for($year = 1990; $year <= date('Y'); $year++)
+                                                            <option value="{{$year}}" {{$carData->year == $year ? 'selected' : ''}}>{{$year}}</option>
+                                                        @endfor
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Color</label>
+                                                    <input type="text" name="car_color" class="form-control form-control-solid" value="{{$carData->car_color}}" placeholder="Enter Car Color" />
+                                                </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Passengers</label>
+                                                    <input type="text" name="passengers" class="form-control form-control-solid" value="{{$carData->passengers}}" placeholder="Enter Car Passengers" />
+                                                </div>
+                                            </div>
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Bag</label>
+                                                    <input type="text" name="car_bag" class="form-control form-control-solid" value="{{$carData->car_bag}}" placeholder="Enter Car Bag" />
+                                                </div>
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Base</label>
+                                                    <input type="text" name="car_base" class="form-control form-control-solid" value="{{$carData->car_base}}" placeholder="Enter Car Base" />
+                                                </div>
+                                            </div>
+                                            {{--status make--}}
+                                            <div class="row g-9 mb-8">
+                                                <div class="col-md-12 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Status</label>
+                                                    <select name="status" class="form-select form-select-solid">
+                                                        <option value="active" {{$carData->status == 'active' ? 'selected' : ''}}>Active</option>
+                                                        <option value="inactive" {{$carData->status == 'inactive' ? 'selected' : ''}}>Inactive</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="text-end">
+                                                <button type="submit" class="btn btn-primary">
+                                                    <span class="indicator-label">Update</span>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal fade" id="deleteModal{{$carData->id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{$carData->id}}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="deleteModalLabel{{$carData->id}}">Delete Relation</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>Are you sure you want to delete Car?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                        <a href="{{route('company.car.delete',$carData->id)}}" class="btn btn-danger">Delete</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{{--Relation Add Modal--}}
+<div class="modal fade" id="modalFormDataSave" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered mw-1000px">
+        <div class="modal-content rounded">
+            <div class="modal-header pb-0 border-0 justify-content-end">
+                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                    <i class="ki-outline ki-cross fs-1"></i>
+                </div>
+            </div>
+            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                <form action="{{route('company.car.store')}}" method="post" class="form" enctype="multipart/form-data"> @csrf <div class="mb-13 text-center">
+                        <h1 class="mb-3">Add Company</h1>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Type</label>
+                            <select name="car_type_id" class="form-select form-select-solid" required>
+                                @foreach($carTypes as $carTypeData)
+                                    <option value="{{$carTypeData->id}}">{{$carTypeData->name}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Image</label>
+                            <input type="file" name="car_image" class="form-control form-control-solid" placeholder="Enter Car Image" />
+                        </div>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Register Card</label>
+                            <input type="file" name="car_register_card" class="form-control form-control-solid" placeholder="Enter Car Register Card" />
+                        </div>
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Plate No</label>
+                            <input type="text" name="plate_no" class="form-control form-control-solid" placeholder="Enter Car Plate No" />
+                        </div>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Name</label>
+                            <input type="text" name="car_name" class="form-control form-control-solid" placeholder="Enter Car Name" />
+                        </div>
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Model</label>
+                            <input type="text" name="car_model" class="form-control form-control-solid" placeholder="Enter Car Model" />
+                        </div>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Make</label>
+                            <input type="text" name="car_make" class="form-control form-control-solid" placeholder="Enter Car Make Company Name" />
+                        </div>
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Color</label>
+                            <input type="text" name="car_color" class="form-control form-control-solid" placeholder="Enter Car Color" />
+                        </div>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Passengers</label>
+                            <input type="text" name="passengers" class="form-control form-control-solid" placeholder="Enter Car Passengers" />
+                        </div>
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Bag</label>
+                            <input type="text" name="car_bag" class="form-control form-control-solid" placeholder="Enter Car Bag" />
+                        </div>
+                    </div>
+                    <div class="row g-9 mb-8">
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Base</label>
+                            <input type="text" name="car_base" class="form-control form-control-solid" placeholder="Enter Car Base" />
+                        </div>
+                        <div class="col-md-6 fv-row">
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Year</label>
+                            <select name="year" class="form-select form-select-solid"> @for($year = 1990; $year <= date('Y'); $year++) <option value="{{$year}}">{{$year}}</option> @endfor </select>
+                        </div>
+                    </div>
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="indicator-label">Submit</span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection

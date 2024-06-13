@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;use Illuminate\Http\Request;use Illuminate\Support\Facades\File;use Illuminate\Support\Facades\Validator;
+use App\Models\User;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Toastr;
 class CompanyController extends Controller
 {
@@ -27,8 +30,8 @@ class CompanyController extends Controller
                    'address' => 'required',
                    'logo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                    'password' => 'required|min:6',
+                   'trade_license' => 'nullable|mimes:jpeg,png,jpg,gif,svg,pdf',
                ]);
-
                $company = new User();
                $company->name = $request->name;
                $company->email = $request->email;
@@ -40,6 +43,13 @@ class CompanyController extends Controller
                    $logoName = time() . '_' . $logo->getClientOriginalName();
                    $logo->move(public_path('logos'), $logoName);
                    $company->logo = 'logos/' . $logoName;
+               }
+
+               if ($request->hasFile('trade_license')) {
+                   $tradeLicense = $request->file('trade_license');
+                   $tradeLicenseName = time() . '_' . $tradeLicense->getClientOriginalName();
+                   $tradeLicense->move(public_path('tradeLicense'), $tradeLicenseName);
+                   $company->trade_license = 'tradeLicense/' . $tradeLicenseName;
                }
 
                $company->password = bcrypt($request->password);
@@ -62,7 +72,9 @@ class CompanyController extends Controller
                    'address' => 'required',
                    'logo' => 'nullable|image',
                    'password' => 'nullable|min:6',
+                   'trade_license' => 'nullable|mimes:jpeg,png,jpg,gif,svg,pdf',
                ]);
+
                if ($validator->fails()) {
                    return redirect()->back()->withErrors($validator)->withInput();
                }
@@ -80,6 +92,13 @@ class CompanyController extends Controller
                    $company->logo = 'logos/' . $logoName;
                }
 
+              if ($request->hasFile('trade_license')) {
+                  $tradeLicense = $request->file('trade_license');
+                  $tradeLicenseName = time() . '_' . $tradeLicense->getClientOriginalName();
+                  $tradeLicense->move(public_path('tradeLicense'), $tradeLicenseName);
+                  $company->trade_license = 'tradeLicense/' . $tradeLicenseName;
+              }
+
                if ($request->filled('password')) {
                    $company->password = bcrypt($request->password);
                }
@@ -93,18 +112,26 @@ class CompanyController extends Controller
 
         public function destroy($id)
         {
-             try {
-                 $company = User::findOrFail($id);
-                 if ($company->logo && File::exists(public_path($company->logo))) {
-                     File::delete(public_path($company->logo));
-                 }
-                 $company->delete();
-                 Toastr::error('Company deleted successfully!', 'Error');
-                 return redirect()->back();
-             } catch (\Exception $e) {
-                 return redirect()->route('admin.company')->with('error', 'An error occurred: ' . $e->getMessage());
-             }
+           try {
+               $company = User::findOrFail($id);
+               if ($company->logo && File::exists(public_path($company->logo))) {
+                   File::delete(public_path($company->logo));
+               }
+
+
+               if ($company->trade_license && File::exists(public_path($company->trade_license))) {
+
+                   File::delete(public_path($company->trade_license));
+
+               }
+               $company->delete();
+               Toastr::error('Company deleted successfully!', 'Error');
+               return redirect()->back();
+           } catch (\Exception $e) {
+               return redirect()->route('admin.company')->with('error', 'An error occurred: ' . $e->getMessage());
+           }
         }
+
 
 
 }

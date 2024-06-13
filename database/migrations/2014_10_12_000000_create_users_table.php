@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('role')->default('company');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('logo')->nullable();
+            $table->string('trade_license')->nullable();
             $table->string('status')->default('active');
             $table->string('password');
             $table->rememberToken();

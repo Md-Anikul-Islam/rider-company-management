@@ -75,7 +75,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                                                <form action="{{route('admin.company.update',$companiesData->id)}}" method="post" class="form">
+                                                <form action="{{route('admin.company.update',$companiesData->id)}}" method="post" class="form" enctype="multipart/form-data">
                                                     @csrf
                                                     @method('PUT')
                                                     <div class="mb-13 text-center">
@@ -113,6 +113,15 @@
                                                                 <img src="{{ asset($companiesData->logo) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
                                                            </div>
                                                        </div>
+
+
+                                                        <div class="row g-9 mb-8">
+                                                          <div class="col-md-12 fv-row">
+                                                              <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Company Trade License</label>
+                                                              <input type="file" name="trade_license" class="form-control form-control-solid" placeholder="Enter Company Trade License"/>
+                                                          </div>
+                                                        </div>
+
                                                         <div class="row g-9 mb-8">
                                                               <div class="col-md-12 fv-row">
                                                                   <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Password</label>
@@ -214,6 +223,14 @@
                                     <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Company Logo</label>
                                     <input type="file" name="logo" class="form-control form-control-solid" placeholder="Enter Company Logo"/>
                                 </div>
+                            </div>
+
+
+                            <div class="row g-9 mb-8">
+                              <div class="col-md-12 fv-row">
+                                  <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Company Trade License</label>
+                                  <input type="file" name="trade_license" class="form-control form-control-solid" placeholder="Enter Company Trade License"/>
+                              </div>
                             </div>
 
                           <div class="row g-9 mb-8">
