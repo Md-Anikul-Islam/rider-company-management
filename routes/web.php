@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\FleetTypeController;use App\Http\Controllers\admin\TollController;use App\Http\Controllers\company\CarOrFleetController;use App\Http\Controllers\company\CompanyController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\company\CouponController;use App\Http\Controllers\company\DriverController;use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -66,6 +66,18 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/car/store', [CarOrFleetController::class, 'store'])->name('company.car.store');
         Route::put('/car/update/{id}', [CarOrFleetController::class, 'update'])->name('company.car.update');
         Route::get('/car/delete/{id}', [CarOrFleetController::class, 'destroy'])->name('company.car.delete');
+
+        //fleet or car routes
+        Route::get('/driver', [DriverController::class, 'index'])->name('company.driver');
+        Route::post('/driver/store', [DriverController::class, 'store'])->name('company.driver.store');
+        Route::put('/driver/update/{id}', [DriverController::class, 'update'])->name('company.driver.update');
+        Route::get('/driver/delete/{id}', [DriverController::class, 'destroy'])->name('company.driver.delete');
+
+        //coupon
+        Route::get('/coupon', [CouponController::class, 'index'])->name('company.coupon');
+        Route::post('/coupon/store', [CouponController::class, 'store'])->name('company.coupon.store');
+        Route::put('/coupon/update/{id}', [CouponController::class, 'update'])->name('company.coupon.update');
+        Route::get('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('company.coupon.delete');
 
     });
 });
