@@ -9,7 +9,7 @@ class CouponController extends Controller
 {
         public function index()
         {
-            $coupon = Coupon::latest()->get();
+            $coupon = Coupon::where('company_id', auth()->user()->id)->latest()->get();
             return view('company.pages.coupon.index',compact('coupon'));
         }
         public function store(Request $request)
