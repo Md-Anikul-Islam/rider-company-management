@@ -3,7 +3,7 @@
 <div class="toolbar" id="kt_toolbar">
     <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
         <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap lh-1">
-            <h1 class="d-flex align-items-center text-dark fw-bold my-1 fs-3"> Admin</h1>
+            <h1 class="d-flex align-items-center text-dark fw-bold my-1 fs-3"> Company</h1>
             <span class="h-20px border-gray-200 border-start mx-4"></span>
             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
                 <li class="breadcrumb-item text-muted">
@@ -70,6 +70,7 @@
                             </td>
                             <td>
                             {{-- <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$driverData->id}}">Edit</button> --}}
+                                <a href="{{route('company.driver.details.show',$driverData->id)}}" class="btn btn-info btn-sm">Details</a>
                                 <a href="{{route('company.driver.delete',$driverData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$driverData->id}}" data-category-id="{{$driverData->id}}">Delete</a>
                             </td>
                         </tr>

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Sanctum\HasApiTokens;
 
 class Driver extends Model
 {
-    use HasFactory;
+    use HasFactory,HasApiTokens;
     protected $fillable = [
         'company_id',
         'car_id',
@@ -26,5 +27,14 @@ class Driver extends Model
         'ratting',
         'status',
     ];
+
+    public function company()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function car()
+    {
+        return $this->belongsTo(CarOrFleet::class);
+    }
 
 }

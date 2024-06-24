@@ -111,5 +111,11 @@ class DriverController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        $driver = Driver::where('id', $id)->with('car')->first();
+        return view('company.pages.driver.driverDetails', compact('driver'));
+    }
+
 
 }

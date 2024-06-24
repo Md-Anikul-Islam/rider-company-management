@@ -43,7 +43,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/company/store', [App\Http\Controllers\admin\CompanyController::class, 'store'])->name('admin.company.store');
         Route::put('/company/update/{id}', [App\Http\Controllers\admin\CompanyController::class, 'update'])->name('admin.company.update');
         Route::get('/company/delete/{id}', [App\Http\Controllers\admin\CompanyController::class, 'destroy'])->name('admin.company.delete');
-
+        Route::get('/company/driver/list/{companyId}', [App\Http\Controllers\admin\CompanyController::class, 'showDriverList'])->name('admin.company.under.driver.list');
+        Route::get('/company/driver/details/{id}', [App\Http\Controllers\admin\CompanyController::class, 'showDriverDetails'])->name('admin.company.under.driver.details');
         //fleet type routes
         Route::get('/fleetType', [FleetTypeController::class, 'index'])->name('admin.fleetType');
         Route::post('/fleetType/store', [FleetTypeController::class, 'store'])->name('admin.fleetType.store');
@@ -70,6 +71,7 @@ Route::middleware(['auth'])->group(function () {
         //fleet or car routes
         Route::get('/driver', [DriverController::class, 'index'])->name('company.driver');
         Route::post('/driver/store', [DriverController::class, 'store'])->name('company.driver.store');
+        Route::get('/driver/details/{id}', [DriverController::class, 'show'])->name('company.driver.details.show');
         Route::put('/driver/update/{id}', [DriverController::class, 'update'])->name('company.driver.update');
         Route::get('/driver/delete/{id}', [DriverController::class, 'destroy'])->name('company.driver.delete');
 
