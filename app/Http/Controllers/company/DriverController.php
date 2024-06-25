@@ -9,7 +9,7 @@ class DriverController extends Controller
 {
     public function index()
     {
-        $car = CarOrFleet::where('company_id', Auth::user()->id)->get();
+        $car = CarOrFleet::where('is_selected', 'no')->where('company_id', Auth::user()->id)->get();
         $drivers = Driver::where('company_id', Auth::user()->id)->get();
         return view('company.pages.driver.index', compact('car', 'drivers'));
     }
@@ -29,7 +29,7 @@ class DriverController extends Controller
 
             $driver = new Driver();
             $driver->company_id = auth()->user()->id;
-            $driver->car_id = $request->car_id;
+            $driver->car_id = $request->car_id??null;
             $driver->name = $request->name;
             $driver->email = $request->email;
             $driver->phone = $request->phone;
@@ -62,8 +62,15 @@ class DriverController extends Controller
                 $request->file('rta_card_back_image')->move(public_path('images/rta_card_back'), $rtaCardBackImage);
                 $driver->rta_card_back_image = 'images/rta_card_back/' . $rtaCardBackImage;
             }
-
             $driver->save();
+
+            // Update the CarOrFleet is_selected field
+            $car = CarOrFleet::find($request->car_id);
+            if ($car) {
+                $car->is_selected = 'yes';
+                $car->save();
+            }
+
             Toastr::success('Driver added successfully!', 'Success');
             return redirect()->back();
         } catch (\Exception $e) {

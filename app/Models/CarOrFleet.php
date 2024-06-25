@@ -22,6 +22,7 @@ class CarOrFleet extends Model
         'passengers',
         'car_bag',
         'car_register_card',
+        'is_selected',
         'status',
     ];
 

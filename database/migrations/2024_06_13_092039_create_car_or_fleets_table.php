@@ -26,6 +26,7 @@ return new class extends Migration
             $table->string('passengers')->nullable();
             $table->string('car_bag')->nullable();
             $table->string('car_register_card')->nullable();
+            $table->enum('is_selected', ['yes', 'no'])->default('no');
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->timestamps();
         });

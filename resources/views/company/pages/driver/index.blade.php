@@ -225,7 +225,8 @@
                         <div class="row g-9 mb-8">
                             <div class="col-md-6 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car</label>
-                                <select name="car_id" class="form-select form-select-solid" required>
+                                <select name="car_id" class="form-select form-select-solid" >
+                                    <option value="" selected>Select Car If Needed</option>
                                  @foreach($car as $carData)
                                      <option value="{{$carData->id}}">{{$carData->car_name}}</option>
                                  @endforeach

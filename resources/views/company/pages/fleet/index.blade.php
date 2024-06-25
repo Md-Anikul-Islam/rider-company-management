@@ -41,6 +41,7 @@
                             <th>Bag</th>
                             <th>Base</th>
                             <th>Registered Card</th>
+                            <th>Selected</th>
                             <th>Status</th>
                             <th>Actions</th>
                         </tr>
@@ -64,6 +65,13 @@
                             <td>{{$carData->car_base}}</td>
                             <td>
                                 <img src="{{ asset($carData->car_register_card) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
+                            </td>
+                            <td>
+                                @if( $carData->is_selected == 'yes')
+                                    <span class="badge badge-danger">YES</span>
+                                @elseif( $carData->is_selected == 'no')
+                                    <span class="badge badge-success">NO</span>
+                                @endif
                             </td>
                             <td>
                                 @if( $carData->status == 'active')
