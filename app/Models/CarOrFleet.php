@@ -26,10 +26,12 @@ class CarOrFleet extends Model
         'status',
     ];
 
-    public function getResponseTimeAttribute($value)
-    {
-        return (int) $value;
-    }
+      protected $casts = [
+          'id' => 'integer',
+          'company_id' => 'integer',
+          'car_type_id' => 'integer',
+      ];
+
 
     public function fleetType()
     {
