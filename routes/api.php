@@ -50,8 +50,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('passenger-change-password', [PassengerController::class, 'passengerChangePassword']);
 
     //store trip history by driver
-    Route::post('/trip-history-store', [TripHistoryController::class, 'storeTripHistory'])->name('trip.history.store');
-
+    Route::post('/trip-history-store', [TripHistoryController::class, 'storeTripHistory']);
+    Route::post('/trip-history-update/{tripId}', [TripHistoryController::class, 'updateTripHistory']);
 
 
 

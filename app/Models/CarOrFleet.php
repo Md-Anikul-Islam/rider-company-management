@@ -26,6 +26,11 @@ class CarOrFleet extends Model
         'status',
     ];
 
+    public function getResponseTimeAttribute($value)
+    {
+        return (int) $value;
+    }
+
     public function fleetType()
     {
         return $this->belongsTo(FleetType::class, 'car_type_id');

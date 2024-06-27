@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\FleetTypeController;
-use App\Http\Controllers\admin\TollController;
+use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\TollController;
 use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\CouponController;
@@ -60,6 +60,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/toll/store', [TollController::class, 'store'])->name('admin.toll.store');
         Route::put('/toll/update/{id}', [TollController::class, 'update'])->name('admin.toll.update');
         Route::get('/toll/delete/{id}', [TollController::class, 'destroy'])->name('admin.toll.delete');
+
+        //passenger
+        Route::get('/passenger', [PassengerController::class, 'index'])->name('admin.passenger');
 
     });
 

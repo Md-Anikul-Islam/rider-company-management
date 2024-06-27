@@ -80,6 +80,18 @@
                          </a>
                       </div>
 
+                    <div class="menu-item">
+                       <a class="menu-link" href="{{route('admin.passenger')}}">
+                           <span class="menu-icon">
+                               <i class="ki-outline ki-rocket fs-2"></i>
+                           </span>
+                           <span class="menu-title">Passenger</span>
+                       </a>
+                    </div>
+
+
+
+
 
 
                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
