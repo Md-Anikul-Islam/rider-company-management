@@ -14,18 +14,29 @@ class DriverController extends Controller
                     'phone' => 'required|digits_between:10,15',
                     'password' => 'required',
                 ]);
-                $driver = Driver::where('phone', $request->phone)->with('company','car')->first();
-                if ($driver && Hash::check($request->password, $driver->password)) {
-                    // Create token for the authenticated driver
-                    $token = $driver->createToken('token-name')->plainTextToken;
+
+                $driver = Driver::where('phone', $request->phone)->with('company', 'car')->first();
+
+                if (!$driver) {
                     return response()->json([
-                        'token' => $token,
-                        'driver' => $driver,
-                    ]);
+                        'message' => 'Invalid phone number',
+                    ], 401);
                 }
+
+                if (!Hash::check($request->password, $driver->password)) {
+                    return response()->json([
+                        'message' => 'Incorrect password',
+                    ], 401);
+                }
+
+                // If both phone and password are correct, create token for authentication
+                $token = $driver->createToken('token-name')->plainTextToken;
+
                 return response()->json([
-                    'message' => 'Invalid credentials',
-                ], 401);
+                    'token' => $token,
+                    'driver' => $driver,
+                ]);
+
             } catch (\Exception $e) {
                 return response()->json([
                     'message' => 'An error occurred',
@@ -33,6 +44,7 @@ class DriverController extends Controller
                 ], 500);
             }
         }
+
 
         public function driverProfile(Request $request)
         {
