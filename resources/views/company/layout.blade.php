@@ -4,6 +4,8 @@
     <title>Company</title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta property="og:site_name" content="Drive on"/>
+    <meta property="og:description" content=""/>
     <link rel="shortcut icon" href="{{asset('backend/media/logos/favicon.ico')}}" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700"/>
     <link href="{{asset('backend/plugins/custom/datatables/datatables.bundle.css')}}" rel="stylesheet" type="text/css"/>
