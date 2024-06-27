@@ -20,4 +20,9 @@ class Coupon extends Model
         'short_note',
         'status'
     ];
+
+      protected $casts = [
+          'id' => 'integer',
+          'company_id' => 'integer',
+      ];
 }

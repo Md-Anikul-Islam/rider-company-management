@@ -24,4 +24,10 @@ class TripHistory extends Model
         'trip_status',     //use trip start and trip end as like , 1=trip start, 2=trip end
         'trip_type',       //use trip type as like , 1=manual trip, 2=request trip
     ];
+
+          protected $casts = [
+              'id' => 'integer',
+              'driver_id' => 'integer',
+              'driver_id' => 'integer',
+          ];
 }

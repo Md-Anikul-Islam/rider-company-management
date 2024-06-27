@@ -28,6 +28,12 @@ class Driver extends Model
         'status',
     ];
 
+      protected $casts = [
+          'id' => 'integer',
+          'company_id' => 'integer',
+          'car_id' => 'integer',
+      ];
+
     public function company()
     {
         return $this->belongsTo(User::class);
