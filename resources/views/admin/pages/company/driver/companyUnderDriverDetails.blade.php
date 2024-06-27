@@ -722,7 +722,7 @@
                             </td>
                             <td>{{$tripData->origin_address}}</td>
                             <td>{{$tripData->destination_address}}</td>
-                            <td>{{$tripData->pic_time? $tripData->pic_time:'N/A'}}</td>
+                            <td>{{$tripData->pick_time? $tripData->pick_time:'N/A'}}</td>
                             <td>{{$tripData->drop_time? $tripData->drop_time:'N/A'}}</td>
                             <td>
                                 @if($tripData->fare_received_status==0)

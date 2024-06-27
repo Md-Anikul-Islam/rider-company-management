@@ -46,6 +46,7 @@ class DriverController extends Controller
         }
 
 
+
         public function driverProfile(Request $request)
         {
                try {

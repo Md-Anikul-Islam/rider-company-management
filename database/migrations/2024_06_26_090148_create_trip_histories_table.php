@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('origin_address');
             $table->string('destination_address');
             $table->string('change_destination_address')->nullable();
-            $table->time('pic_time');
+            $table->time('pick_time');
             $table->time('drop_time')->nullable();
             $table->string('passenger_name')->nullable();
             $table->string('passenger_phone')->nullable();

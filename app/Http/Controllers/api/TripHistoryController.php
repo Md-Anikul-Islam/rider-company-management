@@ -12,7 +12,7 @@ class TripHistoryController extends Controller
             $validator = Validator::make($request->all(), [
                 'origin_address' => 'required|string|max:255',
                 'destination_address' => 'required|string|max:255',
-                'pic_time' => 'required',
+                'pick_time' => 'required',
                 'passenger_name' => 'nullable|string|max:255',
                 'passenger_phone' => 'nullable|string|max:255',
                 'estimated_fare' => 'nullable|string|max:255',
@@ -30,7 +30,7 @@ class TripHistoryController extends Controller
                 $tripHistory->origin_address = $request->input('origin_address');
                 $tripHistory->destination_address = $request->input('destination_address');
                 $tripHistory->change_destination_address = $request->input('change_destination_address');
-                $tripHistory->pic_time = $request->input('pic_time');
+                $tripHistory->pick_time = $request->input('pick_time');
                 $tripHistory->drop_time = $request->input('drop_time');
                 $tripHistory->passenger_name = $request->input('passenger_name');
                 $tripHistory->passenger_phone = $request->input('passenger_phone');

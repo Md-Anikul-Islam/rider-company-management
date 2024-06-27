@@ -14,7 +14,7 @@ class TripHistory extends Model
         'origin_address',
         'destination_address',
         'change_destination_address',
-        'pic_time',
+        'pick_time',
         'drop_time',
         'passenger_name',  //use only manual trip request
         'passenger_phone', //use only manual trip request
