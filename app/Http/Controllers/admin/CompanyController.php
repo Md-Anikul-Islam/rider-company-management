@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Driver;use App\Models\User;
+use App\Models\Driver;use App\Models\TripHistory;use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -146,9 +146,11 @@ class CompanyController extends Controller
         public function showDriverDetails($id)
         {
             $driver = Driver::where('id', $id)->with('car','company')->first();
-            return view('admin.pages.company.driver.companyUnderDriverDetails', compact('driver'));
-
+            $trip = TripHistory::where('driver_id', $id)->with('passenger')->paginate(50);
+            return view('admin.pages.company.driver.companyUnderDriverDetails', compact('driver','trip'));
         }
+
+
 
 
 

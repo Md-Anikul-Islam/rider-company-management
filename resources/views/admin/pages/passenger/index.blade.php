@@ -8,7 +8,7 @@
                     <span class="h-20px border-gray-200 border-start mx-4"></span>
                     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
                         <li class="breadcrumb-item text-muted">
-                            <a href="#" class="text-muted text-hover-primary">Company</a>
+                            <a href="#" class="text-muted text-hover-primary">Passenger</a>
                         </li>
                     </ul>
                 </div>

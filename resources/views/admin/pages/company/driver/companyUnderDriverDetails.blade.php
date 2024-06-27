@@ -680,7 +680,72 @@
             </div>
             @endif
         </div>
+
+        <div class="card card-flush mt-5">
+            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <div class="card-title">
+                    <div id="kt_datatable_example_1_export" class="d-none"></div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
+                    <thead>
+                    <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                        <th>S/N</th>
+                        <th>Passenger Name</th>
+                        <th>Passenger Phone</th>
+                        <th>Origin Address</th>
+                        <th>Destination Address</th>
+                        <th>Pick Time</th>
+                        <th>Drop Time</th>
+                        <th>Income Fare</th>
+                        <th>Trip Type</th>
+                    </tr>
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
+                    @foreach($trip  as $key=>$tripData)
+                        <tr>
+                            <td>{{$key+1}}</td>
+                            <td>
+                                @if($tripData->passenger_id==null)
+                                    {{$tripData->passenger_name}}
+                                @else
+                                   {{$tripData->passenger->name}}
+                                @endif
+                            </td>
+                            <td>
+                               @if($tripData->passenger_id==null)
+                                    {{$tripData->passenger_phone}}
+                               @else
+                                   {{$tripData->passenger->phone}}
+                               @endif
+                            </td>
+                            <td>{{$tripData->origin_address}}</td>
+                            <td>{{$tripData->destination_address}}</td>
+                            <td>{{$tripData->pic_time? $tripData->pic_time:'N/A'}}</td>
+                            <td>{{$tripData->drop_time? $tripData->drop_time:'N/A'}}</td>
+                            <td>
+                                @if($tripData->fare_received_status==0)
+                                    {{$tripData->calculated_fare}}
+                                @elseif($tripData->fare_received_status==1)
+                                    {{$tripData->estimated_fare}}
+                                @endif
+                            </td>
+                            <td>
+                                @if($tripData->trip_type=='request_trip')
+                                    <p class="text-info">Request Trip</p>
+                                @elseif($tripData->trip_type=='manual_trip')
+                                    <p class="text-success">Manual Trip</p>
+
+                                @endif
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+               {{ $trip->links('pagination::bootstrap-4') }}
+            </div>
+        </div>
     </div>
 </div>
-
 @endsection

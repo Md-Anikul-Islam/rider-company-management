@@ -25,9 +25,18 @@ class TripHistory extends Model
         'trip_type',       //use trip type as like , 1=manual trip, 2=request trip
     ];
 
-          protected $casts = [
-              'id' => 'integer',
-              'driver_id' => 'integer',
-              'driver_id' => 'integer',
-          ];
+      protected $casts = [
+          'id' => 'integer',
+          'passenger_id' => 'integer',
+          'driver_id' => 'integer',
+      ];
+
+        public function driver()
+        {
+            return $this->belongsTo(Driver::class);
+        }
+        public function passenger()
+        {
+            return $this->belongsTo(Passenger::class, 'passenger_id');
+        }
 }
