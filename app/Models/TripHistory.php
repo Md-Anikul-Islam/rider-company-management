@@ -41,4 +41,9 @@ class TripHistory extends Model
         {
             return $this->belongsTo(Passenger::class, 'passenger_id');
         }
+
+        public function company()
+        {
+            return $this->belongsTo(User::class);
+        }
 }

@@ -3,7 +3,7 @@
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\FleetTypeController;
 use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\TollController;
-use App\Http\Controllers\company\CarOrFleetController;
+use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\CouponController;
 use App\Http\Controllers\company\DriverController;
@@ -64,6 +64,10 @@ Route::middleware(['auth'])->group(function () {
         //passenger
         Route::get('/passenger', [PassengerController::class, 'index'])->name('admin.passenger');
 
+        //trip history
+        Route::get('/trip-history', [TripHistoryController::class, 'allTripHistory'])->name('admin.all.trip.history');
+        Route::get('/request-trip-history', [TripHistoryController::class, 'requestTripHistory'])->name('admin.request.trip.history');
+        Route::get('/manual-trip-history', [TripHistoryController::class, 'manualTripHistory'])->name('admin.manual.trip.history');
     });
 
     Route::middleware(['company'])->prefix('company')->group(function () {
