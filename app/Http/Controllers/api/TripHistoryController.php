@@ -27,6 +27,7 @@ class TripHistoryController extends Controller
                 $tripHistory = new TripHistory();
                 $tripHistory->passenger_id = $request->input('passenger_id');
                 $tripHistory->driver_id = $driver->id;
+                $tripHistory->company_id = $driver->company_id;
                 $tripHistory->origin_address = $request->input('origin_address');
                 $tripHistory->destination_address = $request->input('destination_address');
                 $tripHistory->change_destination_address = $request->input('change_destination_address');

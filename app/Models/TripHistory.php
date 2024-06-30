@@ -11,6 +11,7 @@ class TripHistory extends Model
     protected $fillable = [
         'passenger_id',
         'driver_id',
+        'company_id',
         'origin_address',
         'destination_address',
         'change_destination_address',
@@ -29,6 +30,7 @@ class TripHistory extends Model
           'id' => 'integer',
           'passenger_id' => 'integer',
           'driver_id' => 'integer',
+          'company_id' => 'integer',
       ];
 
         public function driver()

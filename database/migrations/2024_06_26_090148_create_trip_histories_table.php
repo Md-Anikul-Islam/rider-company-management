@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('passenger_id')->nullable();
             $table->unsignedBigInteger('driver_id');
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->string('origin_address');
             $table->string('destination_address');
             $table->string('change_destination_address')->nullable();
