@@ -7,7 +7,7 @@ use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\co
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\CouponController;
 use App\Http\Controllers\company\DriverController;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\company\TripController;use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -91,6 +91,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/coupon/store', [CouponController::class, 'store'])->name('company.coupon.store');
         Route::put('/coupon/update/{id}', [CouponController::class, 'update'])->name('company.coupon.update');
         Route::get('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('company.coupon.delete');
+
+        //trip history
+        Route::get('/trip', [TripController::class, 'allTripHistoryUnderCompany'])->name('company.trip');
+        Route::get('/request-trip', [TripController::class, 'requestTripHistoryUnderCompany'])->name('company.request.trip');
+        Route::get('/manual-trip', [TripController::class, 'manualTripHistoryUnderCompany'])->name('company.manual.trip');
 
 
 

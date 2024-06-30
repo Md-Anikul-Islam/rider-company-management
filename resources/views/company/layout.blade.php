@@ -84,16 +84,36 @@
                                 <span class="menu-icon">
                                     <i class="ki-outline ki-address-book fs-2"></i>
                                 </span>
-                                <span class="menu-title">Pages</span>
+                                <span class="menu-title">Trip</span>
                                 <span class="menu-arrow"></span>
                             </span>
                             <div class="menu-sub menu-sub-accordion">
                                 <div class="menu-item">
-                                    <a class="menu-link" href="#">
+                                    <a class="menu-link" href="{{route('company.trip')}}">
                                         <span class="menu-bullet">
                                             <span class="bullet bullet-dot"></span>
                                         </span>
-                                    <span class="menu-title">Form</span>
+                                    <span class="menu-title">Trip</span>
+                                    </a>
+                                </div>
+                            </div>
+                             <div class="menu-sub menu-sub-accordion">
+                                <div class="menu-item">
+                                    <a class="menu-link" href="{{route('company.request.trip')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title">Request Trip</span>
+                                    </a>
+                                </div>
+                            </div>
+                             <div class="menu-sub menu-sub-accordion">
+                                <div class="menu-item">
+                                    <a class="menu-link" href="{{route('company.manual.trip')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title">Manual Trip</span>
                                     </a>
                                 </div>
                             </div>

@@ -1,5 +1,5 @@
-@extends('admin.layout')
-@section('admin_content')
+@extends('company.layout')
+@section('company_content')
    <div class="toolbar" id="kt_toolbar">
         <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
             <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap lh-1">
@@ -24,7 +24,6 @@
                             <thead>
                             <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                                 <th>S/N</th>
-                                <th>Company Name</th>
                                 <th>Passenger Name</th>
                                 <th>Passenger Phone</th>
                                 <th>Origin Address</th>
@@ -39,7 +38,6 @@
                               @foreach($trip  as $key=>$tripData)
                               <tr>
                                   <td>{{$key+1}}</td>
-                                  <td>{{$tripData->company->name}}</td>
                                   <td>
                                       @if($tripData->passenger_id==null)
                                           {{$tripData->passenger_name}}
@@ -81,4 +79,5 @@
                 </div>
             </div>
         </div>
+
 @endsection
