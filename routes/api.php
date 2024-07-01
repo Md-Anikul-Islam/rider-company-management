@@ -57,7 +57,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('car-or-fleet-type-list', [CarOrFleetController::class, 'carOrFleetType']);
 
     //Driver Ratting
-    Route::post('/user-given-ratting-by-driver', [DriverController::class, 'driverRatting']);
+    Route::post('/customer-given-ratting-by-driver', [DriverController::class, 'driverRatting']);
 
 
 
