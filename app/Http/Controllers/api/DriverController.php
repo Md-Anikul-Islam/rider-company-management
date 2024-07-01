@@ -33,7 +33,10 @@ class DriverController extends Controller
                 $token = $driver->createToken('token-name')->plainTextToken;
 
                 // Include the fleet type name in the car details
-                $driver->car->fleet_type_name = $driver->car->fleetType->name;
+                if($driver->car){
+                  $driver->car->fleet_type_name = $driver->car->fleetType->name;
+                }
+
 
                 return response()->json([
                     'token' => $token,
