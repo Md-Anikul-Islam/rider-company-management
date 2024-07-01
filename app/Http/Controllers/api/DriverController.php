@@ -57,7 +57,10 @@ class DriverController extends Controller
         {
                try {
                     $driver = Driver::where('id', $request->user()->id)->with('company','car.fleetType')->first();
-                    $driver->car->fleet_type_name = $driver->car->fleetType->name;
+                    if($driver->car)
+                    {
+                       $driver->car->fleet_type_name = $driver->car->fleetType->name;
+                    }
                     return response()->json([
                         'driver' => $driver,
                     ]);
@@ -87,7 +90,11 @@ class DriverController extends Controller
                     $driver->profile = 'images/profile/' . $imageName;
                 }
                 $driver->save();
-                $driver->car->fleet_type_name = $driver->car->fleetType->name;
+                if($driver->car)
+                {
+                    $driver->car->fleet_type_name = $driver->car->fleetType->name;
+                }
+
                 return response()->json(['message' => 'Profile updated successfully', 'driver' => $driver]);
 
             } catch (\Exception $e) {
