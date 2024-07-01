@@ -92,6 +92,17 @@
                     </div>
 
 
+                     <div class="menu-item">
+                       <a class="menu-link" href="{{route('admin.agent')}}">
+                           <span class="menu-icon">
+                               <i class="ki-outline ki-rocket fs-2"></i>
+                           </span>
+                           <span class="menu-title">Agent</span>
+                       </a>
+                    </div>
+
+
+
 
 
 

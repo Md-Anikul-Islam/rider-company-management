@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\FleetTypeController;
+use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\FleetTypeController;
 use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\TollController;
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
@@ -68,6 +68,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/trip-history', [TripHistoryController::class, 'allTripHistory'])->name('admin.all.trip.history');
         Route::get('/request-trip-history', [TripHistoryController::class, 'requestTripHistory'])->name('admin.request.trip.history');
         Route::get('/manual-trip-history', [TripHistoryController::class, 'manualTripHistory'])->name('admin.manual.trip.history');
+
+        //agent type routes
+        Route::get('/agent', [AgentController::class, 'index'])->name('admin.agent');
+        Route::post('/agent/store', [AgentController::class, 'store'])->name('admin.agent.store');
+        Route::put('/agent/update/{id}', [AgentController::class, 'update'])->name('admin.agent.update');
+        Route::get('/agent/delete/{id}', [AgentController::class, 'destroy'])->name('admin.agent.delete');
     });
 
     Route::middleware(['company'])->prefix('company')->group(function () {
