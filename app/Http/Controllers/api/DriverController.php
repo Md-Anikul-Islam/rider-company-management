@@ -15,7 +15,7 @@ class DriverController extends Controller
                     'password' => 'required',
                 ]);
 
-                $driver = Driver::where('phone', $request->phone)->with('company', 'car')->first();
+                $driver = Driver::where('phone', $request->phone)->with('company', 'car.fleetType')->first();
 
                 if (!$driver) {
                     return response()->json([
@@ -31,6 +31,9 @@ class DriverController extends Controller
 
                 // If both phone and password are correct, create token for authentication
                 $token = $driver->createToken('token-name')->plainTextToken;
+
+                // Include the fleet type name in the car details
+                $driver->car->fleet_type_name = $driver->car->fleetType->name;
 
                 return response()->json([
                     'token' => $token,
@@ -50,7 +53,8 @@ class DriverController extends Controller
         public function driverProfile(Request $request)
         {
                try {
-                    $driver = Driver::where('id', $request->user()->id)->with('company','car')->first();
+                    $driver = Driver::where('id', $request->user()->id)->with('company','car.fleetType')->first();
+                    $driver->car->fleet_type_name = $driver->car->fleetType->name;
                     return response()->json([
                         'driver' => $driver,
                     ]);
@@ -175,16 +179,13 @@ class DriverController extends Controller
                 'driver_id' => 'required',
                 'ratting' => 'required|numeric|min:1|max:5',
             ]);
-
             $passengerId = $request->user()->id;
-
             // Save the rating
             $driverRating = new DriverRating();
             $driverRating->driver_id = $request->driver_id;
             $driverRating->passenger_id = $passengerId;
             $driverRating->ratting = $request->ratting;
             $driverRating->save();
-
 
             // Calculate average rating for the driver
             $driverId = $request->driver_id;
@@ -193,8 +194,6 @@ class DriverController extends Controller
             $totalRatings = count($ratings);
             $totalSum = $ratings->sum();
             $averageRating = $totalRatings > 0 ? $totalSum / $totalRatings : 0;
-
-
 
             //Update the driver's total rating in the Driver table
             $driver = Driver::where('id', $driverId)->first();
