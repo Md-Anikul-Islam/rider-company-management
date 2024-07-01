@@ -53,6 +53,12 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/trip-history-store', [TripHistoryController::class, 'storeTripHistory']);
     Route::post('/trip-history-update/{tripId}', [TripHistoryController::class, 'updateTripHistory']);
 
+    //car or fleet type
+    Route::get('car-or-fleet-type-list', [CarOrFleetController::class, 'carOrFleetType']);
+
+    //Driver Ratting
+    Route::post('/user-given-ratting-by-driver', [DriverController::class, 'driverRatting']);
+
 
 
 

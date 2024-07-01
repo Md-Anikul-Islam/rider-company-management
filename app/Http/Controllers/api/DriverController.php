@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\CarOrFleet;use App\Models\Driver;use Illuminate\Http\Request;use Illuminate\Support\Facades\File;use Illuminate\Support\Facades\Hash;use Illuminate\Support\Facades\Log;
+use App\Models\CarOrFleet;use App\Models\Driver;use App\Models\DriverRating;use App\Models\DriverRatting;use Illuminate\Http\Request;use Illuminate\Support\Facades\File;use Illuminate\Support\Facades\Hash;use Illuminate\Support\Facades\Log;
 
 class DriverController extends Controller
 {
@@ -166,6 +166,43 @@ class DriverController extends Controller
                     'message' => 'An error occurred while changing the password'
                 ], 500);
             }
+        }
+
+
+        public function driverRatting(Request $request)
+        {
+            $request->validate([
+                'driver_id' => 'required',
+                'ratting' => 'required|numeric|min:1|max:5',
+            ]);
+
+            $passengerId = $request->user()->id;
+
+            // Save the rating
+            $driverRating = new DriverRating();
+            $driverRating->driver_id = $request->driver_id;
+            $driverRating->passenger_id = $passengerId;
+            $driverRating->ratting = $request->ratting;
+            $driverRating->save();
+
+
+            // Calculate average rating for the driver
+            $driverId = $request->driver_id;
+
+            $ratings = DriverRating::where('driver_id', $driverId)->pluck('ratting');
+            $totalRatings = count($ratings);
+            $totalSum = $ratings->sum();
+            $averageRating = $totalRatings > 0 ? $totalSum / $totalRatings : 0;
+
+
+
+            //Update the driver's total rating in the Driver table
+            $driver = Driver::where('id', $driverId)->first();
+            if ($driver) {
+                $driver->ratting = $averageRating;
+                $driver->save();
+            }
+            return response()->json(['ratting' => $averageRating], 200);
         }
 
 }

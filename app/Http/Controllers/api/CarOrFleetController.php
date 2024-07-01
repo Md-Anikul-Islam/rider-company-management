@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\CarOrFleet;use App\Models\Driver;use Illuminate\Http\Request;use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\Log;
+use App\Models\CarOrFleet;use App\Models\Driver;use App\Models\FleetType;use Illuminate\Http\Request;use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\Log;
 
 class CarOrFleetController extends Controller
 {
@@ -55,5 +55,16 @@ class CarOrFleetController extends Controller
                   'message' => 'An error occurred while retrieving cars'
               ], 500);
           }
+       }
+
+       public function carOrFleetType()
+       {
+           try {
+               //$carOrFleetTypes  = CarOrFleet::pluck('name')->toArray();
+               $carOrFleetTypes  = FleetType::latest()->get();
+               return response()->json($carOrFleetTypes, 200);
+           } catch (\Exception $e) {
+               return response()->json(['error' => 'An error occurred while fetching data.'], 500);
+           }
        }
 }
