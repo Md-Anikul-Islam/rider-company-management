@@ -37,6 +37,7 @@
                             <th>RTA Card</th>
                             <th>Driving License</th>
                             <th>Status</th>
+                            <th>Car Assign</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -62,14 +63,23 @@
                               <img src="{{ asset($driverData->driving_licence_font_image) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
                             </td>
                             <td>
-                                @if( $driverData->status == 1)
+                                @if( $driverData->status == 'active')
                                     <span class="badge badge-success">Active</span>
-                                @elseif( $driverData->status == 0)
+                                @elseif( $driverData->status == 'inactive')
                                     <span class="badge badge-danger">Inactive</span>
                                 @endif
                             </td>
+                             <td>
+                                @if( $driverData->car_id  != null)
+                                    <span class="badge badge-success">Assign</span>
+                                @else
+                                    <span class="badge badge-danger">Not Assign</span>
+                                @endif
+                             </td>
+
+
                             <td>
-                            {{-- <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$driverData->id}}">Edit</button> --}}
+                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$driverData->id}}">Edit</button>
                                 <a href="{{route('company.driver.details.show',$driverData->id)}}" class="btn btn-info btn-sm">Details</a>
                                 <a href="{{route('company.driver.delete',$driverData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$driverData->id}}" data-category-id="{{$driverData->id}}">Delete</a>
                             </td>
@@ -92,10 +102,13 @@
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
                                                     <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car</label>
-                                                    <select name="car_id" class="form-select form-select-solid" required>
-                                                        @foreach($car as $carData)
-                                                            <option value="{{$carData->id}}" {{$driverData->car_id == $carData->id ? 'selected' : ''}}>{{$carData->car_name}}</option>
-                                                        @endforeach
+                                                    <select name="car_id" class="form-select form-select-solid">
+                                                         <option value="" selected>Select Car If Needed</option>
+                                                         @foreach($car as $carData)
+                                                            <option value="{{$carData->id}}" {{$driverData->car_id == $carData->id ? 'selected' : ''}} {{ $carData->is_selected == 'yes' ? 'disabled' : '' }}>
+                                                                {{$carData->car_name}} ({{ $carData->is_selected == 'yes' ? 'Already Selected' : 'Available' }})
+                                                            </option>
+                                                         @endforeach
                                                     </select>
                                                 </div>
                                                <div class="col-md-6 fv-row">
@@ -167,8 +180,8 @@
                                                 <div class="col-md-12 fv-row">
                                                     <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Status</label>
                                                     <select name="status" class="form-select form-select-solid">
-                                                        <option value="active" {{$driverData->status == 1 ? 'selected' : ''}}>Active</option>
-                                                        <option value="inactive" {{$driverData->status == 0 ? 'selected' : ''}}>Inactive</option>
+                                                        <option value="active" {{$driverData->status == 'active' ? 'selected' : ''}}>Active</option>
+                                                        <option value="inactive" {{$driverData->status == 'inactive' ? 'selected' : ''}}>Inactive</option>
                                                     </select>
                                                 </div>
                                             </div>
@@ -182,6 +195,8 @@
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="modal fade" id="deleteModal{{$driverData->id}}" tabindex="-1" aria-labelledby="deleteModalLabel{{$driverData->id}}" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -226,10 +241,10 @@
                             <div class="col-md-6 fv-row">
                                 <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car</label>
                                 <select name="car_id" class="form-select form-select-solid" >
-                                    <option value="" selected>Select Car If Needed</option>
-                                 @foreach($car as $carData)
-                                     <option value="{{$carData->id}}">{{$carData->car_name}}</option>
-                                 @endforeach
+                                     <option value="" selected>Select Car If Needed</option>
+                                     @foreach($availableCar as $availableCarData)
+                                         <option value="{{$availableCarData->id}}">{{$availableCarData->car_name}}</option>
+                                     @endforeach
                                 </select>
                             </div>
                            <div class="col-md-6 fv-row">
