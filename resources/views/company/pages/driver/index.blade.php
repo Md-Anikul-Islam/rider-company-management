@@ -76,13 +76,30 @@
                                     <span class="badge badge-danger">Not Assign</span>
                                 @endif
                              </td>
+                             <td>
+                               <div class="btn-group dropstart action_button_wrapper">
+                                   <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                       <i class="fa-solid fa-angles-down"></i>
+                                   </button>
+                                   <ul class="dropdown-menu action_dropdown_menu">
+                                       <li>
+                                           <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$driverData->id}}"><i class="fa-solid fa-edit"></i> Edit</a>
+                                       </li>
+                                       <li>
+                                           <a class="dropdown-item" href="{{route('company.driver.details.show',$driverData->id)}}"><i class="fa-solid fa-eye"></i> Details</a>
+                                       </li>
+                                       <li>
+                                          <a class="dropdown-item" href="{{route('company.driver.delete',$driverData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$driverData->id}}" data-category-id="{{$driverData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
+                                       </li>
+                                   </ul>
+                               </div>
+                             </td>
 
-
-                            <td>
-                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$driverData->id}}">Edit</button>
-                                <a href="{{route('company.driver.details.show',$driverData->id)}}" class="btn btn-info btn-sm">Details</a>
-                                <a href="{{route('company.driver.delete',$driverData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$driverData->id}}" data-category-id="{{$driverData->id}}">Delete</a>
-                            </td>
+{{--                            <td>--}}
+{{--                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$driverData->id}}">Edit</button>--}}
+{{--                                <a href="{{route('company.driver.details.show',$driverData->id)}}" class="btn btn-info btn-sm">Details</a>--}}
+{{--                                <a href="{{route('company.driver.delete',$driverData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$driverData->id}}" data-category-id="{{$driverData->id}}">Delete</a>--}}
+{{--                            </td>--}}
                         </tr>
                         <!-- Edit Modal for Current Relation -->
                         <div class="modal fade" id="modalFormDataEdit{{$driverData->id}}" aria-labelledby="editModalLabel{{$driverData->id}}" tabindex="-1" aria-hidden="true">

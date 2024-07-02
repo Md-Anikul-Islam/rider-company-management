@@ -62,15 +62,33 @@
                               <img src="{{ asset($driverData->driving_licence_font_image) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
                             </td>
                             <td>
-                                @if( $driverData->status == 1)
+                                @if( $driverData->status == 'active')
                                     <span class="badge badge-success">Active</span>
-                                @elseif( $driverData->status == 0)
+                                @elseif( $driverData->status == 'inactive')
                                     <span class="badge badge-danger">Inactive</span>
                                 @endif
                             </td>
-                            <td>
-                              <a href="{{route('admin.company.under.driver.details',$driverData->id)}}" class="btn btn-info btn-sm">Details</a>
-                            </td>
+
+
+
+                             <td>
+                               <div class="btn-group dropstart action_button_wrapper">
+                                   <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                       <i class="fa-solid fa-angles-down"></i>
+                                   </button>
+                                   <ul class="dropdown-menu action_dropdown_menu">
+
+                                       <li>
+                                           <a class="dropdown-item" href="{{route('admin.company.under.driver.details',$driverData->id)}}"><i class="fa-solid fa-eye"></i> Details</a>
+                                       </li>
+
+                                   </ul>
+                               </div>
+                             </td>
+
+
+
+
                         </tr>
                     @endforeach
                     </tbody>

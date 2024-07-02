@@ -56,9 +56,22 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$tollData->id}}">Edit</button>
-                                        <a href="{{route('admin.toll.delete',$tollData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$tollData->id}}" data-category-id="{{$tollData->id}}">Delete</a>
+                                       <div class="btn-group dropstart action_button_wrapper">
+                                           <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                               <i class="fa-solid fa-angles-down"></i>
+                                           </button>
+                                           <ul class="dropdown-menu action_dropdown_menu">
+                                               <li>
+                                                   <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$tollData->id}}"><i class="fa-solid fa-edit"></i> Edit</a>
+                                               </li>
+                                               <li>
+                                                  <a class="dropdown-item" href="{{route('admin.toll.delete',$tollData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$tollData->id}}" data-category-id="{{$tollData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
+                                               </li>
+                                           </ul>
+                                       </div>
                                     </td>
+
+
                                 </tr>
 
                                 <!-- Edit Modal for Current Relation -->

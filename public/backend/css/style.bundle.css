@@ -3615,13 +3615,7 @@ fieldset:disabled .btn {
 	display: none;
 }
 .dropstart .dropdown-toggle::before {
-	display: inline-block;
-	margin-right: 0.255em;
-	vertical-align: 0.255em;
-	content: '';
-	border-top: 0.3em solid transparent;
-	border-right: 0.3em solid;
-	border-bottom: 0.3em solid transparent;
+	display: none;
 }
 .dropstart .dropdown-toggle:empty::after {
 	margin-left: 0;
@@ -51702,4 +51696,36 @@ body {
 	.content {
 		padding: 15px 0;
 	}
+}
+.action_button_wrapper button,
+.action_button_wrapper button:hover {
+    background-color: #ff0000;
+    border: none;
+    padding: 7px 15px;
+}
+.action_button_wrapper i {
+    font-size: 20px;
+    color: #fff;
+}
+.action_dropdown_menu {
+    padding: 15px;
+    min-width: 15rem;
+}
+.action_dropdown_menu i {
+    font-size: 11px;
+    background-color: #ff0000;
+    color: #fff;
+    padding: 2px 5px 3px;
+    border-radius: 50px;
+}
+.action_dropdown_menu .dropdown-item {
+    background: #009ef724;
+    margin-bottom: 7px;
+    padding: 5px 10px;
+    border-radius: 8px;
+    transition: .3s;
+}
+.action_dropdown_menu .dropdown-item:hover {
+    background-color: #ff0000;
+    color: #fff;
 }

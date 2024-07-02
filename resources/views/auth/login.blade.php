@@ -27,21 +27,16 @@
         <style>
             body {
                 background-image: url('{{asset('backend/media/auth/bg4.jpg')}}');
+                background-color: black;
             }
 
-            [data-bs-theme='dark'] body {
-                background-image: url('{{asset('backend/media/auth/bg4-dark.jpg')}}');
-            }
         </style>
         <div class="d-flex flex-column flex-column-fluid flex-lg-row">
             <div class="d-flex flex-center w-lg-50 pt-15 pt-lg-0 px-10">
                 <div class="d-flex flex-center flex-lg-start flex-column">
                     <a href="{{ url('/') }}" class="mb-7">
-                        <img alt="Logo" src="{{asset('backend/media/logos/custom-3.svg')}}" />
+                        <h1>Login Your Dashboard</h1>
                     </a>
-                    <h2 class="text-white fw-normal m-0">
-                        Grow Your Business
-                    </h2>
                 </div>
             </div>
             <div class="d-flex flex-column-fluid flex-lg-row-auto justify-content-center justify-content-lg-end p-12 p-lg-20">

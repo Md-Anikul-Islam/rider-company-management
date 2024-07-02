@@ -59,11 +59,25 @@
                                             <span class="badge badge-danger">Inactive</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <a href="{{route('admin.company.under.driver.list',$companiesData->id)}}" class="btn btn-info btn-sm">Driver</a>
-                                        <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$companiesData->id}}">Edit</button>
-                                        <a href="{{route('admin.company.delete',$companiesData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$companiesData->id}}" data-category-id="{{$companiesData->id}}">Delete</a>
-                                    </td>
+
+                                     <td>
+                                       <div class="btn-group dropstart action_button_wrapper">
+                                           <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                               <i class="fa-solid fa-angles-down"></i>
+                                           </button>
+                                           <ul class="dropdown-menu action_dropdown_menu">
+                                               <li>
+                                                   <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$companiesData->id}}"><i class="fa-solid fa-edit"></i> Edit</a>
+                                               </li>
+                                               <li>
+                                                   <a class="dropdown-item" href="{{route('admin.company.under.driver.list',$companiesData->id)}}"><i class="fa-solid fa-eye"></i> Driver</a>
+                                               </li>
+                                               <li>
+                                                  <a class="dropdown-item" href="{{route('admin.company.delete',$companiesData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$companiesData->id}}" data-category-id="{{$companiesData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
+                                               </li>
+                                           </ul>
+                                       </div>
+                                     </td>
                                 </tr>
 
                                 <!-- Edit Modal for Current Relation -->
