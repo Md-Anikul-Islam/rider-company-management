@@ -39,6 +39,7 @@ class DriverController extends Controller
 
 
                 return response()->json([
+                    'message' => 'Driver Login Successful',
                     'token' => $token,
                     'driver' => $driver,
                 ]);
@@ -115,7 +116,7 @@ class DriverController extends Controller
                     'car_id' => 'required|exists:car_or_fleets,id',
                 ]);
                 // Get the authenticated driver
-                $driver = Driver::where('id', $request->user()->id)->with('company', 'car')->first();
+                $driver = Driver::where('id', $request->user()->id)->with('company', 'car.fleetType')->first();
                 // Ensure the car belongs to the same company as the driver
                 $car = CarOrFleet::where('id', $request->car_id)
                     ->where('company_id', $driver->company_id)
@@ -145,6 +146,12 @@ class DriverController extends Controller
                 $car->save();
                 // Reload the driver's relations to reflect the updated car information
                 $driver->load('company', 'car');
+
+                if($driver->car)
+                {
+                    $driver->car->fleet_type_name = $driver->car->fleetType->name;
+                }
+
                 return response()->json(['message' => 'Car assigned successfully', 'driver' => $driver]);
             } catch (\Exception $e) {
                 Log::error('Error assigning car to driver: ' . $e->getMessage());

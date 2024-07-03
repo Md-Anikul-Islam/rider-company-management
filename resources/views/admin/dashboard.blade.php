@@ -21,7 +21,7 @@
                     <div class="card card-flush admin_card_style" style="background-color: red">
                         <div class="card-header">
                             <div class="card-title d-flex flex-column">
-                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">25</span>
+                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{{$totalCompanies}}</span>
                                 <span class="text-white opacity-100 pt-1 fw-semibold fs-2">Total Company</span>
                             </div>
                         </div>
@@ -31,8 +31,8 @@
                     <div class="card card-flush admin_card_style" style="background-color: red">
                         <div class="card-header">
                             <div class="card-title d-flex flex-column">
-                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">5000</span>
-                                <span class="text-white opacity-100 pt-1 fw-semibold fs-2">Total User</span>
+                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{{$totalPassengers}}</span>
+                                <span class="text-white opacity-100 pt-1 fw-semibold fs-2">Total Passenger</span>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                     <div class="card card-flush admin_card_style" style="background-color: red">
                         <div class="card-header" >
                             <div class="card-title d-flex flex-column">
-                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">100</span>
+                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{{$totalDrivers}}</span>
                                 <span class="text-white opacity-100 pt-1 fw-semibold fs-2">Total Driver</span>
                             </div>
                         </div>
@@ -51,8 +51,8 @@
                     <div class="card card-flush admin_card_style" style="background-color: red">
                         <div class="card-header">
                             <div class="card-title d-flex flex-column">
-                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">100000</span>
-                                <span class="text-white opacity-100 pt-1 fw-semibold fs-2">Total Earn</span>
+                                <span class="fs-2hx fw-bold text-white me-2 lh-1 ls-n2">{{$totalAgents}}</span>
+                                <span class="text-white opacity-100 pt-1 fw-semibold fs-2">Total Agent</span>
                             </div>
                         </div>
                     </div>
