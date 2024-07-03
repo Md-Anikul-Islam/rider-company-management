@@ -40,8 +40,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('company-under-all-car-or-fleet',[CarOrFleetController::class, 'carOrFleetAll']);
     Route::get('company-under-unselected-car-or-fleet',[CarOrFleetController::class, 'carOrFleetUnselected']);
 
-    //coupon
-    Route::get('company-under-coupon-list', [CouponController::class, 'coupon']);
+
 
     //Passenger Profile
     Route::get('passenger-profile', [PassengerController::class, 'passengerProfile']);
@@ -62,6 +61,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('/customer-given-ratting-by-driver', [DriverController::class, 'driverRatting']);
     //Driver Trip History
     Route::pOST('/driver-trip-history', [DriverController::class, 'driverTripHistory']);
+
+    //coupon
+    Route::get('coupon-list', [CouponController::class, 'coupon']);
+    //Apply Coupon
+    Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
 
 
 
