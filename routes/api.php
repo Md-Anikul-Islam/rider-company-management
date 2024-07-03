@@ -48,6 +48,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('passenger-profile-update', [PassengerController::class, 'updatePassengerProfile']);
     //Passenger change password
     Route::post('passenger-change-password', [PassengerController::class, 'passengerChangePassword']);
+    //Passenger Trip History
+    Route::post('passenger-trip-history', [PassengerController::class, 'passengerTripHistory']);
 
     //store trip history by driver
     Route::post('/trip-history-store', [TripHistoryController::class, 'storeTripHistory']);
@@ -58,6 +60,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     //Driver Ratting
     Route::post('/customer-given-ratting-by-driver', [DriverController::class, 'driverRatting']);
+    //Driver Trip History
+    Route::pOST('/driver-trip-history', [DriverController::class, 'driverTripHistory']);
 
 
 

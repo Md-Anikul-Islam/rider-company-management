@@ -1,5 +1,5 @@
-@extends('company.layout')
-@section('company_content')
+@extends('admin.layout')
+@section('admin_content')
 <div class="toolbar" id="kt_toolbar">
     <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
         <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap lh-1">
@@ -70,7 +70,7 @@
                                            <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$couponData->id}}"><i class="fa-solid fa-edit"></i> Edit</a>
                                        </li>
                                        <li>
-                                          <a class="dropdown-item" href="{{route('company.coupon.delete',$couponData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$couponData->id}}" data-category-id="{{$couponData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
+                                          <a class="dropdown-item" href="{{route('admin.coupon.delete',$couponData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$couponData->id}}" data-category-id="{{$couponData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
                                        </li>
                                    </ul>
                                </div>
@@ -87,7 +87,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                                        <form action="{{route('company.coupon.update',$couponData->id)}}" method="post" class="form">
+                                        <form action="{{route('admin.coupon.update',$couponData->id)}}" method="post" class="form">
                                         @csrf
                                         @method('PUT')
                                            <div class="mb-13 text-center">
@@ -172,7 +172,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <a href="{{route('company.coupon.delete',$couponData->id)}}" class="btn btn-danger">Delete</a>
+                                        <a href="{{route('admin.coupon.delete',$couponData->id)}}" class="btn btn-danger">Delete</a>
                                     </div>
                                 </div>
                             </div>
@@ -194,7 +194,7 @@
                 </div>
             </div>
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                <form action="{{route('company.coupon.store')}}" method="post" class="form" enctype="multipart/form-data">
+                <form action="{{route('admin.coupon.store')}}" method="post" class="form" enctype="multipart/form-data">
                  @csrf
                     <div class="mb-13 text-center">
                         <h1 class="mb-3">Add Coupon</h1>

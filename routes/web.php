@@ -1,11 +1,10 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\FleetTypeController;
+use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\CouponController;use App\Http\Controllers\admin\FleetTypeController;
 use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\TollController;
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
-use App\Http\Controllers\company\CouponController;
 use App\Http\Controllers\company\DriverController;
 use App\Http\Controllers\company\TripController;use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +73,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/agent/store', [AgentController::class, 'store'])->name('admin.agent.store');
         Route::put('/agent/update/{id}', [AgentController::class, 'update'])->name('admin.agent.update');
         Route::get('/agent/delete/{id}', [AgentController::class, 'destroy'])->name('admin.agent.delete');
+
+        //coupon
+        Route::get('/coupon', [CouponController::class, 'index'])->name('admin.coupon');
+        Route::post('/coupon/store', [CouponController::class, 'store'])->name('admin.coupon.store');
+        Route::put('/coupon/update/{id}', [CouponController::class, 'update'])->name('admin.coupon.update');
+        Route::get('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('admin.coupon.delete');
     });
 
     Route::middleware(['company'])->prefix('company')->group(function () {
@@ -91,12 +96,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/driver/details/{id}', [DriverController::class, 'show'])->name('company.driver.details.show');
         Route::put('/driver/update/{id}', [DriverController::class, 'update'])->name('company.driver.update');
         Route::get('/driver/delete/{id}', [DriverController::class, 'destroy'])->name('company.driver.delete');
-
-        //coupon
-        Route::get('/coupon', [CouponController::class, 'index'])->name('company.coupon');
-        Route::post('/coupon/store', [CouponController::class, 'store'])->name('company.coupon.store');
-        Route::put('/coupon/update/{id}', [CouponController::class, 'update'])->name('company.coupon.update');
-        Route::get('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('company.coupon.delete');
 
         //trip history
         Route::get('/trip', [TripController::class, 'allTripHistoryUnderCompany'])->name('company.trip');

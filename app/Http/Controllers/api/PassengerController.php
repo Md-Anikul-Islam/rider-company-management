@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Passenger;
-use Illuminate\Support\Facades\File;
+use App\Models\TripHistory;use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -267,6 +267,22 @@ class PassengerController extends Controller
                   return response()->json([
                       'status' => 'error',
                       'message' => 'An error occurred while changing the password'
+                  ], 500);
+              }
+          }
+
+
+
+          public function passengerTripHistory(Request $request)
+          {
+              try {
+                  $trip = TripHistory::where('passenger_id', $request->user()->id)->with('driver')->get();
+                  return response()->json(['trips' => $trip]);
+              } catch (\Exception $e) {
+                  Log::error('Error fetching driver trip history: ' . $e->getMessage());
+                  return response()->json([
+                      'status' => 'error',
+                      'message' => 'An error occurred while fetching the trip history'
                   ], 500);
               }
           }

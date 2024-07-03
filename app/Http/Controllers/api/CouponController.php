@@ -10,7 +10,7 @@ class CouponController extends Controller
     public function coupon(Request $request)
     {
         try {
-            $coupon = Coupon::where('company_id', $request->user()->company_id)->first();
+            $coupon = Coupon::with('company')->get();
             if ($coupon) {
                 return response()->json($coupon);
             } else {

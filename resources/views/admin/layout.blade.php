@@ -102,6 +102,15 @@
                        </a>
                     </div>
 
+                     <div class="menu-item">
+                        <a class="menu-link" href="{{route('admin.coupon')}}">
+                            <span class="menu-icon">
+                                <i class="ki-outline ki-element-11 fs-2"></i>
+                            </span>
+                            <span class="menu-title">Coupon</span>
+                        </a>
+                    </div>
+
 
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\company;
+namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Coupon;use Carbon\Carbon;use Illuminate\Http\Request;
@@ -9,8 +9,8 @@ class CouponController extends Controller
 {
         public function index()
         {
-            $coupon = Coupon::where('company_id', auth()->user()->id)->latest()->get();
-            return view('company.pages.coupon.index',compact('coupon'));
+            $coupon = Coupon::latest()->get();
+            return view('admin.pages.coupon.index',compact('coupon'));
         }
         public function store(Request $request)
         {
@@ -26,7 +26,6 @@ class CouponController extends Controller
 
 
                 $coupon = new Coupon();
-                $coupon->company_id = auth()->user()->id;
                 $coupon->code = $request->code;
                 $coupon->discount_type = $request->discount_type;
                 $coupon->discount_amount = $request->discount_amount;

@@ -51729,3 +51729,16 @@ body {
     background-color: #ff0000;
     color: #fff;
 }
+.company_card {
+    background-color: #ff0000;
+}
+.company_card .card-title,
+.company_card .card-title .card-label{
+    color: #fff !important;
+    font-size: 25px !important;
+}
+.company_card a {
+    color: #fff;
+    font-size: 20px;
+    font-weight: 700;
+}

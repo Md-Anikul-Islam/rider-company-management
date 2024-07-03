@@ -3,7 +3,15 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\CarOrFleet;use App\Models\Driver;use App\Models\DriverRating;use App\Models\DriverRatting;use Illuminate\Http\Request;use Illuminate\Support\Facades\File;use Illuminate\Support\Facades\Hash;use Illuminate\Support\Facades\Log;
+use App\Models\CarOrFleet;
+use App\Models\Driver;
+use App\Models\DriverRating;
+use App\Models\DriverRatting;
+use App\Models\TripHistory;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class DriverController extends Controller
 {
@@ -220,6 +228,21 @@ class DriverController extends Controller
                 $driver->save();
             }
             return response()->json(['ratting' => $averageRating], 200);
+        }
+
+
+        public function driverTripHistory(Request $request)
+        {
+            try {
+                $trip = TripHistory::where('driver_id', $request->user()->id)->with('passenger')->get();
+                return response()->json(['trips' => $trip]);
+            } catch (\Exception $e) {
+                Log::error('Error fetching driver trip history: ' . $e->getMessage());
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'An error occurred while fetching the trip history'
+                ], 500);
+            }
         }
 
 }

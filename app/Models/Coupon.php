@@ -9,7 +9,6 @@ class Coupon extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'company_id',
         'code',
         'discount_type',
         'discount_amount',
@@ -25,4 +24,5 @@ class Coupon extends Model
           'id' => 'integer',
           'company_id' => 'integer',
       ];
+
 }
