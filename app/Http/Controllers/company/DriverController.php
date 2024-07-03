@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
-use App\Models\CarOrFleet;use App\Models\Driver;use Illuminate\Http\Request;use Illuminate\Support\Facades\Auth;
+use App\Models\CarOrFleet;use App\Models\Driver;use App\Models\TripHistory;use Illuminate\Http\Request;use Illuminate\Support\Facades\Auth;
 use Toastr;
 class DriverController extends Controller
 {
@@ -200,7 +200,8 @@ class DriverController extends Controller
     public function show($id)
     {
         $driver = Driver::where('id', $id)->with('car')->first();
-        return view('company.pages.driver.driverDetails', compact('driver'));
+        $trip = TripHistory::where('driver_id', $id)->with('passenger')->paginate(50);
+        return view('company.pages.driver.driverDetails', compact('driver', 'trip'));
     }
 
 
