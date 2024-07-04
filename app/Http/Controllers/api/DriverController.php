@@ -174,30 +174,48 @@ class DriverController extends Controller
         public function driverChangePassword(Request $request)
         {
             try {
-                $request->validate([
-                    'old_password' => 'required',
-                    'new_password' => 'required',
-                    'confirm_password' => 'required|same:new_password',
-                ]);
-                $driver = Driver::where('id', $request->user()->id)->first();
+                // First, check if the old password is correct
+                $driver = Driver::find($request->user()->id);
+
+                if (!$driver) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Driver not found'
+                    ], 404);
+                }
+
                 if (!Hash::check($request->old_password, $driver->password)) {
                     return response()->json([
                         'status' => 'error',
                         'message' => 'The old password is incorrect'
                     ], 400);
                 }
+                // If the old password is correct, validate the new password and confirm password
+                $request->validate([
+                    'new_password' => 'required',
+                    'confirm_password' => 'required|same:new_password',
+                ], [
+                    'confirm_password.same' => 'The confirmation password does not match the new password.',
+                ]);
+
+                // Update the password if validation passes
                 $driver->password = Hash::make($request->new_password);
                 $driver->save();
+
                 return response()->json(['message' => 'Password changed successfully']);
+            } catch (\Illuminate\Validation\ValidationException $e) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => $e->validator->errors()->first()
+                ], 400);
             } catch (\Exception $e) {
                 Log::error('Error changing password: ' . $e->getMessage());
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Confirm Password Not Match'
+                    'message' => 'An error occurred while changing the password'
                 ], 500);
             }
         }
-
 
         public function driverRatting(Request $request)
         {
