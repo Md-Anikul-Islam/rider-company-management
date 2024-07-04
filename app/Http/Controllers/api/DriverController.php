@@ -245,4 +245,26 @@ class DriverController extends Controller
             }
         }
 
+
+        public function driverSpecificTripHistory(Request $request,$tripId)
+        {
+            try {
+                $baseUrl = url('/');
+                $trip = TripHistory::where('id',$tripId)->with('driver','driver.car','passenger')->first();
+                if ($trip)
+                {
+                   $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . encrypt($trip->id);
+                }
+
+                return response()->json(['trip' => $trip]);
+            } catch (\Exception $e) {
+                Log::error('Error fetching driver trip history: ' . $e->getMessage());
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'An error occurred while fetching the trip history'
+                ], 500);
+            }
+        }
+
+
 }

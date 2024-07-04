@@ -47,8 +47,15 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::post('passenger-profile-update', [PassengerController::class, 'updatePassengerProfile']);
     //Passenger change password
     Route::post('passenger-change-password', [PassengerController::class, 'passengerChangePassword']);
+
     //Passenger Trip History
-    Route::post('passenger-trip-history', [PassengerController::class, 'passengerTripHistory']);
+    Route::get('passenger-trip-history', [PassengerController::class, 'passengerTripHistory']);
+    //Passenger Specific Trip History
+    Route::get('passenger-specific-trip-history/{tripId}', [PassengerController::class, 'passengerSpecificTripHistory']);
+    //Driver Trip History
+    Route::get('/driver-trip-history', [DriverController::class, 'driverTripHistory']);
+    //Driver Specific Trip History
+    Route::get('/driver-specific-trip-history/{tripId}', [DriverController::class, 'driverSpecificTripHistory']);
 
     //store trip history by driver
     Route::post('/trip-history-store', [TripHistoryController::class, 'storeTripHistory']);
@@ -59,8 +66,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     //Driver Ratting
     Route::post('/customer-given-ratting-by-driver', [DriverController::class, 'driverRatting']);
-    //Driver Trip History
-    Route::pOST('/driver-trip-history', [DriverController::class, 'driverTripHistory']);
 
     //coupon
     Route::get('coupon-list', [CouponController::class, 'coupon']);

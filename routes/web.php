@@ -6,7 +6,7 @@ use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admi
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\DriverController;
-use App\Http\Controllers\company\TripController;use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\company\TripController;use App\Http\Controllers\TripVerifyController;use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -20,9 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::get('/', function () {
-//    return view('auth.login');
-//});
+Route::get('/get-specific-trip-history-verify/{encryptedId}', [TripVerifyController::class, 'driverSpecificTripHistory']);
 Route::get('/', function () {
     if (Auth::check()) {
         $user = Auth::user();
@@ -34,8 +32,6 @@ Route::get('/', function () {
     }
     return view('auth.login');
 })->name('home');
-
-
 
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['admin'])->prefix('admin')->group(function () {
