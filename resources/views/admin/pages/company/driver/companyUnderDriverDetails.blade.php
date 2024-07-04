@@ -27,7 +27,7 @@
                   >
                       <img
                           class="mw-50px mw-lg-75px"
-                          src="https://preview.keenthemes.com/metronic8/demo13/assets/media/svg/brand-logos/volicity-9.svg"
+                          src="{{asset($driver->company->logo)}}"
                           alt="image"
                       />
                   </div>
