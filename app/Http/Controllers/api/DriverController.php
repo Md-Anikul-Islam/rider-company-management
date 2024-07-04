@@ -253,10 +253,6 @@ class DriverController extends Controller
         {
             try {
                 $trip = TripHistory::where('driver_id', $request->user()->id)->with('passenger','driver.car')->get();
-                if ($trip->isEmpty())
-                {
-                   return response()->json(['trips' => null]);
-                }
                 return response()->json(['trips' => $trip]);
             } catch (\Exception $e) {
                 Log::error('Error fetching driver trip history: ' . $e->getMessage());
