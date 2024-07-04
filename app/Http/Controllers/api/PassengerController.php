@@ -207,7 +207,7 @@ class PassengerController extends Controller
           public function passengerTripHistory(Request $request)
           {
               try {
-                  $trip = TripHistory::where('passenger_id', $request->user()->id)->with('driver')->get();
+                  $trip = TripHistory::where('passenger_id', $request->user()->id)->with('driver.car')->get();
                   return response()->json(['trips' => $trip]);
               } catch (\Exception $e) {
                   Log::error('Error fetching driver trip history: ' . $e->getMessage());
@@ -221,7 +221,7 @@ class PassengerController extends Controller
             public function passengerSpecificTripHistory(Request $request, $tripId)
             {
                 try {
-                    $trip = TripHistory::where('id', $tripId)->where('passenger_id', $request->user()->id)->with('driver')->first();
+                    $trip = TripHistory::where('id', $tripId)->where('passenger_id', $request->user()->id)->with('driver.car')->first();
                     return response()->json(['trip' => $trip]);
                 } catch (\Exception $e) {
                     Log::error('Error fetching driver trip history: ' . $e->getMessage());
