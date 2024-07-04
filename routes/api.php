@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\api\CarOrFleetController;
 use App\Http\Controllers\api\CouponController;use App\Http\Controllers\api\DriverController;
-use App\Http\Controllers\api\PassengerController;use App\Http\Controllers\api\TripHistoryController;use Illuminate\Http\Request;
+use App\Http\Controllers\api\PassengerController;use App\Http\Controllers\api\TollController;use App\Http\Controllers\api\TripHistoryController;use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -71,6 +71,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('coupon-list', [CouponController::class, 'coupon']);
     //Apply Coupon
     Route::post('apply-coupon', [CouponController::class, 'applyCoupon']);
+
+    //Toll
+    Route::get('toll', [TollController::class, 'toll']);
 
 
 
