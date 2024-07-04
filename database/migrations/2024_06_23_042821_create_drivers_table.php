@@ -28,7 +28,8 @@ return new class extends Migration
             $table->string('rta_card_font_image')->nullable();
             $table->string('rta_card_back_image')->nullable();
             $table->float('ratting')->default(0);
-            $table->enum('status', ['active', 'inactive'])->default('active');
+            $table->enum('status', ['active','inactive','suspend'])->default('inactive');
+            $table->text('device_information')->nullable();
             $table->timestamps();
         });
     }

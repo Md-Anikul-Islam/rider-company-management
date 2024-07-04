@@ -26,6 +26,7 @@ class Driver extends Model
         'rta_card_back_image',
         'ratting',
         'status',
+        'device_information',
     ];
 
       protected $casts = [

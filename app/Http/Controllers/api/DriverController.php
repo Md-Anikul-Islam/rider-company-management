@@ -193,7 +193,7 @@ class DriverController extends Controller
                 Log::error('Error changing password: ' . $e->getMessage());
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'An error occurred while changing the password'
+                    'message' => 'Confirm Password Not Match'
                 ], 500);
             }
         }
