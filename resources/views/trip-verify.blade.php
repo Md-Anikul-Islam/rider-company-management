@@ -511,17 +511,6 @@
                 <div class="trip_card">
 				<div class="heading">
 					<h2>Trip Information</h2>
-
-					@if($tripVerify->trip_type=='request_trip')
-                       <div class="trip_status">Request Trip</div>
-                    @else
-                        <div class="trip_status">Manual Trip</div>
-                    @endif
-
-
-
-
-
 				</div>
 				<div class="details">
 					<div class="timeline">
