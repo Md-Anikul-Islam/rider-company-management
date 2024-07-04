@@ -51742,3 +51742,17 @@ body {
     font-size: 20px;
     font-weight: 700;
 }
+
+.dashboard_card {
+    position: relative;
+}
+.icon_box {
+    position: absolute;
+    right: 30px;
+    top: 30px;
+}
+.dashboard_card svg {
+    width: 40px;
+    height: 40px;
+    color: #99a1b7;
+}

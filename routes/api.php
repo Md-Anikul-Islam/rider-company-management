@@ -75,6 +75,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Toll
     Route::get('toll', [TollController::class, 'toll']);
 
+    //Driver Login Confirmation
+    Route::post('confirm-driver-login-device', [DriverController::class, 'confirmDriverLoginDevice']);
+
 
 
 

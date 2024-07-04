@@ -9,7 +9,7 @@ use App\Models\DriverRating;
 use App\Models\DriverRatting;
 use App\Models\TripHistory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -252,7 +252,7 @@ class DriverController extends Controller
         public function driverTripHistory(Request $request)
         {
             try {
-                $trip = TripHistory::where('driver_id', $request->user()->id)->with('passenger')->get();
+                $trip = TripHistory::where('driver_id', $request->user()->id)->with('passenger','driver.car')->get();
                 return response()->json(['trips' => $trip]);
             } catch (\Exception $e) {
                 Log::error('Error fetching driver trip history: ' . $e->getMessage());
@@ -283,6 +283,37 @@ class DriverController extends Controller
                 ], 500);
             }
         }
+
+        public function confirmDriverLoginDevice(Request $request)
+        {
+            try {
+                $request->validate([
+                    'device_information' => 'required',
+                ]);
+                $driver = auth()->user();
+                if (!$driver) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Driver not found'
+                    ], 404);
+                }
+
+                $driver->status = 'active';
+                $driver->device_information = $request->device_information;
+                $driver->save();
+
+                return response()->json(['message' => 'Driver status and device information updated successfully']);
+            } catch (\Exception $e) {
+                \Log::error('Error updating driver status: ' . $e->getMessage());
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'An error occurred while updating the driver status'
+                ], 500);
+            }
+        }
+
+
+
 
 
 }
