@@ -162,10 +162,10 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$fleetType}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
-                                    <span class="d-block">Car</span>
+                                    <span class="d-block">Fleet Type</span>
                                 </div>
                             </div>
                             <!--end::Info-->
@@ -236,7 +236,7 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$totalCoupon}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
                                     <span class="d-block">Coupon</span>
@@ -279,7 +279,7 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$toll}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
                                     <span class="d-block">Toll</span>
@@ -322,10 +322,10 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$trip}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
-                                    <span class="d-block">Trip History</span>
+                                    <span class="d-block">Trip</span>
                                 </div>
                             </div>
                             <!--end::Info-->
@@ -361,7 +361,7 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$totalIncome}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
                                     <span class="d-block">Total Income</span>
@@ -400,7 +400,7 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$totalIncomeToday}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
                                     <span class="d-block">Today Income</span>
@@ -439,7 +439,7 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$totalIncomeWeek}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
                                     <span class="d-block">Weekly Income</span>
@@ -478,7 +478,7 @@
                         </div>
                         <div class="card-body d-flex align-items-end mb-3">
                             <div class="d-flex flex-column">
-                                <span class="fs-3x fw-bold me-6">1000</span>
+                                <span class="fs-3x fw-bold me-6">{{$totalIncomeMonth}}</span>
 
                                 <div class="fs-1 fw-semibold text-gray-500">
                                     <span class="d-block">Monthly Income</span>
