@@ -7,12 +7,11 @@ use App\Models\Driver;use App\Models\TripHistory;use Illuminate\Http\Request;use
 
 class TripHistoryController extends Controller
 {
-        public function storeTripHistory(Request $request)
+        public function storeRideRequest(Request $request)
         {
             $validator = Validator::make($request->all(), [
                 'origin_address' => 'required|string|max:255',
                 'destination_address' => 'required|string|max:255',
-                'pick_time' => 'required',
                 'passenger_name' => 'nullable|string|max:255',
                 'passenger_phone' => 'nullable|string|max:255',
                 'estimated_fare' => 'nullable|string|max:255',
@@ -30,14 +29,13 @@ class TripHistoryController extends Controller
                 $tripHistory->company_id = $driver->company_id;
                 $tripHistory->origin_address = $request->input('origin_address');
                 $tripHistory->destination_address = $request->input('destination_address');
+                $tripHistory->total_distance = $request->input('total_distance');
                 $tripHistory->change_destination_address = $request->input('change_destination_address');
                 $tripHistory->pick_time = $request->input('pick_time');
-                $tripHistory->drop_time = $request->input('drop_time');
                 $tripHistory->passenger_name = $request->input('passenger_name');
                 $tripHistory->passenger_phone = $request->input('passenger_phone');
                 $tripHistory->estimated_fare = $request->input('estimated_fare');
                 $tripHistory->calculated_fare = $request->input('calculated_fare');
-                $tripHistory->fare_received_status = $request->input('fare_received_status', 0);
                 $tripHistory->trip_status = $request->input('trip_status', 'start');
                 $tripHistory->trip_type = $request->input('trip_type', 'request_trip');
                 $tripHistory->save();
@@ -47,12 +45,11 @@ class TripHistoryController extends Controller
             }
         }
 
-     public function updateTripHistory(Request $request, $tripId)
+     public function updateRideRequest(Request $request, $tripId)
      {
          // Validate the request inputs
          $validator = Validator::make($request->all(), [
              'change_destination_address' => 'nullable|string|max:255',
-             'drop_time' => 'required_if:change_destination_address,true',
          ]);
 
          if ($validator->fails()) {
@@ -73,9 +70,21 @@ class TripHistoryController extends Controller
                  $tripHistory->change_destination_address = $request->input('change_destination_address');
              }
 
+             if ($request->has('pick_time')) {
+                 $tripHistory->pick_time = $request->input('pick_time');
+             }
+
              if ($request->has('drop_time')) {
                  $tripHistory->drop_time = $request->input('drop_time');
              }
+
+             if ($request->has('fare_received_status')) {
+                 $tripHistory->fare_received_status = $request->input('fare_received_status');
+             }
+
+            if ($request->has('trip_status')) {
+                $tripHistory->trip_status = $request->input('trip_status');
+            }
 
              // Save the updated trip history record
              $tripHistory->save();

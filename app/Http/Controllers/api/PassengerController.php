@@ -4,7 +4,7 @@ namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Passenger;
-use App\Models\TripHistory;use Illuminate\Support\Facades\File;
+use App\Models\TripHistory;use Carbon\Carbon;use Illuminate\Support\Facades\Crypt;use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
@@ -204,27 +204,76 @@ class PassengerController extends Controller
 
 
 
-          public function passengerTripHistory(Request $request)
-          {
-              try {
-                  $trip = TripHistory::where('passenger_id', $request->user()->id)->with('driver.car')->get();
-                  return response()->json(['trips' => $trip]);
-              } catch (\Exception $e) {
-                  Log::error('Error fetching driver trip history: ' . $e->getMessage());
-                  return response()->json([
-                      'status' => 'error',
-                      'message' => 'An error occurred while fetching the trip history'
-                  ], 500);
-              }
-          }
+//          public function passengerTripHistory(Request $request)
+//          {
+//              try {
+//                  $trip = TripHistory::where('passenger_id', $request->user()->id)->with('driver.car')->get();
+//                  return response()->json(['trips' => $trip]);
+//              } catch (\Exception $e) {
+//                  Log::error('Error fetching driver trip history: ' . $e->getMessage());
+//                  return response()->json([
+//                      'status' => 'error',
+//                      'message' => 'An error occurred while fetching the trip history'
+//                  ], 500);
+//              }
+//          }
+
+            public function passengerTripHistory(Request $request)
+            {
+                try {
+                    $baseUrl = url('/');
+                    $perPage = 10; // Define how many items you want per page
+
+                    $trips = TripHistory::where('passenger_id', $request->user()->id)
+                                        ->with('driver.car')
+                                        ->paginate($perPage)
+                                        ->through(function ($trip) use ($baseUrl) {
+                                            $pickTime = Carbon::parse($trip->pick_time);
+                                            $dropTime = Carbon::parse($trip->drop_time);
+                                            $duration = $pickTime->diffInMinutes($dropTime);
+                                            $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
+                                            $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
+                                            return $trip;
+                                        });
+
+                    return response()->json($trips);
+                } catch (\Exception $e) {
+                    Log::error('Error fetching passenger trip history: ' . $e->getMessage());
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'An error occurred while fetching the trip history'
+                    ], 500);
+                }
+            }
 
             public function passengerSpecificTripHistory(Request $request, $tripId)
             {
                 try {
-                    $trip = TripHistory::where('id', $tripId)->where('passenger_id', $request->user()->id)->with('driver.car')->first();
+                    $baseUrl = url('/');
+                    $trip = TripHistory::where('id', $tripId)
+                                       ->where('passenger_id', $request->user()->id)
+                                       ->with('driver.car')
+                                       ->first();
+
+                    if ($trip) {
+                        // Calculate duration
+                        $pickTime = Carbon::parse($trip->pick_time);
+                        $dropTime = Carbon::parse($trip->drop_time);
+                        $duration = $pickTime->diffInMinutes($dropTime);
+                        $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
+
+                        // Add link
+                        $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
+                    } else {
+                        return response()->json([
+                            'status' => 'error',
+                            'message' => 'Trip not found'
+                        ], 404);
+                    }
+
                     return response()->json(['trip' => $trip]);
                 } catch (\Exception $e) {
-                    Log::error('Error fetching driver trip history: ' . $e->getMessage());
+                    Log::error('Error fetching passenger trip history: ' . $e->getMessage());
                     return response()->json([
                         'status' => 'error',
                         'message' => 'An error occurred while fetching the trip history'

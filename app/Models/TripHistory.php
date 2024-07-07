@@ -14,6 +14,7 @@ class TripHistory extends Model
         'company_id',
         'origin_address',
         'destination_address',
+        'total_distance',
         'change_destination_address',
         'pick_time',
         'drop_time',

@@ -18,8 +18,9 @@ return new class extends Migration
             $table->unsignedBigInteger('company_id')->nullable();
             $table->string('origin_address');
             $table->string('destination_address');
+            $table->string('total_distance')->nullable();
             $table->string('change_destination_address')->nullable();
-            $table->string('pick_time');
+            $table->string('pick_time')->nullable();
             $table->string('drop_time')->nullable();
             $table->string('passenger_name')->nullable();
             $table->string('passenger_phone')->nullable();

@@ -48,18 +48,24 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Passenger change password
     Route::post('passenger-change-password', [PassengerController::class, 'passengerChangePassword']);
 
+
+
+    //store trip history by driver
+    Route::post('/ride-request-store', [TripHistoryController::class, 'storeRideRequest']);
+    Route::post('/ride-request-update/{tripId}', [TripHistoryController::class, 'updateRideRequest']);
+
     //Passenger Trip History
     Route::get('passenger-trip-history', [PassengerController::class, 'passengerTripHistory']);
     //Passenger Specific Trip History
     Route::get('passenger-specific-trip-history/{tripId}', [PassengerController::class, 'passengerSpecificTripHistory']);
+
+
     //Driver Trip History
     Route::get('/driver-trip-history', [DriverController::class, 'driverTripHistory']);
     //Driver Specific Trip History
     Route::get('/driver-specific-trip-history/{tripId}', [DriverController::class, 'driverSpecificTripHistory']);
 
-    //store trip history by driver
-    Route::post('/trip-history-store', [TripHistoryController::class, 'storeTripHistory']);
-    Route::post('/trip-history-update/{tripId}', [TripHistoryController::class, 'updateTripHistory']);
+
 
     //car or fleet type
     Route::get('car-or-fleet-type-list', [CarOrFleetController::class, 'carOrFleetType']);

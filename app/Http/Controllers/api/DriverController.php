@@ -8,8 +8,8 @@ use App\Models\Driver;
 use App\Models\DriverRating;
 use App\Models\DriverRatting;
 use App\Models\TripHistory;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\File;
+use Carbon\Carbon;use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\Crypt;use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -249,11 +249,39 @@ class DriverController extends Controller
         }
 
 
+//        public function driverTripHistory(Request $request)
+//        {
+//            try {
+//                $trip = TripHistory::where('driver_id', $request->user()->id)->with('passenger','driver.car')->get();
+//                return response()->json(['trips' => $trip]);
+//            } catch (\Exception $e) {
+//                Log::error('Error fetching driver trip history: ' . $e->getMessage());
+//                return response()->json([
+//                    'status' => 'error',
+//                    'message' => 'An error occurred while fetching the trip history'
+//                ], 500);
+//            }
+//        }
+
         public function driverTripHistory(Request $request)
         {
             try {
-                $trip = TripHistory::where('driver_id', $request->user()->id)->with('passenger','driver.car')->get();
-                return response()->json(['trips' => $trip]);
+                $baseUrl = url('/');
+                $perPage = 10; // Define how many items you want per page
+
+                $trips = TripHistory::where('driver_id', $request->user()->id)
+                                    ->with('passenger','driver.car')
+                                    ->paginate($perPage)
+                                    ->through(function ($trip) use ($baseUrl) {
+                                        $pickTime = Carbon::parse($trip->pick_time);
+                                        $dropTime = Carbon::parse($trip->drop_time);
+                                        $duration = $pickTime->diffInMinutes($dropTime);
+                                        $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
+                                        $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
+                                        return $trip;
+                                    });
+
+                return response()->json($trips);
             } catch (\Exception $e) {
                 Log::error('Error fetching driver trip history: ' . $e->getMessage());
                 return response()->json([
@@ -263,18 +291,24 @@ class DriverController extends Controller
             }
         }
 
-
-        public function driverSpecificTripHistory(Request $request,$tripId)
+        public function driverSpecificTripHistory(Request $request, $tripId)
         {
             try {
                 $baseUrl = url('/');
-                $trip = TripHistory::where('id',$tripId)->with('driver','driver.car','passenger')->first();
-                if ($trip)
-                {
-                   $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . encrypt($trip->id);
-                }
-                if(!$trip)
-                {
+                $trip = TripHistory::where('id', $tripId)
+                                    ->with('driver','driver.car','passenger')
+                                    ->first();
+
+                if ($trip) {
+                    // Calculate duration
+                    $pickTime = Carbon::parse($trip->pick_time);
+                    $dropTime = Carbon::parse($trip->drop_time);
+                    $duration = $pickTime->diffInMinutes($dropTime);
+                    $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
+
+                    // Add link
+                    $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
+                } else {
                     return response()->json([
                         'status' => 'error',
                         'message' => 'Trip not found'
