@@ -35,6 +35,8 @@ Route::get('/', function () {
     return view('auth.login');
 })->name('home');
 
+
+
 Route::middleware(['auth'])->group(function () {
     Route::middleware(['admin'])->prefix('admin')->group(function () {
 
