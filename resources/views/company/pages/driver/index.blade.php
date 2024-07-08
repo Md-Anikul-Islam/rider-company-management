@@ -91,15 +91,13 @@
                                        <li>
                                           <a class="dropdown-item" href="{{route('company.driver.delete',$driverData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$driverData->id}}" data-category-id="{{$driverData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
                                        </li>
+                                       <li>
+                                          <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#vModal{{$driverData->id}}"><i class="fa-solid fa-eye"></i> Verify</a>
+                                       </li>
+
                                    </ul>
                                </div>
                              </td>
-
-{{--                            <td>--}}
-{{--                                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$driverData->id}}">Edit</button>--}}
-{{--                                <a href="{{route('company.driver.details.show',$driverData->id)}}" class="btn btn-info btn-sm">Details</a>--}}
-{{--                                <a href="{{route('company.driver.delete',$driverData->id)}}" class="btn btn-danger btn-sm delete-division" data-bs-toggle="modal" data-bs-target="#deleteModal{{$driverData->id}}" data-category-id="{{$driverData->id}}">Delete</a>--}}
-{{--                            </td>--}}
                         </tr>
                         <!-- Edit Modal for Current Relation -->
                         <div class="modal fade" id="modalFormDataEdit{{$driverData->id}}" aria-labelledby="editModalLabel{{$driverData->id}}" tabindex="-1" aria-hidden="true">
@@ -228,6 +226,26 @@
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                                         <a href="{{route('company.driver.delete',$driverData->id)}}" class="btn btn-danger">Delete</a>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="modal fade" id="vModal{{$driverData->id}}" tabindex="-1" aria-labelledby="vModalLabel{{$driverData->id}}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="vModalLabel{{$driverData->id}}">Driver Verify Info</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+
+                                    @php
+                                       $deviceInformation = json_decode($driverData->device_information, true);
+                                    @endphp
+                                    <div class="modal-body">
+                                    <pre style="white-space: pre-wrap;">{{ json_encode($deviceInformation, JSON_PRETTY_PRINT) }}</pre>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>

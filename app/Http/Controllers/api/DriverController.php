@@ -37,6 +37,27 @@ class DriverController extends Controller
                     ], 401);
                 }
 
+
+
+                 // Check if the company status is inactive
+                 if ($driver->company->status === 'inactive') {
+                    return response()->json([
+                        'message' => 'You cannot login. Please contact your company.',
+                    ], 403);
+                 }
+
+                 // Check if the driver status is inactive and device information is not null
+                 if ($driver->status === 'inactive' && !is_null($driver->device_information)) {
+                    return response()->json([
+                        'message' => 'You cannot login. Please contact your company.',
+                    ], 403);
+                 }
+
+
+
+
+
+
                 // If both phone and password are correct, create token for authentication
                 $token = $driver->createToken('token-name')->plainTextToken;
 

@@ -35,6 +35,13 @@ class AuthenticatedSessionController extends Controller
         if ($user->role == 'admin') {
             return redirect()->intended('/admin/dashboard');
         } elseif ($user->role == 'company') {
+
+            if($user->status == 'inactive'){
+                Auth::guard('web')->logout();
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+                return redirect()->route('message');
+            }
             return redirect()->intended('/company/dashboard');
         }
 

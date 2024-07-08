@@ -6,7 +6,7 @@ use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admi
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\DriverController;
-use App\Http\Controllers\company\TripController;use App\Http\Controllers\TripVerifyController;use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\company\TripController;use App\Http\Controllers\MessageController;use App\Http\Controllers\TripVerifyController;use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +21,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/get-specific-trip-history-verify/{encryptedId}', [TripVerifyController::class, 'driverSpecificTripHistory']);
+Route::get('/message', [MessageController::class, 'index'])->name('message');
+
 Route::get('/', function () {
     if (Auth::check()) {
         $user = Auth::user();
