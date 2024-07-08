@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
-use App\Models\CarOrFleet;use App\Models\Driver;use App\Models\TripHistory;use Illuminate\Http\Request;use Illuminate\Support\Facades\Auth;
-use Toastr;
+use App\Models\CarOrFleet;use App\Models\Driver;use App\Models\TripHistory;use Carbon\Carbon;use Illuminate\Http\Request;use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;use Toastr;
 class DriverController extends Controller
 {
     public function index()
@@ -133,6 +133,13 @@ class DriverController extends Controller
             }
             $driver->save();
 
+
+            // Expire tokens if the driver status is inactive
+            if ($driver->status === 'inactive') {
+                $this->expireDriverTokens($driver->id);
+            }
+
+
             // Update the previously assigned car's is_selected to 'no'
             if ($previousCarId && $previousCarId != $driver->car_id) {
                 CarOrFleet::where('id', $previousCarId)->update(['is_selected' => 'no']);
@@ -152,6 +159,15 @@ class DriverController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
+    }
+
+
+    protected function expireDriverTokens($driverId)
+    {
+        DB::table('personal_access_tokens')
+            ->where('tokenable_id', $driverId)
+            ->where('tokenable_type', 'App\Models\Driver') // Adjust this if your model namespace is different
+            ->update(['expires_at' => Carbon::now()]);
     }
 
 
