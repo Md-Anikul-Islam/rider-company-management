@@ -74,6 +74,9 @@
                                 </button>
                             </div>
 
+                              <div class="text-gray-500 text-center fw-semibold fs-6 mb-10">If you are start business,Please Join Us?
+                              <a href="{{ route('company.register') }}" class="link-primary">Sign Up</a></div>
+
                         </form>
 
                     </div>

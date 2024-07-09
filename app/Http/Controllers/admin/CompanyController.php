@@ -20,6 +20,17 @@ class CompanyController extends Controller
            }
        }
 
+       public function showCompanyDetails($companyId)
+       {
+           //dd($companyId);
+           try {
+               $company = User::where('id', $companyId)->first();
+               return view('admin.pages.company.details', compact('company'));
+           } catch (\Exception $e) {
+               return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+           }
+       }
+
        public function store(Request $request)
        {
            try {

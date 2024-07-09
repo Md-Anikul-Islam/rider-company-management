@@ -11,7 +11,6 @@ class TripVerifyController extends Controller
            try {
                 $id = decrypt($encryptedId);
                 $tripVerify = TripHistory::where('id',$id)->with('driver.car','passenger','company')->first();
-//dd($tripVerify);
                 return view('trip-verify',compact('tripVerify'));
 
            } catch (DecryptException $e) {

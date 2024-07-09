@@ -6,7 +6,7 @@ use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admi
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\DriverController;
-use App\Http\Controllers\company\TripController;use App\Http\Controllers\MessageController;use App\Http\Controllers\TripVerifyController;use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\company\TripController;use App\Http\Controllers\CompanyMakeController;use App\Http\Controllers\MessageController;use App\Http\Controllers\TripVerifyController;use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,6 +22,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/get-specific-trip-history-verify/{encryptedId}', [TripVerifyController::class, 'driverSpecificTripHistory']);
 Route::get('/message', [MessageController::class, 'index'])->name('message');
+//company register
+Route::get('/company-register', [CompanyMakeController::class, 'company'])->name('company.register');
+Route::post('/company-register', [CompanyMakeController::class, 'companyRegister'])->name('company.register.store');
 
 Route::get('/', function () {
     if (Auth::check()) {
@@ -43,11 +46,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
         //company routes
         Route::get('/company', [App\Http\Controllers\admin\CompanyController::class, 'index'])->name('admin.company');
+        Route::get('/company/details/{companyId}', [App\Http\Controllers\admin\CompanyController::class, 'showCompanyDetails'])->name('admin.company.details.show');
         Route::post('/company/store', [App\Http\Controllers\admin\CompanyController::class, 'store'])->name('admin.company.store');
         Route::put('/company/update/{id}', [App\Http\Controllers\admin\CompanyController::class, 'update'])->name('admin.company.update');
         Route::get('/company/delete/{id}', [App\Http\Controllers\admin\CompanyController::class, 'destroy'])->name('admin.company.delete');
         Route::get('/company/driver/list/{companyId}', [App\Http\Controllers\admin\CompanyController::class, 'showDriverList'])->name('admin.company.under.driver.list');
         Route::get('/company/driver/details/{id}', [App\Http\Controllers\admin\CompanyController::class, 'showDriverDetails'])->name('admin.company.under.driver.details');
+
         //fleet type routes
         Route::get('/fleetType', [FleetTypeController::class, 'index'])->name('admin.fleetType');
         Route::post('/fleetType/store', [FleetTypeController::class, 'store'])->name('admin.fleetType.store');

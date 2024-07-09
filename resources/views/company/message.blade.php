@@ -83,9 +83,11 @@
             <path d="M10.995 13.5001H11.005" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
         <div>
-            <h4>Rejected</h4>
-            <h3>Oops! Your company profile has been rejected.</h3>
-            <p>Please check the details. You are disable now please contact to your Administrator.</p>
+
+            <h3>Oops! Your Account has been disabled now.</h3>
+            <p>Please contact to your Administrator.</p>
+            <p>Or</p>
+            <p>You are new self register then wait Administrator contact you.</p>
             <a style="color: red" href="{{ route('login') }}">Back to Login</a>
         </div>
     </div>

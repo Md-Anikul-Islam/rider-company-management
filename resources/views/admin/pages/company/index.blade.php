@@ -66,6 +66,10 @@
                                                <i class="fa-solid fa-angles-down"></i>
                                            </button>
                                            <ul class="dropdown-menu action_dropdown_menu">
+
+                                               <li>
+                                                  <a class="dropdown-item" href="{{route('admin.company.details.show',$companiesData->id)}}"><i class="fa-solid fa-eye"></i> Details</a>
+                                               </li>
                                                <li>
                                                    <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$companiesData->id}}"><i class="fa-solid fa-edit"></i> Edit</a>
                                                </li>
