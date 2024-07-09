@@ -301,7 +301,7 @@ class DriverController extends Controller
                                             $duration = $pickTime->diffInMinutes($dropTime);
                                             $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
                                         } else {
-                                            $trip->duration = null; // Set duration to null if drop_time is not available
+                                            $trip->duration = 0; // Set duration to null if drop_time is not available
                                         }
                                         $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
                                         return $trip;
@@ -316,6 +316,49 @@ class DriverController extends Controller
                 ], 500);
             }
         }
+
+
+
+//        public function driverTripHistory(Request $request)
+//        {
+//            try {
+//                $baseUrl = url('/');
+//                $perPage = 10; // Define how many items you want per page
+//
+//                $trips = TripHistory::where('driver_id', $request->user()->id)
+//                                    ->with('passenger', 'driver.car')
+//                                    ->paginate($perPage)
+//                                    ->through(function ($trip) use ($baseUrl) {
+//                                        if ($trip->pick_time) {
+//                                            $pickTime = Carbon::parse($trip->pick_time);
+//                                            if ($trip->drop_time) {
+//                                                $dropTime = Carbon::parse($trip->drop_time);
+//                                            } else {
+//                                                $dropTime = Carbon::now();
+//                                            }
+//                                            $durationInMinutes = $pickTime->diffInMinutes($dropTime);
+//                                            $hours = intdiv($durationInMinutes, 60);
+//                                            $minutes = $durationInMinutes % 60;
+//                                            $trip->duration = sprintf('%02d:%02d', $hours, $minutes); // Convert to HH:MM format
+//                                        } else {
+//                                            $trip->duration = '00:00'; // Set duration to '00:00' if pick_time is not available
+//                                        }
+//
+//                                        $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
+//                                        return $trip;
+//                                    });
+//
+//                return response()->json($trips);
+//            } catch (\Exception $e) {
+//                Log::error('Error fetching driver trip history: ' . $e->getMessage());
+//                return response()->json([
+//                    'status' => 'error',
+//                    'message' => 'An error occurred while fetching the trip history'
+//                ], 500);
+//            }
+//        }
+
+
 
         public function driverSpecificTripHistory(Request $request, $tripId)
         {
