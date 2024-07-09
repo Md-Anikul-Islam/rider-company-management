@@ -292,7 +292,7 @@ class DriverController extends Controller
                 $perPage = 10; // Define how many items you want per page
 
                 $trips = TripHistory::where('driver_id', $request->user()->id)
-                                    ->with('passenger', 'driver.car')
+                                    ->with('passenger', 'driver.car','agent')
                                     ->paginate($perPage)
                                     ->through(function ($trip) use ($baseUrl) {
                                         if ($trip->drop_time) {

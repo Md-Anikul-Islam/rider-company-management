@@ -49,4 +49,9 @@ class TripHistory extends Model
         {
             return $this->belongsTo(User::class);
         }
+
+        public function agent()
+        {
+            return $this->belongsTo(Agent::class);
+        }
 }
