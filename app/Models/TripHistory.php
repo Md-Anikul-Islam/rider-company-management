@@ -33,6 +33,7 @@ class TripHistory extends Model
           'passenger_id' => 'integer',
           'driver_id' => 'integer',
           'company_id' => 'integer',
+          'agent_id' => 'integer',
       ];
 
         public function driver()

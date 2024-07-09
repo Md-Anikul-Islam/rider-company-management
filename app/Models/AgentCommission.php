@@ -8,4 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class AgentCommission extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'agent_id',
+        'commission_amount',
+    ];
+
+    protected $casts = [
+        'id' => 'integer',
+        'agent_id' => 'integer',
+    ];
 }

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Agent;use Illuminate\Http\Request;use Illuminate\Support\Facades\File;use Illuminate\Support\Facades\Validator;
+use App\Models\Agent;use Carbon\Carbon;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;use Illuminate\Support\Facades\File;use Illuminate\Support\Facades\Validator;
 use Toastr;
 class AgentController extends Controller
 {
@@ -83,11 +83,24 @@ class AgentController extends Controller
                        $agent->password = bcrypt($request->password);
                    }
                    $agent->save();
+                   // Expire tokens if the driver status is inactive
+                   if ($agent->status === 'inactive') {
+                       $this->expireAgentTokens($agent->id);
+                   }
+
                    Toastr::success('Agent updated successfully!', 'Success');
                    return redirect()->back();
                } catch (\Exception $e) {
                    return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage())->withInput();
                }
+           }
+
+           protected function expireAgentTokens($agentId)
+           {
+               DB::table('personal_access_tokens')
+                   ->where('tokenable_id', $agentId)
+                   ->where('tokenable_type', 'App\Models\Agent')
+                   ->update(['expires_at' => Carbon::now()]);
            }
 
             public function destroy($id)

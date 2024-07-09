@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\api\CarOrFleetController;
+use App\Http\Controllers\api\AgentController;use App\Http\Controllers\api\CarOrFleetController;
 use App\Http\Controllers\api\CouponController;use App\Http\Controllers\api\DriverController;
 use App\Http\Controllers\api\PassengerController;use App\Http\Controllers\api\TollController;use App\Http\Controllers\api\TripHistoryController;use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,6 +25,8 @@ Route::post('driver-login', [DriverController::class, 'driverLogin']);
 //passenger
 Route::post('/passenger-register', [PassengerController::class, 'registerPassenger']);
 Route::post('/passenger-login', [PassengerController::class, 'passengerLogin']);
+//Agent login
+Route::post('/agent-login', [AgentController::class, 'agentLogin']);
 
 //Auth routes
 Route::group(['middleware' => 'auth:sanctum'], function () {
@@ -83,6 +85,9 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     //Driver Login Confirmation
     Route::post('confirm-driver-login-device', [DriverController::class, 'confirmDriverLoginDevice']);
+
+    //Agent Profile
+    Route::get('agent-profile', [AgentController::class, 'agentProfile']);
 
 
 
