@@ -284,6 +284,7 @@ class DriverController extends Controller
 //            }
 //        }
 
+
         public function driverTripHistory(Request $request)
         {
             try {
@@ -291,13 +292,17 @@ class DriverController extends Controller
                 $perPage = 10; // Define how many items you want per page
 
                 $trips = TripHistory::where('driver_id', $request->user()->id)
-                                    ->with('passenger','driver.car')
+                                    ->with('passenger', 'driver.car')
                                     ->paginate($perPage)
                                     ->through(function ($trip) use ($baseUrl) {
-                                        $pickTime = Carbon::parse($trip->pick_time);
-                                        $dropTime = Carbon::parse($trip->drop_time);
-                                        $duration = $pickTime->diffInMinutes($dropTime);
-                                        $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
+                                        if ($trip->drop_time) {
+                                            $pickTime = Carbon::parse($trip->pick_time);
+                                            $dropTime = Carbon::parse($trip->drop_time);
+                                            $duration = $pickTime->diffInMinutes($dropTime);
+                                            $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
+                                        } else {
+                                            $trip->duration = null; // Set duration to null if drop_time is not available
+                                        }
                                         $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
                                         return $trip;
                                     });
