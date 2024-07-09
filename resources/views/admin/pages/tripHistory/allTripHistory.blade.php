@@ -71,9 +71,9 @@
                                   </td>
                                   <td>
                                       @if($tripData->trip_type=='request_trip')
-                                          <p class="text-info">Request Trip</p>
+                                          <p class="text-info">Request </p>
                                       @elseif($tripData->trip_type=='manual_trip')
-                                          <p class="text-success">Manual Trip</p>
+                                          <p class="text-success">Manual </p>
 
                                       @endif
                                   </td>
