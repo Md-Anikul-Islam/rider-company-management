@@ -25,6 +25,7 @@ class TripHistoryController extends Controller
                 $driver = Driver::where('id', $request->user()->id)->firstOrFail();
                 $tripHistory = new TripHistory();
                 $tripHistory->passenger_id = $request->input('passenger_id');
+                $tripHistory->agent_id = $request->input('agent_id');
                 $tripHistory->driver_id = $driver->id;
                 $tripHistory->company_id = $driver->company_id;
                 $tripHistory->origin_address = $request->input('origin_address');

@@ -150,6 +150,15 @@
                                     <span class="menu-title">Manual Trip</span>
                                     </a>
                                 </div>
+                                <div class="menu-item">
+                                    <a class="menu-link" href="{{route('admin.agent.trip.history')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title
+                                    ">Agent Trip</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 

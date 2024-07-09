@@ -24,4 +24,10 @@ class TripController extends Controller
             $trip = TripHistory::where('company_id',auth()->user()->id)->where('trip_type','manual_trip')->with('passenger')->paginate(50);
             return view('company.pages.companyTripHistory.manualTripHistory', compact('trip'));
         }
+
+        public function agentTripHistoryUnderCompany()
+        {
+            $trip = TripHistory::where('company_id',auth()->user()->id)->where('trip_type','agent_create_trip')->with('passenger')->paginate(50);
+            return view('company.pages.companyTripHistory.agentTripHistory', compact('trip'));
+        }
 }

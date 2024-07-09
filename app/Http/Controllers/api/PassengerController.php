@@ -36,8 +36,11 @@ class PassengerController extends Controller
                     'is_apple' => $request->is_apple ?? 0,
                 ]);
 
+                $token = $passenger->createToken('passenger-token')->plainTextToken;
+
                 return response()->json([
                     'message' => 'Passenger registered successfully',
+                    'token' => $token,
                     'passenger' => [
                         'id' => $passenger->id,
                         'name' => $passenger->name,

@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/trip-history', [TripHistoryController::class, 'allTripHistory'])->name('admin.all.trip.history');
         Route::get('/request-trip-history', [TripHistoryController::class, 'requestTripHistory'])->name('admin.request.trip.history');
         Route::get('/manual-trip-history', [TripHistoryController::class, 'manualTripHistory'])->name('admin.manual.trip.history');
+        Route::get('/agent-trip-history', [TripHistoryController::class, 'agentTripHistory'])->name('admin.agent.trip.history');
 
         //agent type routes
         Route::get('/agent', [AgentController::class, 'index'])->name('admin.agent');
@@ -106,6 +107,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/trip', [TripController::class, 'allTripHistoryUnderCompany'])->name('company.trip');
         Route::get('/request-trip', [TripController::class, 'requestTripHistoryUnderCompany'])->name('company.request.trip');
         Route::get('/manual-trip', [TripController::class, 'manualTripHistoryUnderCompany'])->name('company.manual.trip');
+        Route::get('/agent-trip', [TripController::class, 'agentTripHistoryUnderCompany'])->name('company.agent.trip');
+
 
 
 

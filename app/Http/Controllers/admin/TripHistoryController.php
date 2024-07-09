@@ -16,8 +16,6 @@ class TripHistoryController extends Controller
                 WHEN fare_received_status = 1 THEN estimated_fare 
                 ELSE 0 
             END'));
-
-
         return view('admin.pages.tripHistory.allTripHistory', compact('trip', 'totalIncome'));
     }
 
@@ -31,5 +29,11 @@ class TripHistoryController extends Controller
     {
         $trip = TripHistory::where('trip_type','manual_trip')->with('passenger')->paginate(50);
         return view('admin.pages.tripHistory.manualTripHistory', compact('trip'));
+    }
+
+    public function agentTripHistory()
+    {
+        $trip = TripHistory::where('trip_type','agent_create_trip')->with('passenger')->paginate(50);
+        return view('admin.pages.tripHistory.agentTripHistory', compact('trip'));
     }
 }

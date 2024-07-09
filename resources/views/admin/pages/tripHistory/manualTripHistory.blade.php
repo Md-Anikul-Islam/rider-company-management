@@ -74,7 +74,8 @@
                                           <p class="text-info">Request</p>
                                       @elseif($tripData->trip_type=='manual_trip')
                                           <p class="text-success">Manual</p>
-
+                                      @elseif($tripData->trip_type=='agent_create_trip')
+                                          <p class="text-danger">Agent </p>
                                       @endif
                                   </td>
                               </tr>

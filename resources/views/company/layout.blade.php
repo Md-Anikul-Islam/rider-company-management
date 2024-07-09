@@ -109,6 +109,17 @@
                                     </a>
                                 </div>
                             </div>
+                             <div class="menu-sub menu-sub-accordion">
+                                  <div class="menu-item">
+                                      <a class="menu-link" href="{{route('company.agent.trip')}}">
+                                          <span class="menu-bullet">
+                                              <span class="bullet bullet-dot"></span>
+                                          </span>
+                                      <span class="menu-title">Agent Trip</span>
+                                      </a>
+                                  </div>
+                              </div>
+
                         </div>
 
                     </div>
