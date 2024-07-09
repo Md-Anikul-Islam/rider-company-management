@@ -3,14 +3,22 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\TripHistory;use Illuminate\Http\Request;
+use App\Models\TripHistory;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
 
 class TripHistoryController extends Controller
 {
     public function allTripHistory()
     {
         $trip = TripHistory::with('passenger')->paginate(50);
-        return view('admin.pages.tripHistory.allTripHistory', compact('trip'));
+
+        $totalIncome = TripHistory::sum(DB::raw('CASE 
+                WHEN fare_received_status = 0 THEN calculated_fare 
+                WHEN fare_received_status = 1 THEN estimated_fare 
+                ELSE 0 
+            END'));
+
+
+        return view('admin.pages.tripHistory.allTripHistory', compact('trip', 'totalIncome'));
     }
 
     public function requestTripHistory()
