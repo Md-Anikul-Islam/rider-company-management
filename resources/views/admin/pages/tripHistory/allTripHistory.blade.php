@@ -56,8 +56,12 @@
                                   </td>
                                   <td>{{$tripData->origin_address}}</td>
                                   <td>{{$tripData->destination_address}}</td>
-                                  <td>{{$tripData->pick_time? $tripData->pick_time:'N/A'}}</td>
-                                  <td>{{$tripData->drop_time? $tripData->drop_time:'N/A'}}</td>
+                                  <td>
+                                    {{ $tripData->pick_time ? Carbon\Carbon::parse($tripData->pick_time)->format('d M Y h:iA') : 'N/A' }}
+                                  </td>
+                                  <td>
+                                    {{ $tripData->drop_time ? Carbon\Carbon::parse($tripData->drop_time)->format('d M Y h:iA') : 'N/A' }}
+                                  </td>
                                   <td>
                                       @if($tripData->fare_received_status==0)
                                           {{$tripData->calculated_fare}}

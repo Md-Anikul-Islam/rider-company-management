@@ -12,6 +12,7 @@ class TripHistory extends Model
         'passenger_id',
         'driver_id',
         'company_id',
+        'agent_id',
         'origin_address',
         'destination_address',
         'total_distance',
