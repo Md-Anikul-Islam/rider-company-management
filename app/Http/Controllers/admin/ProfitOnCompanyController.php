@@ -3,34 +3,23 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Agent;use App\Models\Coupon;use App\Models\Driver;use App\Models\FleetType;use App\Models\Passenger;use App\Models\Toll;use App\Models\TripHistory;use App\Models\User;
-use Carbon\Carbon;use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-class AdminController extends Controller
+use App\Models\TripHistory;use App\Models\User;use Carbon\Carbon;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
+
+class ProfitOnCompanyController extends Controller
 {
-    public function index()
+    public function profitList()
     {
-        $companies = User::where('role', 'company')->get();
-        $totalCompanies = $companies->count();
-        $totalPassengers = Passenger::count();
-        $totalDrivers = Driver::count();
-        $totalAgents = Agent::count();
-        $totalCoupon = Coupon::count();
-        $toll = Toll::count();
-        $trip = TripHistory::count();
-        $fleetType = FleetType::count();
 
-        // Total income
-        // Sum for request_trip where calculated_fare is always used
-        $requestTripIncome = TripHistory::where('trip_type', 'request_trip')->sum('calculated_fare');
-        // Sum for manual_trip based on fare_received_status condition
-        $manualTripIncome = TripHistory::where('trip_type', 'manual_trip')->sum(DB::raw('CASE 
-                WHEN fare_received_status = 0 THEN calculated_fare
-                ELSE estimated_fare END'));
-        $totalIncome = $requestTripIncome + $manualTripIncome;
+       // Total income
+       // Sum for request_trip where calculated_fare is always used
+       $requestTripIncome = TripHistory::where('trip_type', 'request_trip')->sum('calculated_fare');
+       // Sum for manual_trip based on fare_received_status condition
+       $manualTripIncome = TripHistory::where('trip_type', 'manual_trip')->sum(DB::raw('CASE 
+               WHEN fare_received_status = 0 THEN calculated_fare
+               ELSE estimated_fare END'));
+       $totalIncome = $requestTripIncome + $manualTripIncome;
 
-
-       //Today income
+        //Today income
        $startOfToday = Carbon::today()->startOfDay();
        $endOfToday = Carbon::today()->endOfDay();
        // Sum for request_trip where calculated_fare is always used
@@ -71,15 +60,7 @@ class AdminController extends Controller
                ELSE estimated_fare END'));
        $totalIncomeMonth = $requestTripIncomeMonth + $manualTripIncomeMonth;
 
-
-
-
-        return view('admin.dashboard', compact('companies', 'totalCompanies',
-        'totalPassengers', 'totalDrivers', 'totalAgents',
-        'totalCoupon', 'toll', 'trip', 'fleetType',
-        'totalIncome', 'totalIncomeToday', 'totalIncomeWeek', 'totalIncomeMonth'
-        ));
+       $company = User::where('role','company')->get();
+       return view('admin.pages.commission.profitList',compact('company','totalIncome','totalIncomeToday','totalIncomeWeek','totalIncomeMonth'));
     }
-
-
 }

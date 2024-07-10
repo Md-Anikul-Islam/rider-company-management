@@ -67,4 +67,34 @@ class CarOrFleetController extends Controller
                return response()->json(['error' => 'An error occurred while fetching data.'], 500);
            }
        }
+
+      public function carOrFleetForPassenger()
+      {
+            try {
+                $carOrFleetTypes  = FleetType::pluck('name')->toArray();
+                return response()->json($carOrFleetTypes, 200);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'An error occurred while fetching data.'], 500);
+            }
+      }
+      public function carOrFleetAllForPassenger(Request $request)
+      {
+         try {
+                 $cars = CarOrFleet::with('fleetType')->get()->map(function ($item) {
+                 $item['car_type'] = $item->fleetType->name; // Embedding fleet_type name directly
+                       unset($item->fleetType); // Removing fleetType object from the item
+                       return $item;
+                 });
+                 return response()->json([
+                     'status' => 'success',
+                     'cars' => $cars
+                 ]);
+         } catch (\Exception $e) {
+             Log::error('Error retrieving cars: ' . $e->getMessage());
+             return response()->json([
+                 'status' => 'error',
+                 'message' => 'An error occurred while retrieving cars'
+             ], 500);
+         }
+     }
 }

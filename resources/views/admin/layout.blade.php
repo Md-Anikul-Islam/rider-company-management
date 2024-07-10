@@ -170,15 +170,7 @@
                                     <span class="menu-bullet">
                                         <span class="bullet bullet-dot"></span>
                                     </span>
-                                <span class="menu-title">Company Commission Set</span>
-                                </a>
-                            </div>
-                            <div class="menu-item">
-                                <a class="menu-link" href="{{route('admin.earning.company.commission')}}">
-                                    <span class="menu-bullet">
-                                        <span class="bullet bullet-dot"></span>
-                                    </span>
-                                <span class="menu-title">Earning Commission on Company</span>
+                                <span class="menu-title">Company Commission</span>
                                 </a>
                             </div>
                             <div class="menu-item">
@@ -187,6 +179,35 @@
                                         <span class="bullet bullet-dot"></span>
                                     </span>
                                 <span class="menu-title">Agent Commission</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="ki-outline ki-address-book fs-2"></i>
+                            </span>
+                            <span class="menu-title">Profit</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{route('admin.profit.on.company')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                <span class="menu-title">Company</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link" href="#">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                <span class="menu-title">Agent</span>
                                 </a>
                             </div>
                         </div>

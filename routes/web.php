@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\CommissionController;use App\Http\Controllers\admin\CouponController;use App\Http\Controllers\admin\FleetTypeController;
-use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\TollController;
+use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\ProfitOnCompanyController;use App\Http\Controllers\admin\TollController;
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\DriverController;
@@ -94,6 +94,11 @@ Route::middleware(['auth'])->group(function () {
 
         //get company commission calculation
         Route::get('/earning/commission', [CommissionController::class, 'earningCompanyCommission'])->name('admin.earning.company.commission');
+
+        //profit on company
+        Route::get('/profit-on-company', [ProfitOnCompanyController::class, 'profitList'])->name('admin.profit.on.company');
+
+
     });
 
     Route::middleware(['company'])->prefix('company')->group(function () {

@@ -89,6 +89,10 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     //Agent Profile
     Route::get('agent-profile', [AgentController::class, 'agentProfile']);
 
+    //car or fleet for passenger
+    Route::get('car-or-fleet-type-list-for-passenger', [CarOrFleetController::class, 'carOrFleetForPassenger']);
+    Route::get('car-or-fleet-for-passenger',[CarOrFleetController::class, 'carOrFleetAllForPassenger']);
+
 
 
 
