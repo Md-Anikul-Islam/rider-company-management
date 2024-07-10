@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\CouponController;use App\Http\Controllers\admin\FleetTypeController;
+use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\CommissionController;use App\Http\Controllers\admin\CouponController;use App\Http\Controllers\admin\FleetTypeController;
 use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\TollController;
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
@@ -85,6 +85,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/coupon/store', [CouponController::class, 'store'])->name('admin.coupon.store');
         Route::put('/coupon/update/{id}', [CouponController::class, 'update'])->name('admin.coupon.update');
         Route::get('/coupon/delete/{id}', [CouponController::class, 'destroy'])->name('admin.coupon.delete');
+
+        //company commission
+        Route::get('/company/commission', [CommissionController::class, 'companyCommission'])->name('admin.company.commission');
+        Route::post('/company/commission/store', [CommissionController::class, 'companyCommissionStore'])->name('admin.company.commission.store');
+        Route::put('/company/commission/update/{id}', [CommissionController::class, 'companyCommissionUpdate'])->name('admin.company.commission.update');
+        Route::get('/company/commission/delete/{id}', [CommissionController::class, 'companyCommissionDestroy'])->name('admin.company.commission.delete');
+
+        //get company commission calculation
+        Route::get('/earning/commission', [CommissionController::class, 'earningCompanyCommission'])->name('admin.earning.company.commission');
     });
 
     Route::middleware(['company'])->prefix('company')->group(function () {

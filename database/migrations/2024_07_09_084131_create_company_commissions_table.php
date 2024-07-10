@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('company_commissions', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('company_id');
-            $table->decimal('commission_amount', 8, 2);
+            $table->decimal('commission_percentage', 8, 2);
             $table->timestamps();
         });
     }

@@ -10,7 +10,7 @@ class AgentCommission extends Model
     use HasFactory;
     protected $fillable = [
         'agent_id',
-        'commission_amount',
+        'commission_percentage',
     ];
 
     protected $casts = [

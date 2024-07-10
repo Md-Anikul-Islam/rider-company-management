@@ -10,11 +10,16 @@ class CompanyCommission extends Model
     use HasFactory;
     protected $fillable = [
         'company_id',
-        'commission_amount',
+        'commission_percentage',
     ];
 
       protected $casts = [
           'id' => 'integer',
           'company_id' => 'integer',
       ];
+
+        public function company()
+        {
+            return $this->belongsTo(User::class, 'company_id');
+        }
 }
