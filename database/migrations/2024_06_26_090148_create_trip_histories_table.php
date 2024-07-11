@@ -29,7 +29,7 @@ return new class extends Migration
             $table->string('calculated_fare');
             $table->tinyInteger('fare_received_status')->default(0);
             $table->enum('trip_status', ['start', 'end'])->default('start');
-            $table->enum('trip_type', ['request_trip', 'manual_trip'])->default('request_trip');
+            $table->enum('trip_type', ['request_trip', 'manual_trip','agent_create_trip'])->default('request_trip');
             $table->softDeletes();
             $table->timestamps();
         });
