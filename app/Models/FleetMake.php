@@ -18,4 +18,9 @@ class FleetMake extends Model
         'fleet_type_id' => 'integer',
     ];
 
+    public function fleetType()
+    {
+        return $this->belongsTo(FleetType::class, 'fleet_type_id');
+    }
+
 }
