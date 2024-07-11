@@ -108,26 +108,35 @@
                                             <div class="row g-9 mb-8">
                                                <div class="col-md-6 fv-row">
                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Type</label>
-                                                   <select name="fleet_type_id" class="form-select form-select-solid" required>
-
+                                                   <select name="fleet_type_id" class="form-select form-select-solid fleet-type-select" required>
                                                        @foreach($carTypes as $carTypeData)
-                                                           <option value="{{$carTypeData->id}}">{{$carTypeData->name}}</option>
+                                                           <option value="{{$carTypeData->id}}" {{$carData->fleet_type_id == $carTypeData->id ? 'selected' : ''}}>{{$carTypeData->name}}</option>
                                                        @endforeach
                                                    </select>
                                                </div>
 
-                                               <div class="col-md-6 fv-row">
+{{--                                               <div class="col-md-6 fv-row">--}}
+{{--                                                   <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Maker</label>--}}
+{{--                                                   <select name="fleet_make_id" class="form-select form-select-solid fleet-make-select" required>--}}
+{{--                                                   </select>--}}
+{{--                                               </div>--}}
+
+{{--                                               <div class="col-md-6 fv-row">--}}
+{{--                                                   <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Model</label>--}}
+{{--                                                   <select name="fleet_model_id"  class="form-select form-select-solid" required>--}}
+{{--                                                   </select>--}}
+{{--                                               </div>--}}
+
+                                              <div class="col-md-6 fv-row">
                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Maker</label>
-                                                   <select name="fleet_make_id" id="fleet_make_id" class="form-select form-select-solid" required>
-                                                       <!-- Options will be populated dynamically -->
-                                                   </select>
-                                               </div>
+                                                   <input disabled type="text" name="{{$carData->fleet_make_id}}" class="form-control form-control-solid" value="{{$carData->fleetMake->car_make_name}}" placeholder="Enter Car Image" />
+                                              </div>
+
                                                <div class="col-md-6 fv-row">
                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Model</label>
-                                                   <select name="fleet_model_id" id="fleet_model_id" class="form-select form-select-solid" required>
-                                                       <!-- Options will be populated dynamically -->
-                                                   </select>
+                                                   <input disabled  type="text" name="{{$carData->fleet_model_id}}" class="form-control form-control-solid" value="{{$carData->fleetModel->car_model_name}}" placeholder="Enter Car Image" />
                                                </div>
+
                                                 <div class="col-md-6 fv-row">
                                                     <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Image</label>
                                                     <input type="file" name="car_image" class="form-control form-control-solid" value="{{$carData->car_image}}" placeholder="Enter Car Image" />

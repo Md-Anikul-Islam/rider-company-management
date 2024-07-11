@@ -73,31 +73,37 @@ class CarOrFleetController extends Controller
 
         public function update(Request $request, $id)
         {
+           // dd($request->all());
             try {
                 $validator = Validator::make($request->all(), [
                     'fleet_type_id' => 'required',
-                    'fleet_make_id' => 'required',
-                    'fleet_model_id' => 'required',
-                    'plate_no' => 'required|unique:car_or_fleets',
                     'car_name' => 'required',
-                    'year' => 'required|integer',
+                    'year' => 'required',
                     'car_color' => 'required',
-                    'car_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'car_register_card' => 'required|image|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
-                ]);
+                  ]);
 
                 if ($validator->fails()) {
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
-
                 $car = CarOrFleet::findOrFail($id);
-                $car->fleet_type_id  = $request->fleet_type_id ;
-                $car->fleet_make_id  = $request->fleet_make_id ;
-                $car->fleet_model_id  = $request->fleet_model_id ;
+                //$car->fleet_type_id  = $request->fleet_type_id ;
+                //$car->fleet_make_id  = $request->fleet_make_id ;
+                //$car->fleet_model_id  = $request->fleet_model_id ;
                 $car->plate_no = $request->plate_no;
                 $car->car_name = $request->car_name;
                 $car->year = $request->year;
                 $car->status = $request->status;
+
+                if($request->fleet_type_id){
+                    $car->fleet_type_id = $request->fleet_type_id;
+                }
+                if($request->fleet_make_id){
+                    $car->fleet_make_id = $request->fleet_make_id;
+                }
+                if($request->fleet_model_id){
+                    $car->fleet_model_id = $request->fleet_model_id;
+                }
+
 
                 if ($request->hasFile('car_image')) {
                     if (File::exists(public_path($car->car_image))) {
