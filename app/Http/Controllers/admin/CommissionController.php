@@ -64,21 +64,4 @@ class CommissionController extends Controller
     }
 
 
-    //Earning Company Commission
-    public function earningCompanyCommission(Request $request)
-    {
-        $companies = User::where('role','company')->get();
-        $companyId = $request->input('company_id');
-        $company = User::find($companyId);
-        $trips = TripHistory::where('company_id', $companyId)->with('passenger','driver')->get();
-        $totalEarnings = $trips->sum(function($trip) {
-            return $trip->fare_received_status == 0 ? $trip->calculated_fare : $trip->estimated_fare;
-        });
-
-        $commissionRate = CompanyCommission::where('company_id', $companyId)->value('commission_percentage');
-        $adminEarnings = $totalEarnings * ($commissionRate / 100);
-
-        return view('admin.pages.commission.earningCommissionOnCompany', compact('company', 'trips', 'totalEarnings', 'adminEarnings', 'commissionRate', 'companies'));
-    }
-
 }

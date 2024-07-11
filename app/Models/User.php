@@ -51,4 +51,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(CarOrFleet::class, 'company_id');
     }
+
+    public function commissions()
+    {
+        return $this->hasOne(CompanyCommission::class, 'company_id');
+    }
 }

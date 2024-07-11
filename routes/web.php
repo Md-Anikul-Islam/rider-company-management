@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/company/commission/delete/{id}', [CommissionController::class, 'companyCommissionDestroy'])->name('admin.company.commission.delete');
 
         //get company commission calculation
-        Route::get('/earning/commission', [CommissionController::class, 'earningCompanyCommission'])->name('admin.earning.company.commission');
+        Route::get('/earning/profit/{companyId}', [ProfitOnCompanyController::class, 'earningProfit'])->name('admin.earning.profit');
 
         //profit on company
         Route::get('/profit-on-company', [ProfitOnCompanyController::class, 'profitList'])->name('admin.profit.on.company');

@@ -51756,3 +51756,33 @@ body {
     height: 30px;
     color: #99a1b7;
 }
+.company_wise_income {
+    padding-top: 30px;
+}
+.company_wise_income h3 {
+    font-size: 20px;
+    line-height: 28px;
+    font-weight: 800;
+    margin-bottom: 15px;
+}
+.income_details {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.income_details p {
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 8px;
+    margin-bottom: 0px;
+    font-size: 16px;
+}
+.total_income {
+    background-color: orange;
+}
+.commission {
+    background-color: green;
+}
+.admin_income {
+    background-color: purple;
+}

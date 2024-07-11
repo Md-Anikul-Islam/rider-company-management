@@ -67,6 +67,44 @@ class PassengerController extends Controller
             }
         }
 
+
+        public function checkPassengerExistOrNot(Request $request)
+        {
+            // Validate the incoming request
+            $request->validate([
+                'credential' => 'required|string',
+            ]);
+
+            // Check if the passenger exists by email or phone
+            $passenger = Passenger::where('email', $request->credential)
+                                  ->orWhere('phone', $request->credential)
+                                  ->first();
+
+            if (!$passenger) {
+                return response()->json([
+                    'message' => 'Passenger not found',
+                ], 404);
+            }
+
+            // Build the response
+            $response = [
+                'message' => 'Passenger logged in successfully',
+                'passenger' => [
+                    'id' => $passenger->id,
+                    'name' => $passenger->name,
+                    'email' => $passenger->email,
+                    'phone' => $passenger->phone,
+                    'profile' => $passenger->profile, // Adjust as per your schema
+                    'is_apple' => $passenger->is_apple, // Adjust as per your schema
+                    'status' => $passenger->status,
+                    'created_at' => $passenger->created_at,
+                    'updated_at' => $passenger->updated_at,
+                ],
+            ];
+
+            return response()->json($response);
+        }
+
         public function passengerLogin(Request $request)
         {
             try {

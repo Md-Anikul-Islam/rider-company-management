@@ -18,8 +18,8 @@ class CompanyCommission extends Model
           'company_id' => 'integer',
       ];
 
-        public function company()
-        {
-            return $this->belongsTo(User::class, 'company_id');
-        }
+    public function company()
+    {
+        return $this->belongsTo(User::class, 'company_id');
+    }
 }

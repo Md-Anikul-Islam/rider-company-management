@@ -16,7 +16,6 @@
 <div class="post d-flex flex-column-fluid mb-5" id="kt_post">
     <div id="kt_content_container" class="container-fluid">
         <div class="row">
-
             <div class="col-md-4 col-xl-3 mb-5 mb-xl-10">
                 <div class="card card-flush bgi-no-repeat bgi-size-contain bgi-position-x-end">
                     <div class="card-body d-flex align-items-end dashboard_card">
@@ -94,49 +93,54 @@
                 </div>
             </div>
         </div>
+        <div class="card card-flush">
+                        <div class="card-body pt-0">
+                            <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
+
+                                <thead>
+                                <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                                    <th>S/N</th>
+                                    <th>Company Name</th>
+                                    <th>Total Car</th>
+                                    <th>Total Driver</th>
+                                    <th>Set Parentage For You</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody class="fw-semibold text-gray-600">
+                                  @foreach($company  as $key=>$companyData)
+                                  <tr>
+                                      <td>{{$key+1}}</td>
+                                      <td>{{$companyData->name}}</td>
+                                      <td>
+                                          {{ $companyData->cars->count() }}
+                                      </td>
+                                      <td>
+                                        {{ $companyData->drivers->count() }}
+                                      </td>
+                                      <td>{{$companyData->commissions->commission_percentage}}%</td>
+                                     <td>
+                                       <div class="btn-group dropstart action_button_wrapper">
+                                           <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                               <i class="fa-solid fa-angles-down"></i>
+                                           </button>
+                                           <ul class="dropdown-menu action_dropdown_menu">
+
+                                               <li>
+                                                   <a class="dropdown-item" href="{{route('admin.earning.profit',$companyData->id)}}"><i class="fa-solid fa-eye"></i> Details</a>
+                                               </li>
+
+                                           </ul>
+                                       </div>
+                                     </td>
+                                  </tr>
+                                  @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
     </div>
-
-
 </div>
 
-<div class="post d-flex flex-column-fluid mb-5" id="kt_post">
-  <div id="kt_content_container" class="container-fluid">
-            <div class="card card-flush">
-                <div class="card-body pt-0">
-                    <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
 
-                        <thead>
-                        <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
-                            <th>S/N</th>
-                            <th>Company Name</th>
-                            <th>Total Car</th>
-                            <th>Total Driver</th>
-                            <th>Set Parentage For You</th>
-                            <th>Action</th>
-                        </tr>
-                        </thead>
-                        <tbody class="fw-semibold text-gray-600">
-                          @foreach($company  as $key=>$companyData)
-                          <tr>
-                              <td>{{$key+1}}</td>
-                              <td>{{$companyData->name}}</td>
-                              <td>
-                                 ..
-                              </td>
-                              <td>
-                                 ..
-                              </td>
-                              <td>..</td>
-
-                              <td>
-                                 action
-                              </td>
-                          </tr>
-                          @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-</div>
 @endsection

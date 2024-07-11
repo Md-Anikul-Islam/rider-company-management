@@ -27,6 +27,7 @@ Route::post('/passenger-register', [PassengerController::class, 'registerPasseng
 Route::post('/passenger-login', [PassengerController::class, 'passengerLogin']);
 //Agent login
 Route::post('/agent-login', [AgentController::class, 'agentLogin']);
+Route::post('/passenger-exist', [PassengerController::class, 'checkPassengerExistOrNot']);
 
 //Auth routes
 Route::group(['middleware' => 'auth:sanctum'], function () {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\TripHistory;use App\Models\User;use Carbon\Carbon;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
+use App\Models\CompanyCommission;use App\Models\TripHistory;use App\Models\User;use Carbon\Carbon;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
 
 class ProfitOnCompanyController extends Controller
 {
@@ -60,7 +60,23 @@ class ProfitOnCompanyController extends Controller
                ELSE estimated_fare END'));
        $totalIncomeMonth = $requestTripIncomeMonth + $manualTripIncomeMonth;
 
-       $company = User::where('role','company')->with('drivers', 'cars')->get();
+       $company = User::where('role','company')->with('drivers', 'cars','commissions')->get();
        return view('admin.pages.commission.profitList',compact('company','totalIncome','totalIncomeToday','totalIncomeWeek','totalIncomeMonth'));
+    }
+
+
+    public function earningProfit($companyId)
+    {
+        $companies = User::where('role','company')->get();
+        $company = User::find($companyId);
+        $trips = TripHistory::where('company_id', $companyId)->with('passenger','driver')->get();
+        $totalEarnings = $trips->sum(function($trip) {
+            return $trip->fare_received_status == 0 ? $trip->calculated_fare : $trip->estimated_fare;
+        });
+
+        $commissionRate = CompanyCommission::where('company_id', $companyId)->value('commission_percentage');
+        $adminEarnings = $totalEarnings * ($commissionRate / 100);
+
+        return view('admin.pages.commission.profitDetails', compact('company', 'trips', 'totalEarnings', 'adminEarnings', 'commissionRate', 'companies'));
     }
 }
