@@ -13,11 +13,60 @@ use Illuminate\Support\Facades\Validator;
 class PassengerController extends Controller
 {
 
+//        public function registerPassenger(Request $request)
+//        {
+//            $validator = Validator::make($request->all(), [
+//                'name' => 'required|string|max:255',
+//                'phone' => 'string|max:20|unique:passengers,phone',
+//                'password' => 'required|string|min:8',
+//            ]);
+//
+//            if ($validator->fails()) {
+//                return response()->json([
+//                    'errors' => $validator->errors()
+//                ], 422);
+//            }
+//
+//            try {
+//                $passenger = Passenger::create([
+//                    'name' => $request->name,
+//                    'email' => $request->email ?? null,
+//                    'phone' => $request->phone,
+//                    'password' => Hash::make($request->password),
+//                    'is_apple' => $request->is_apple ?? 0,
+//                ]);
+//
+//                $token = $passenger->createToken('passenger-token')->plainTextToken;
+//
+//                return response()->json([
+//                    'message' => 'Passenger registered successfully',
+//                    'token' => $token,
+//                    'passenger' => [
+//                        'id' => $passenger->id,
+//                        'name' => $passenger->name,
+//                        'email' => $passenger->email,
+//                        'phone' => $passenger->phone,
+//                        'profile' => $passenger->profile,
+//                        'is_apple' => $passenger->is_apple,
+//                        'status' => $passenger->status ?? 'active',
+//                        'created_at' => $passenger->created_at,
+//                        'updated_at' => $passenger->updated_at,
+//                    ]
+//                ], 201);
+//            } catch (\Exception $e) {
+//                return response()->json([
+//                    'error' => 'An error occurred while registering the passenger'
+//                ], 500);
+//            }
+//        }
+
+
         public function registerPassenger(Request $request)
         {
             $validator = Validator::make($request->all(), [
                 'name' => 'required|string|max:255',
-                'phone' => 'required|string|max:20|unique:passengers,phone',
+                'phone' => 'nullable|string|max:20|unique:passengers,phone',
+                'email' => 'nullable|string|email|max:255|unique:passengers,email',
                 'password' => 'required|string|min:8',
             ]);
 
@@ -27,11 +76,17 @@ class PassengerController extends Controller
                 ], 422);
             }
 
+            if (!$request->phone && !$request->email) {
+                return response()->json([
+                    'errors' => ['phone' => 'Either phone or email is required.']
+                ], 422);
+            }
+
             try {
                 $passenger = Passenger::create([
                     'name' => $request->name,
                     'email' => $request->email ?? null,
-                    'phone' => $request->phone,
+                    'phone' => $request->phone ?? null,
                     'password' => Hash::make($request->password),
                     'is_apple' => $request->is_apple ?? 0,
                 ]);
@@ -60,11 +115,58 @@ class PassengerController extends Controller
             }
         }
 
+//        public function passengerLogin(Request $request)
+//        {
+//            try {
+//                $validator = Validator::make($request->all(), [
+//                    'phone' => 'required|string|max:20',
+//                    'password' => 'required|string|min:8',
+//                ]);
+//
+//                if ($validator->fails()) {
+//                    return response()->json([
+//                        'errors' => $validator->errors()
+//                    ], 422);
+//                }
+//
+//                $passenger = Passenger::where('phone', $request->phone)->first();
+//
+//                if (!$passenger || !Hash::check($request->password, $passenger->password)) {
+//                    return response()->json([
+//                        'error' => 'Invalid phone or password'
+//                    ], 401);
+//                }
+//
+//                $token = $passenger->createToken('passenger-token')->plainTextToken;
+//
+//                return response()->json([
+//                    'message' => 'Passenger logged in successfully',
+//                    'token' => $token,
+//                    'passenger' => [
+//                        'id' => $passenger->id,
+//                        'name' => $passenger->name,
+//                        'email' => $passenger->email,
+//                        'phone' => $passenger->phone,
+//                        'profile' => $passenger->profile,
+//                        'is_apple' => $passenger->is_apple,
+//                        'status' => $passenger->status ?? 'active',
+//                        'created_at' => $passenger->created_at,
+//                        'updated_at' => $passenger->updated_at,
+//                    ]
+//                ], 200);
+//            } catch (\Exception $e) {
+//                return response()->json([
+//                    'error' => 'An error occurred while processing your request. Please try again later.',
+//                    'message' => $e->getMessage()
+//                ], 500);
+//            }
+//        }
+
         public function passengerLogin(Request $request)
         {
             try {
                 $validator = Validator::make($request->all(), [
-                    'phone' => 'required|string|max:20',
+                    'credential' => 'required|string|max:255',
                     'password' => 'required|string|min:8',
                 ]);
 
@@ -74,11 +176,30 @@ class PassengerController extends Controller
                     ], 422);
                 }
 
-                $passenger = Passenger::where('phone', $request->phone)->first();
+                $credential = $request->input('credential');
+                $password = $request->input('password');
 
-                if (!$passenger || !Hash::check($request->password, $passenger->password)) {
+                // Check if the credential is an email or a phone number
+                $isEmail = filter_var($credential, FILTER_VALIDATE_EMAIL);
+
+                $passenger = Passenger::when($isEmail, function ($query) use ($credential) {
+                        return $query->where('email', $credential);
+                    })
+                    ->when(!$isEmail, function ($query) use ($credential) {
+                        return $query->where('phone', $credential);
+                    })
+                    ->first();
+
+                if (!$passenger) {
+                    $errorMessage = $isEmail ? 'The email under had no account' : 'The phone number under had no account';
                     return response()->json([
-                        'error' => 'Invalid phone or password'
+                        'error' => $errorMessage
+                    ], 401);
+                }
+
+                if (!Hash::check($password, $passenger->password)) {
+                    return response()->json([
+                        'error' => 'The password is incorrect'
                     ], 401);
                 }
 
@@ -106,9 +227,6 @@ class PassengerController extends Controller
                 ], 500);
             }
         }
-
-
-
 
 
         public function passengerProfile(Request $request)

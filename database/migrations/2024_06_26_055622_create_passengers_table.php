@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('passengers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
-            $table->string('email')->nullable();
-            $table->string('phone')->unique();
+            $table->string('email')->unique()->nullable();
+            $table->string('phone')->unique()->nullable();
             $table->string('profile')->nullable();
             $table->string('password');
             $table->boolean('is_apple')->default(0);
