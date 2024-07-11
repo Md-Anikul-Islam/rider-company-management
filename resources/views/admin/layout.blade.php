@@ -64,15 +64,6 @@
                             </a>
                         </div>
 
-                     <div class="menu-item">
-                        <a class="menu-link" href="{{route('admin.fleetType')}}">
-                            <span class="menu-icon">
-                                <i class="ki-outline ki-rocket fs-2"></i>
-                            </span>
-                            <span class="menu-title">Fleet Type</span>
-                        </a>
-                     </div>
-
 
                       <div class="menu-item">
                          <a class="menu-link" href="{{route('admin.toll')}}">
@@ -110,6 +101,47 @@
                             <span class="menu-title">Coupon</span>
                         </a>
                     </div>
+
+
+                    <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                        <span class="menu-link">
+                            <span class="menu-icon">
+                                <i class="ki-outline ki-address-book fs-2"></i>
+                            </span>
+                            <span class="menu-title">Fleet</span>
+                            <span class="menu-arrow"></span>
+                        </span>
+                        <div class="menu-sub menu-sub-accordion">
+
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{route('admin.fleetType')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                <span class="menu-title">Fleet Type</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{route('admin.fleet.make')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                <span class="menu-title">Fleet Make</span>
+                                </a>
+                            </div>
+                            <div class="menu-item">
+                                <a class="menu-link" href="{{route('admin.fleet.model')}}">
+                                    <span class="menu-bullet">
+                                        <span class="bullet bullet-dot"></span>
+                                    </span>
+                                <span class="menu-title">Fleet Model</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+
+
 
                     <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                             <span class="menu-link">

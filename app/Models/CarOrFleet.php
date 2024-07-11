@@ -10,17 +10,14 @@ class CarOrFleet extends Model
     use HasFactory;
     protected $fillable = [
         'company_id',
-        'car_type_id',
+        'fleet_type_id',
+        'fleet_make_id',
+        'fleet_model_id',
         'car_image',
         'plate_no',
         'car_name',
-        'car_model',
-        'car_make',
         'year',
         'car_color',
-        'car_base',
-        'passengers',
-        'car_bag',
         'car_register_card',
         'is_selected',
         'status',
@@ -29,12 +26,19 @@ class CarOrFleet extends Model
       protected $casts = [
           'id' => 'integer',
           'company_id' => 'integer',
-          'car_type_id' => 'integer',
+          'car_or_fleet_type_id' => 'integer',
+          'car_or_fleet_make_id' => 'integer',
+          'car_or_fleet_model_id' => 'integer',
       ];
 
 
     public function fleetType()
     {
         return $this->belongsTo(FleetType::class, 'car_type_id');
+    }
+
+    public function company()
+    {
+        return $this->belongsTo(User::class, 'company_id');
     }
 }

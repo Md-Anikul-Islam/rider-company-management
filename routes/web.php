@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AdminController;
-use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\CommissionController;use App\Http\Controllers\admin\CouponController;use App\Http\Controllers\admin\FleetTypeController;
+use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\CommissionController;use App\Http\Controllers\admin\CouponController;use App\Http\Controllers\admin\FleetMakeController;use App\Http\Controllers\admin\FleetModelController;use App\Http\Controllers\admin\FleetTypeController;
 use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\ProfitOnCompanyController;use App\Http\Controllers\admin\TollController;
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
@@ -59,6 +59,18 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/fleetType/update/{id}', [FleetTypeController::class, 'update'])->name('admin.fleetType.update');
         Route::get('/fleetType/delete/{id}', [FleetTypeController::class, 'destroy'])->name('admin.fleetType.delete');
 
+        //fleet maker routes
+        Route::get('/fleet/make', [FleetMakeController::class, 'index'])->name('admin.fleet.make');
+        Route::post('/fleet/make/store', [FleetMakeController::class, 'store'])->name('admin.fleet.make.store');
+        Route::put('/fleet/make/update/{id}', [FleetMakeController::class, 'update'])->name('admin.fleet.make.update');
+        Route::get('/fleet.make/delete/{id}', [FleetMakeController::class, 'destroy'])->name('admin.fleet.make.delete');
+
+        //fleet maker routes
+        Route::get('/fleet/model', [FleetModelController::class, 'index'])->name('admin.fleet.model');
+        Route::post('/fleet/model/store', [FleetModelController::class, 'store'])->name('admin.fleet.model.store');
+        Route::put('/fleet/model/update/{id}', [FleetModelController::class, 'update'])->name('admin.fleet.model.update');
+        Route::get('/fleet.model/delete/{id}', [FleetModelController::class, 'destroy'])->name('admin.fleet.model.delete');
+
         //fleet type routes
         Route::get('/toll', [TollController::class, 'index'])->name('admin.toll');
         Route::post('/toll/store', [TollController::class, 'store'])->name('admin.toll.store');
@@ -109,6 +121,12 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/car/store', [CarOrFleetController::class, 'store'])->name('company.car.store');
         Route::put('/car/update/{id}', [CarOrFleetController::class, 'update'])->name('company.car.update');
         Route::get('/car/delete/{id}', [CarOrFleetController::class, 'destroy'])->name('company.car.delete');
+
+        //get fleet make and model
+        Route::get('/get-fleet-makes/{fleetTypeId}', [CarOrFleetController::class, 'getFleetMakes']);
+        Route::get('/get-fleet-models/{fleetMakeId}', [CarOrFleetController::class, 'getFleetModels']);
+
+
 
         //fleet or car routes
         Route::get('/driver', [DriverController::class, 'index'])->name('company.driver');

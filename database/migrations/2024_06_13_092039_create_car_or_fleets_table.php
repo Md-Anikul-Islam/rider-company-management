@@ -13,18 +13,15 @@ return new class extends Migration
     {
         Schema::create('car_or_fleets', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('car_type_id')->constrained('fleet_types')->onDelete('cascade');
             $table->foreignId('company_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('fleet_type_id')->constrained('fleet_types')->onDelete('cascade');
+            $table->unsignedBigInteger('fleet_make_id');
+            $table->unsignedBigInteger('fleet_model_id');
             $table->string('car_image')->nullable();
             $table->string('plate_no');
             $table->string('car_name')->nullable();
-            $table->string('car_model')->nullable();
-            $table->string('car_make')->nullable();
             $table->string('year')->nullable();
             $table->string('car_color')->nullable();
-            $table->string('car_base')->nullable();
-            $table->string('passengers')->nullable();
-            $table->string('car_bag')->nullable();
             $table->string('car_register_card')->nullable();
             $table->enum('is_selected', ['yes', 'no'])->default('no');
             $table->enum('status', ['active', 'inactive'])->default('active');

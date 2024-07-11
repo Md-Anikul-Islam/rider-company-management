@@ -29,23 +29,26 @@ class User extends Authenticatable
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
+
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function drivers()
+    {
+        return $this->hasMany(Driver::class, 'company_id');
+    }
+
+    public function cars()
+    {
+        return $this->hasMany(CarOrFleet::class, 'company_id');
+    }
 }

@@ -60,7 +60,7 @@ class ProfitOnCompanyController extends Controller
                ELSE estimated_fare END'));
        $totalIncomeMonth = $requestTripIncomeMonth + $manualTripIncomeMonth;
 
-       $company = User::where('role','company')->get();
+       $company = User::where('role','company')->with('drivers', 'cars')->get();
        return view('admin.pages.commission.profitList',compact('company','totalIncome','totalIncomeToday','totalIncomeWeek','totalIncomeMonth'));
     }
 }

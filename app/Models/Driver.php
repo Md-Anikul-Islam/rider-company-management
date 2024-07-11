@@ -37,11 +37,11 @@ class Driver extends Model
 
     public function company()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'company_id');
     }
     public function car()
     {
-        return $this->belongsTo(CarOrFleet::class);
+        return $this->belongsTo(CarOrFleet::class, 'car_id');
     }
 
 }

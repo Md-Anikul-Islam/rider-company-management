@@ -4,8 +4,8 @@ namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
 use App\Models\CarOrFleet;
-use App\Models\FleetType;
-use Illuminate\Support\Facades\File;
+use App\Models\FleetMake;use App\Models\FleetModel;use App\Models\FleetType;
+use Illuminate\Http\JsonResponse;use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Toastr;
@@ -27,50 +27,39 @@ class CarOrFleetController extends Controller
 
             try {
                 $request->validate([
-                    'car_type_id' => 'required',
+                    'fleet_type_id' => 'required',
+                    'fleet_make_id' => 'required',
+                    'fleet_model_id' => 'required',
                     'plate_no' => 'required|unique:car_or_fleets',
                     'car_name' => 'required',
-                    'car_model' => 'required',
-                    'car_make' => 'required',
                     'year' => 'required|integer',
                     'car_color' => 'required',
-                    'passengers' => 'required|integer',
-                    'car_bag' => 'required|integer',
-                    'car_base' => 'required',
                     'car_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
                     'car_register_card' => 'required|image|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
                 ]);
 
                 $car = new CarOrFleet();
-                $car->car_type_id = $request->car_type_id;
+                $car->fleet_type_id  = $request->fleet_type_id ;
+                $car->fleet_make_id  = $request->fleet_make_id ;
+                $car->fleet_model_id  = $request->fleet_model_id ;
                 $car->company_id = auth()->user()->id;
                 $car->plate_no = $request->plate_no;
                 $car->car_name = $request->car_name;
-                $car->car_model = $request->car_model;
-                $car->car_make = $request->car_make;
                 $car->year = $request->year;
                 $car->car_color = $request->car_color;
-                $car->passengers = $request->passengers;
-                $car->car_bag = $request->car_bag;
-                $car->car_base = $request->car_base;
-
                 if ($request->hasFile('car_image')) {
                     $image = $request->file('car_image');
                     $imageName = time() . '_' . $image->getClientOriginalName();
                     $image->move(public_path('car_images'), $imageName);
                     $car->car_image = 'car_images/' . $imageName;
                 }
-
                 if ($request->hasFile('car_register_card')) {
                     $registerCard = $request->file('car_register_card');
                     $registerCardName = time() . '_' . $registerCard->getClientOriginalName();
                     $registerCard->move(public_path('car_register_cards'), $registerCardName);
                     $car->car_register_card = 'car_register_cards/' . $registerCardName;
                 }
-
-                $car->status = 'active';
                 $car->save();
-
                 Toastr::success('Car added successfully!', 'Success');
                 return redirect()->back();
             } catch (\Exception $e) {
@@ -82,18 +71,15 @@ class CarOrFleetController extends Controller
         {
             try {
                 $validator = Validator::make($request->all(), [
-                    'car_type_id' => 'required',
-                    'plate_no' => 'required|unique:car_or_fleets,plate_no,' . $id,
+                    'fleet_type_id' => 'required',
+                    'fleet_make_id' => 'required',
+                    'fleet_model_id' => 'required',
+                    'plate_no' => 'required|unique:car_or_fleets',
                     'car_name' => 'required',
-                    'car_model' => 'required',
-                    'car_make' => 'required',
                     'year' => 'required|integer',
                     'car_color' => 'required',
-                    'passengers' => 'required|integer',
-                    'car_bag' => 'required|integer',
-                    'car_base' => 'required',
-                    'car_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                    'car_register_card' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
+                    'car_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                    'car_register_card' => 'required|image|mimes:jpeg,png,jpg,gif,svg,pdf|max:2048',
                 ]);
 
                 if ($validator->fails()) {
@@ -101,16 +87,12 @@ class CarOrFleetController extends Controller
                 }
 
                 $car = CarOrFleet::findOrFail($id);
-                $car->car_type_id = $request->car_type_id;
+                $car->fleet_type_id  = $request->fleet_type_id ;
+                $car->fleet_make_id  = $request->fleet_make_id ;
+                $car->fleet_model_id  = $request->fleet_model_id ;
                 $car->plate_no = $request->plate_no;
                 $car->car_name = $request->car_name;
-                $car->car_model = $request->car_model;
-                $car->car_make = $request->car_make;
                 $car->year = $request->year;
-                $car->car_color = $request->car_color;
-                $car->passengers = $request->passengers;
-                $car->car_bag = $request->car_bag;
-                $car->car_base = $request->car_base;
                 $car->status = $request->status;
 
                 if ($request->hasFile('car_image')) {
@@ -160,4 +142,17 @@ class CarOrFleetController extends Controller
                 return redirect()->route('admin.car.index')->with('error', 'An error occurred: ' . $e->getMessage());
             }
         }
+
+           public function getFleetMakes($fleetTypeId)
+           {
+               $fleetMakes = FleetMake::where('fleet_type_id', $fleetTypeId)->get();
+               return response()->json($fleetMakes);
+           }
+
+           public function getFleetModels($fleetMakeId)
+           {
+               $fleetModels = FleetModel::where('fleet_make_id', $fleetMakeId)->get();
+               return response()->json($fleetModels);
+           }
+
 }
