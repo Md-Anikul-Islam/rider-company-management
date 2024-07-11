@@ -88,7 +88,7 @@ class PassengerController extends Controller
 
             // Build the response
             $response = [
-                'message' => 'Passenger logged in successfully',
+                'message' => 'Passenger Exists',
                 'passenger' => [
                     'id' => $passenger->id,
                     'name' => $passenger->name,
