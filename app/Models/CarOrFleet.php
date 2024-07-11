@@ -26,19 +26,31 @@ class CarOrFleet extends Model
       protected $casts = [
           'id' => 'integer',
           'company_id' => 'integer',
-          'car_or_fleet_type_id' => 'integer',
-          'car_or_fleet_make_id' => 'integer',
-          'car_or_fleet_model_id' => 'integer',
+          'fleet_type_id' => 'integer',
+          'fleet_make_id' => 'integer',
+          'fleet_model_id' => 'integer',
       ];
 
 
     public function fleetType()
     {
-        return $this->belongsTo(FleetType::class, 'car_type_id');
+        return $this->belongsTo(FleetType::class, 'fleet_type_id');
+    }
+
+    public function fleetMake()
+    {
+        return $this->belongsTo(FleetMake::class, 'fleet_make_id');
+    }
+
+    public function fleetModel()
+    {
+        return $this->belongsTo(FleetModel::class, 'fleet_model_id');
     }
 
     public function company()
     {
         return $this->belongsTo(User::class, 'company_id');
     }
+
+
 }

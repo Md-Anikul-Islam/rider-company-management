@@ -21,8 +21,4 @@ class FleetModel extends Model
         'car_or_fleet_make_id' => 'integer',
     ];
 
-    public function fleetMake()
-    {
-        return $this->belongsTo(FleetMake::class, 'fleet_make_id', 'id');
-    }
 }

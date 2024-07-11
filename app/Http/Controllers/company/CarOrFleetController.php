@@ -14,7 +14,11 @@ class CarOrFleetController extends Controller
         public function index()
         {
             try {
-                $cars = CarOrFleet::where('company_id',auth()->user()->id)->with('fleetType')->latest()->get();
+                $cars = CarOrFleet::where('company_id', auth()->user()->id)
+                           ->with(['fleetType', 'fleetMake', 'fleetModel'])
+                           ->latest()
+                           ->get();
+
                 $carTypes = FleetType::all();
                 return view('company.pages.fleet.index', compact('cars', 'carTypes'));
             } catch (\Exception $e) {

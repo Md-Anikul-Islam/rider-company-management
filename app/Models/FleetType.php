@@ -12,4 +12,10 @@ class FleetType extends Model
         'name',
         'status',
     ];
+
+    protected $casts = [
+        'id' => 'integer',
+    ];
+
+
 }
