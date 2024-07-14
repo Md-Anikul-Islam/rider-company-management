@@ -118,7 +118,7 @@
                                       <td>
                                         {{ $companyData->drivers->count() }}
                                       </td>
-                                      <td>{{$companyData->commissions->commission_percentage}}%</td>
+                                      <td>{{$companyData->commissions?$companyData->commissions->commission_percentage:'N/A'}}%</td>
                                      <td>
                                        <div class="btn-group dropstart action_button_wrapper">
                                            <button type="button" class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
