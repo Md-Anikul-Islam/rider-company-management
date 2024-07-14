@@ -2,11 +2,11 @@
 
 use App\Http\Controllers\admin\AdminController;
 use App\Http\Controllers\admin\AgentController;use App\Http\Controllers\admin\CommissionController;use App\Http\Controllers\admin\CouponController;use App\Http\Controllers\admin\FleetMakeController;use App\Http\Controllers\admin\FleetModelController;use App\Http\Controllers\admin\FleetTypeController;
-use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\ProfitOnCompanyController;use App\Http\Controllers\admin\TollController;
+use App\Http\Controllers\admin\PassengerController;use App\Http\Controllers\admin\ProfitOnCompanyController;use App\Http\Controllers\admin\SiteSettingController;use App\Http\Controllers\admin\TollController;
 use App\Http\Controllers\admin\TripHistoryController;use App\Http\Controllers\company\CarOrFleetController;
 use App\Http\Controllers\company\CompanyController;
 use App\Http\Controllers\company\DriverController;
-use App\Http\Controllers\company\TripController;use App\Http\Controllers\CompanyMakeController;use App\Http\Controllers\MessageController;use App\Http\Controllers\TripVerifyController;use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\company\SettingController;use App\Http\Controllers\company\TripController;use App\Http\Controllers\CompanyMakeController;use App\Http\Controllers\MessageController;use App\Http\Controllers\TripVerifyController;use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -121,6 +121,9 @@ Route::middleware(['auth'])->group(function () {
        //profit on agent
         Route::get('/profit-on-agent', [ProfitOnCompanyController::class, 'profitListForAgent'])->name('admin.profit.on.agent');
 
+        //Site setting
+        Route::get('/change-password', [SiteSettingController::class, 'changePassword'])->name('admin.password.change');
+        Route::post('/change-password', [SiteSettingController::class, 'updatePassword'])->name('admin.password.update');
     });
 
     Route::middleware(['company'])->prefix('company')->group(function () {
@@ -152,6 +155,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/agent-trip', [TripController::class, 'agentTripHistoryUnderCompany'])->name('company.agent.trip');
 
 
+        //Site setting
+        Route::get('/company-change-password', [SettingController::class, 'companyChangePassword'])->name('company.password.change');
+        Route::post('/company-change-password', [SettingController::class, 'companyUpdatePassword'])->name('company.password.update');
 
 
     });

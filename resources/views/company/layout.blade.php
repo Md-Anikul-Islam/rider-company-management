@@ -119,7 +119,28 @@
                                       </a>
                                   </div>
                               </div>
+                        </div>
 
+                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
+                            <span class="menu-link">
+                                <span class="menu-icon">
+                                    <i class="ki-outline ki-address-book fs-2"></i>
+                                </span>
+                                <span class="menu-title">Settings</span>
+                                <span class="menu-arrow"></span>
+                            </span>
+                            <div class="menu-sub menu-sub-accordion">
+
+                                <div class="menu-item">
+                                    <a class="menu-link" href="{{route('company.password.change')}}">
+                                        <span class="menu-bullet">
+                                            <span class="bullet bullet-dot"></span>
+                                        </span>
+                                    <span class="menu-title">Change Password</span>
+                                    </a>
+                                </div>
+
+                            </div>
                         </div>
 
                     </div>
