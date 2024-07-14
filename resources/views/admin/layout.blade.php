@@ -340,6 +340,27 @@
             }
         });
     });
+
+    // Dashboard Card Number Trim
+    function formatNumber(number) {
+        if (number >= 1000000000) {
+            return (Math.floor(number / 10000000) / 100) + 'B+';
+        } else if (number >= 1000000) {
+            return (Math.floor(number / 10000) / 100) + 'M+';
+        } else if (number >= 10000) {
+            return (Math.floor(number / 10) / 100) + 'k+';
+        }
+        return number.toLocaleString();
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const numberElements = document.getElementsByClassName('trimNumber');
+        for (let i = 0; i < numberElements.length; i++) {
+            const numberElement = numberElements[i];
+            const numberValue = parseInt(numberElement.innerText.replace(/,/g, ''), 10);
+            numberElement.innerText = formatNumber(numberValue);
+        }
+    });
 </script>
 </body>
 </html>
