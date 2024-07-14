@@ -115,7 +115,7 @@ class PassengerController extends Controller
 
                 if ($validator->fails()) {
                     return response()->json([
-                        'errors' => $validator->errors()
+                        'message' => $validator->errors()
                     ], 422);
                 }
 
@@ -136,13 +136,13 @@ class PassengerController extends Controller
                 if (!$passenger) {
                     $errorMessage = $isEmail ? 'The email under had no account' : 'The phone number under had no account';
                     return response()->json([
-                        'error' => $errorMessage
+                        'message' => $errorMessage
                     ], 401);
                 }
 
                 if (!Hash::check($password, $passenger->password)) {
                     return response()->json([
-                        'error' => 'The password is incorrect'
+                        'message' => 'The password is incorrect'
                     ], 401);
                 }
 
@@ -165,7 +165,7 @@ class PassengerController extends Controller
                 ], 200);
             } catch (\Exception $e) {
                 return response()->json([
-                    'error' => 'An error occurred while processing your request. Please try again later.',
+                    'message' => 'An error occurred while processing your request. Please try again later.',
                     'message' => $e->getMessage()
                 ], 500);
             }
