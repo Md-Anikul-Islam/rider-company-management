@@ -156,7 +156,7 @@ class CompanyController extends Controller
 
         public function showDriverDetails($id)
         {
-            $driver = Driver::where('id', $id)->with('car','company')->first();
+            $driver = Driver::where('id', $id)->with('car','car.fleetMake','car.fleetModel','company')->first();
             $trip = TripHistory::where('driver_id', $id)->with('passenger')->paginate(50);
             return view('admin.pages.company.driver.companyUnderDriverDetails', compact('driver','trip'));
         }

@@ -489,7 +489,7 @@
                                             <div
                                                 class="d-flex flex-wrap fw-semibold fs-5 text-gray-500"
                                             >
-                                                {{$driver->car->car_model}}
+                                                {{$driver->car->fleetModel ? $driver->car->fleetModel->car_model_name:'N/A'}}
                                             </div>
                                         </div>
                                         <div
@@ -501,7 +501,7 @@
                                             <div
                                                 class="d-flex flex-wrap fw-semibold fs-5 text-gray-500"
                                             >
-                                                {{$driver->car->passengers}}
+                                                {{$driver->car->fleetModel ? $driver->car->fleetModel->car_passenger_capacity:'N/A'}}
                                             </div>
                                         </div>
                                         <div
@@ -513,7 +513,7 @@
                                             <div
                                                 class="d-flex flex-wrap fw-semibold fs-5 text-gray-500"
                                             >
-                                                {{$driver->car->car_bag}}
+                                                {{$driver->car->fleetModel ? $driver->car->fleetModel->car_bag_capacity:'N/A'}}
                                             </div>
                                         </div>
                                     </div>
@@ -545,7 +545,7 @@
                                                 <div
                                                     class="fw-semibold fs-6 text-gray-500"
                                                 >
-                                                        {{$driver->car->car_make}}
+                                                        {{$driver->car->fleetMake ? $driver->car->fleetMake->car_make_name:'N/A'}}
                                                 </div>
                                                 <!--end::Label-->
                                             </div>
@@ -593,7 +593,7 @@
                                                 <div
                                                     class="fw-semibold fs-6 text-gray-500"
                                                 >
-                                                        {{$driver->car->car_base}}
+                                                        {{$driver->car->fleetModel ? $driver->car->fleetModel->car_base_fare:'N/A'}}
                                                 </div>
                                                 <!--end::Label-->
                                             </div>
@@ -736,7 +736,8 @@
                                     <p class="text-info">Request Trip</p>
                                 @elseif($tripData->trip_type=='manual_trip')
                                     <p class="text-success">Manual Trip</p>
-
+                                @elseif($tripData->trip_type=='agent_create_trip')
+                                    <p class="text-danger">Agent Trip</p>
                                 @endif
                             </td>
                         </tr>
