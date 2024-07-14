@@ -18,7 +18,7 @@ class FleetModel extends Model
     ];
     protected $casts = [
         'id' => 'integer',
-        'car_or_fleet_make_id' => 'integer',
+        'fleet_make_id' => 'integer',
     ];
 
     public function fleetMake()
