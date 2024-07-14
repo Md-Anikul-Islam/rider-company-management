@@ -17,4 +17,11 @@ class AgentCommission extends Model
         'id' => 'integer',
         'agent_id' => 'integer',
     ];
+
+    public function agent()
+    {
+        return $this->belongsTo(Agent::class);
+    }
+
+
 }

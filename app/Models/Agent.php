@@ -17,4 +17,14 @@ class Agent extends Model
         'status',
         'password',
     ];
+
+    public function commissions()
+    {
+        return $this->hasOne(AgentCommission::class, 'agent_id');
+    }
+
+    public function trips()
+    {
+        return $this->hasMany(TripHistory::class, 'agent_id');
+    }
 }

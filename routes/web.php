@@ -104,12 +104,22 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/company/commission/update/{id}', [CommissionController::class, 'companyCommissionUpdate'])->name('admin.company.commission.update');
         Route::get('/company/commission/delete/{id}', [CommissionController::class, 'companyCommissionDestroy'])->name('admin.company.commission.delete');
 
+        //agent commission
+        Route::get('/agent/commission', [CommissionController::class, 'agentCommission'])->name('admin.agent.commission');
+        Route::post('/agent/commission/store', [CommissionController::class, 'agentCommissionStore'])->name('admin.agent.commission.store');
+        Route::put('/agent/commission/update/{id}', [CommissionController::class, 'agentCommissionUpdate'])->name('admin.agent.commission.update');
+        Route::get('/agent/commission/delete/{id}', [CommissionController::class, 'agentCommissionDestroy'])->name('admin.agent.commission.delete');
+
+
+
         //get company commission calculation
-        Route::get('/earning/profit/{companyId}', [ProfitOnCompanyController::class, 'earningProfit'])->name('admin.earning.profit');
-
+        Route::get('/earning/profit/company/{companyId}', [ProfitOnCompanyController::class, 'earningProfitOnCompany'])->name('admin.earning.profit.company');
+        //get agent commission calculation
+        Route::get('/earning/profit/agent/{agentId}', [ProfitOnCompanyController::class, 'earningProfitOnAgent'])->name('admin.earning.profit.agent');
         //profit on company
-        Route::get('/profit-on-company', [ProfitOnCompanyController::class, 'profitList'])->name('admin.profit.on.company');
-
+        Route::get('/profit-on-company', [ProfitOnCompanyController::class, 'profitListForCompany'])->name('admin.profit.on.company');
+       //profit on agent
+        Route::get('/profit-on-agent', [ProfitOnCompanyController::class, 'profitListForAgent'])->name('admin.profit.on.agent');
 
     });
 

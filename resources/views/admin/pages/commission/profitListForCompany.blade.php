@@ -99,7 +99,7 @@
                                    <ul class="dropdown-menu action_dropdown_menu">
 
                                        <li>
-                                           <a class="dropdown-item" href="{{route('admin.earning.profit',$companyData->id)}}"><i class="fa-solid fa-eye"></i> Details</a>
+                                           <a class="dropdown-item" href="{{route('admin.earning.profit.company',$companyData->id)}}"><i class="fa-solid fa-eye"></i> Details</a>
                                        </li>
 
                                    </ul>

@@ -3,7 +3,7 @@
 <div class="toolbar" id="kt_toolbar">
     <div id="kt_toolbar_container" class="container-fluid d-flex flex-stack">
         <div data-kt-swapper="true" data-kt-swapper-mode="prepend" data-kt-swapper-parent="{default: '#kt_content_container', 'lg': '#kt_toolbar_container'}" class="page-title d-flex align-items-center me-3 flex-wrap lh-1">
-            <h1 class="d-flex align-items-center text-dark fw-bold my-1 fs-3"> Company</h1>
+            <h1 class="d-flex align-items-center text-dark fw-bold my-1 fs-3"> Agent</h1>
             <span class="h-20px border-gray-200 border-start mx-4"></span>
             <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
                 <li class="breadcrumb-item text-muted">
@@ -29,7 +29,7 @@
                     <thead>
                         <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
                             <th>S/N</th>
-                            <th>Company Name</th>
+                            <th>Agent Name</th>
                             <th>Commission Percentage</th>
                             <th>Actions</th>
                         </tr>
@@ -38,7 +38,7 @@
                         @foreach($commission as $key=>$commissionData)
                         <tr>
                             <td>{{$key+1}}</td>
-                            <td>{{$commissionData->company->name}}</td>
+                            <td>{{$commissionData->agent? $commissionData->agent->name:'N/A'}}</td>
                             <td>{{$commissionData->commission_percentage}}%</td>
                             <td>
                                <div class="btn-group dropstart action_button_wrapper">
@@ -50,7 +50,7 @@
                                            <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFormDataEdit{{$commissionData->id}}"><i class="fa-solid fa-edit"></i> Edit</a>
                                        </li>
                                        <li>
-                                          <a class="dropdown-item" href="{{route('admin.company.commission.delete',$commissionData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$commissionData->id}}" data-category-id="{{$commissionData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
+                                          <a class="dropdown-item" href="{{route('admin.agent.commission.delete',$commissionData->id)}}"  data-bs-toggle="modal" data-bs-target="#deleteModal{{$commissionData->id}}" data-category-id="{{$commissionData->id}}"><i class="fa-solid fa-trash"></i> Delete</a>
                                        </li>
                                    </ul>
                                </div>
@@ -67,7 +67,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                                        <form action="{{route('admin.company.commission.update',$commissionData->id)}}" method="post" class="form">
+                                        <form action="{{route('admin.agent.commission.update',$commissionData->id)}}" method="post" class="form">
                                         @csrf
                                         @method('PUT')
                                            <div class="mb-13 text-center">
@@ -75,11 +75,11 @@
                                             </div>
                                             <div class="row g-9 mb-8">
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Company Name</label>
-                                                    <select name="company_id" class="form-select form-select-solid" required>
-                                                        <option value="">Select Company</option>
-                                                        @foreach($company as $companyData)
-                                                        <option value="{{$companyData->id}}" {{$companyData->id == $commissionData->company_id ? 'selected' : ''}}>{{$companyData->name}}</option>
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Agent Name</label>
+                                                    <select name="agent_id" class="form-select form-select-solid" required>
+                                                        <option value="">Select Agent</option>
+                                                        @foreach($agent as $agentInfo)
+                                                        <option value="{{$agentInfo->id}}" {{$commissionData->agent_id == $agentInfo->id ? 'selected':''}}>{{$agentInfo->name}}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
@@ -111,7 +111,7 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                        <a href="{{route('admin.company.commission.delete',$commissionData->id)}}" class="btn btn-danger">Delete</a>
+                                        <a href="{{route('admin.agent.commission.delete',$commissionData->id)}}" class="btn btn-danger">Delete</a>
                                     </div>
                                 </div>
                             </div>
@@ -133,18 +133,18 @@
                 </div>
             </div>
             <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                <form action="{{route('admin.company.commission.store')}}" method="post" class="form">
+                <form action="{{route('admin.agent.commission.store')}}" method="post" class="form">
                  @csrf
                     <div class="mb-13 text-center">
                         <h1 class="mb-3">Add Commission</h1>
                     </div>
                     <div class="row g-9 mb-8">
                         <div class="col-md-6 fv-row">
-                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Company Name</label>
-                            <select name="company_id" class="form-select form-select-solid" required>
-                                <option value="">Select Company</option>
-                                @foreach($company as $companyData)
-                                <option value="{{$companyData->id}}">{{$companyData->name}}</option>
+                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Agent Name</label>
+                            <select name="agent_id" class="form-select form-select-solid" required>
+                                <option value="">Select Agent</option>
+                                @foreach($agent as $agentInfo)
+                                <option value="{{$agentInfo->id}}">{{$agentInfo->name}}</option>
                                 @endforeach
                             </select>
                         </div>

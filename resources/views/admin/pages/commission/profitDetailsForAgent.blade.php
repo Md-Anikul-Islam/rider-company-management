@@ -14,17 +14,18 @@
 <div class="post d-flex flex-column-fluid mb-5" id="kt_post">
     <div id="kt_content_container" class="container-fluid">
         <div class="card card-flush">
-            <div class="card-body pt-0"> @if(isset($company)) <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
+            <div class="card-body pt-0">
+            @if(isset($agent)) <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
                     <div class="company_wise_income">
-                        <h3>Company: {{ $company->name }}</h3>
+                        <h3>Agent: {{ $agent->name }}</h3>
                         <div class="d-flex align-items-center justify-content-between mb-5 gap-5">
                             <div class="income_details">
                                 <p class="total_income">Total Earnings: {{ $totalEarnings }}</p>
                                 <p class="commission">Commission Rate: {{ $commissionRate }}%</p>
-                                <p class="admin_income">Admin Earnings: {{ $adminEarnings }}</p>
+                                <p class="admin_income">Agent Earnings: {{ $adminEarnings }}</p>
                             </div>
                             <div>
-                                <form class="filter_area" method="GET" action="{{ route('admin.earning.profit', $company->id) }}">
+                                <form class="filter_area" method="GET" action="{{ route('admin.earning.profit.agent', $agent->id) }}">
                                     <div class="d-flex align-items-end gap-5">
                                         <div>
                                             <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Filter</label>
@@ -51,19 +52,26 @@
                             <th>Income Fare</th>
                         </tr>
                     </thead>
-                    <tbody class="fw-semibold text-gray-600"> @foreach($trips as $key=>$trip) <tr>
+                    <tbody class="fw-semibold text-gray-600">
+                        @foreach($trips as $key=>$trip)
+                        <tr>
                             <td>{{$key+1}}</td>
                             <td>{{$trip->driver->name}}</td>
                             <td> {{$trip->origin_address}}</td>
                             <td> {{$trip->destination_address}}</td>
                             <td> {{ \Carbon\Carbon::parse($trip->created_at)->format('d M Y') }} </td>
                             <td> @if($trip->fare_received_status==0) {{$trip->calculated_fare}} @elseif($trip->fare_received_status==1) {{$trip->estimated_fare}} @endif </td>
-                        </tr> @endforeach <tr>
+                        </tr>
+                        @endforeach
+                        <tr>
                             <td colspan="8" class="text-end fw-bold">Total Income:</td>
                             <td colspan="2" class="fw-bold">{{ number_format($totalEarnings, 2) }}</td>
                         </tr>
                     </tbody>
-                </table> @endif </div>
+                </table>
+             @endif
+ </div>
         </div>
     </div>
-</div> @endsection
+</div>
+@endsection
