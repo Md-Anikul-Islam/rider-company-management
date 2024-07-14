@@ -85,25 +85,39 @@ class ProfitOnCompanyController extends Controller
                  WHEN fare_received_status = 0 THEN calculated_fare
                  ELSE estimated_fare END'));
 
-         $totalIncomeMonth = $requestTripIncomeMonth + $manualTripIncomeMonth + $agentTripIncomeMonth;
+       $totalIncomeMonth = $requestTripIncomeMonth + $manualTripIncomeMonth + $agentTripIncomeMonth;
 
        $company = User::where('role','company')->with('drivers', 'cars','commissions')->get();
        return view('admin.pages.commission.profitList',compact('company','totalIncome','totalIncomeToday','totalIncomeWeek','totalIncomeMonth'));
     }
 
 
-    public function earningProfit($companyId)
-    {
-        $companies = User::where('role','company')->get();
-        $company = User::find($companyId);
-        $trips = TripHistory::where('company_id', $companyId)->with('passenger','driver')->get();
-        $totalEarnings = $trips->sum(function($trip) {
-            return $trip->fare_received_status == 0 ? $trip->calculated_fare : $trip->estimated_fare;
-        });
 
-        $commissionRate = CompanyCommission::where('company_id', $companyId)->value('commission_percentage');
-        $adminEarnings = $totalEarnings * ($commissionRate / 100);
+        public function earningProfit(Request $request, $companyId)
+        {
+            $filter = $request->query('filter');
+            $company = User::find($companyId);
+            //$trips = TripHistory::where('company_id', $companyId)->with('passenger','driver')->get();
+            $query = TripHistory::where('company_id', $companyId);
+            switch ($filter) {
+                case 'today':
+                    $query->whereDate('created_at', \Carbon\Carbon::today());
+                    break;
+                case 'weekly':
+                    $query->whereBetween('created_at', [\Carbon\Carbon::now()->startOfWeek(), \Carbon\Carbon::now()->endOfWeek()]);
+                    break;
+                case 'monthly':
+                    $query->whereMonth('created_at', \Carbon\Carbon::now()->month)
+                          ->whereYear('created_at', \Carbon\Carbon::now()->year);
+                    break;
+            }
+            $trips = $query->with('passenger', 'driver')->get();
+            $totalEarnings = $trips->sum(function ($trip) {
+                return $trip->fare_received_status == 0 ? $trip->calculated_fare : $trip->estimated_fare;
+            });
+            $commissionRate = CompanyCommission::where('company_id', $companyId)->value('commission_percentage');
+            $adminEarnings = $totalEarnings * ($commissionRate / 100);
+            return view('admin.pages.commission.profitDetails', compact('company', 'trips', 'totalEarnings', 'adminEarnings', 'commissionRate'));
+        }
 
-        return view('admin.pages.commission.profitDetails', compact('company', 'trips', 'totalEarnings', 'adminEarnings', 'commissionRate', 'companies'));
-    }
 }

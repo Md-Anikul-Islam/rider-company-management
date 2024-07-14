@@ -23,13 +23,21 @@
                                 <p class="commission">Commission Rate: {{ $commissionRate }}%</p>
                                 <p class="admin_income">Admin Earnings: {{ $adminEarnings }}</p>
                             </div>
-                            <div class="filter_area w-300px">
-                                <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Filter</label>
-                                <select name="fleet_type_id" class="form-select form-select-solid" required="">
-                                    <option value="">Today Income</option>
-                                    <option value="">Weekly Income</option>
-                                    <option value="">Monthly Income</option>
-                                </select>
+                            <div>
+                                <form class="filter_area" method="GET" action="{{ route('admin.earning.profit', $company->id) }}">
+                                    <div class="d-flex align-items-end gap-5">
+                                        <div>
+                                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Filter</label>
+                                            <select name="filter" class="form-select form-select-solid w-200px" required>
+                                                <option value="">Select Period</option>
+                                                <option value="today" {{ request('filter') == 'today' ? 'selected' : '' }}>Today Income</option>
+                                                <option value="weekly" {{ request('filter') == 'weekly' ? 'selected' : '' }}>Weekly Income</option>
+                                                <option value="monthly" {{ request('filter') == 'monthly' ? 'selected' : '' }}>Monthly Income</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-3">Apply Filter</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -39,6 +47,7 @@
                             <th>Driver Name</th>
                             <th>Origin Address</th>
                             <th>Destination Address</th>
+                            <th>Date</th>
                             <th>Income Fare</th>
                         </tr>
                     </thead>
@@ -47,6 +56,7 @@
                             <td>{{$trip->driver->name}}</td>
                             <td> {{$trip->origin_address}}</td>
                             <td> {{$trip->destination_address}}</td>
+                            <td> {{ \Carbon\Carbon::parse($trip->created_at)->format('d M Y') }} </td>
                             <td> @if($trip->fare_received_status==0) {{$trip->calculated_fare}} @elseif($trip->fare_received_status==1) {{$trip->estimated_fare}} @endif </td>
                         </tr> @endforeach <tr>
                             <td colspan="8" class="text-end fw-bold">Total Income:</td>
