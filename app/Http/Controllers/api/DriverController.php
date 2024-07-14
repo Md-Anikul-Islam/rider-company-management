@@ -23,7 +23,7 @@ class DriverController extends Controller
                     'password' => 'required',
                 ]);
 
-                $driver = Driver::where('phone', $request->phone)->with('company', 'car.fleetType','car.fleetModel')->first();
+                $driver = Driver::where('phone', $request->phone)->with('company', 'car.fleetType','car.fleetModel','car.fleetMake')->first();
 
                 if (!$driver) {
                     return response()->json([
@@ -84,7 +84,7 @@ class DriverController extends Controller
         public function driverProfile(Request $request)
         {
                try {
-                    $driver = Driver::where('id', $request->user()->id)->with('company','car.fleetType','car.fleetModel')->first();
+                    $driver = Driver::where('id', $request->user()->id)->with('company','car.fleetType','car.fleetModel','car.fleetMake')->first();
                     if($driver->car)
                     {
                        $driver->car->fleet_type_name = $driver->car->fleetType->name;
@@ -103,7 +103,7 @@ class DriverController extends Controller
         public function driverProfileUpdate(Request $request)
         {
             try {
-                $driver = Driver::where('id', $request->user()->id)->with('company','car.fleetType','car.fleetModel')->first();
+                $driver = Driver::where('id', $request->user()->id)->with('company','car.fleetType','car.fleetModel','car.fleetMake')->first();
                 $request->validate([
                     'profile' => 'required|image',
                 ]);
@@ -144,7 +144,7 @@ class DriverController extends Controller
                     'car_id' => 'required|exists:car_or_fleets,id',
                 ]);
                 // Get the authenticated driver
-                $driver = Driver::where('id', $request->user()->id)->with('company', 'car.fleetType','car.fleetModel')->first();
+                $driver = Driver::where('id', $request->user()->id)->with('company', 'car.fleetType','car.fleetModel','car.fleetMake')->first();
                 // Ensure the car belongs to the same company as the driver
                 $car = CarOrFleet::where('id', $request->car_id)
                     ->where('company_id', $driver->company_id)
@@ -173,7 +173,7 @@ class DriverController extends Controller
                 $car->is_selected = 'yes';
                 $car->save();
                 // Reload the driver's relations to reflect the updated car information
-                $driver->load('company', 'car', 'car.fleetType','car.fleetModel');
+                $driver->load('company', 'car', 'car.fleetType','car.fleetModel','car.fleetMake');
 
                 if($driver->car)
                 {
