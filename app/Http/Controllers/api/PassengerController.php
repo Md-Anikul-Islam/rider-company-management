@@ -289,7 +289,7 @@ class PassengerController extends Controller
                     $perPage = 10; // Define how many items you want per page
 
                     $trips = TripHistory::where('passenger_id', $request->user()->id)
-                                        ->with('driver.car')
+                                        ->with('driver.car','passenger')
                                         ->paginate($perPage)
                                         ->through(function ($trip) use ($baseUrl) {
                                             $pickTime = Carbon::parse($trip->pick_time);
@@ -316,7 +316,7 @@ class PassengerController extends Controller
                     $baseUrl = url('/');
                     $trip = TripHistory::where('id', $tripId)
                                        ->where('passenger_id', $request->user()->id)
-                                       ->with('driver.car')
+                                       ->with('driver.car','passenger')
                                        ->first();
 
                     if ($trip) {
