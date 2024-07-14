@@ -17,4 +17,9 @@ class Passenger extends Model
         'is_apple',
         'status'
     ];
+
+      protected $casts = [
+          'id' => 'integer',
+          'is_apple' => 'integer',
+      ];
 }

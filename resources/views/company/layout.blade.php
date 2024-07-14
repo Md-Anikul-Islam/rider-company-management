@@ -124,7 +124,7 @@
                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                             <span class="menu-link">
                                 <span class="menu-icon">
-                                    <i class="ki-outline ki-address-book fs-2"></i>
+                                    <i class="ki-outline ki-setting-2 fs-2"></i>
                                 </span>
                                 <span class="menu-title">Settings</span>
                                 <span class="menu-arrow"></span>
