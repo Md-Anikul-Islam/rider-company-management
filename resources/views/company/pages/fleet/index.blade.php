@@ -44,8 +44,8 @@
                         </tr>
                     </thead>
                     <tbody class="fw-semibold text-gray-600">
-                    @foreach($cars as $key=>$carData)
-                    <tr>
+                        @foreach($cars as $key=>$carData)
+                        <tr>
                             <td>{{$key+1}}</td>
                             <td>
                                 <img src="{{ asset($carData->car_image) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
@@ -108,34 +108,39 @@
                                             <div class="row g-9 mb-8">
                                                <div class="col-md-6 fv-row">
                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Type</label>
-                                                   <select name="fleet_type_id" class="form-select form-select-solid fleet-type-select" required>
+                                                   <select name="fleet_type_id" class="form-select form-select-solid fleet-type-select-for-edit" required>
+                                                         <option value="">Select Fleet Type</option>
                                                        @foreach($carTypes as $carTypeData)
                                                            <option value="{{$carTypeData->id}}" {{$carData->fleet_type_id == $carTypeData->id ? 'selected' : ''}}>{{$carTypeData->name}}</option>
                                                        @endforeach
                                                    </select>
                                                </div>
 
-{{--                                               <div class="col-md-6 fv-row">--}}
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Maker</label>
+                                                    <select name="fleet_make_id" class="form-select form-select-solid fleet-make-select-for-edit" required>
+                                                        <!-- Options will be populated dynamically -->
+                                                       <option value="{{$carData->fleet_make_id}}" selected>{{$carData->fleetMake->car_make_name}}</option>
+                                                    </select>
+                                                </div>
+
+                                                <div class="col-md-6 fv-row">
+                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Model</label>
+                                                    <select name="fleet_model_id" class="form-select form-select-solid fleet-model-select-for-edit" required>
+                                                        <!-- Options will be populated dynamically -->
+                                                        <option value="{{$carData->fleet_model_id}}" selected>{{$carData->fleetModel->car_model_name}}</option>
+                                                    </select>
+                                                </div>
+
+{{--                                              <div class="col-md-6 fv-row">--}}
 {{--                                                   <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Maker</label>--}}
-{{--                                                   <select name="fleet_make_id" class="form-select form-select-solid fleet-make-select" required>--}}
-{{--                                                   </select>--}}
-{{--                                               </div>--}}
+{{--                                                   <input disabled type="text" name="{{$carData->fleet_make_id}}" class="form-control form-control-solid" value="{{$carData->fleetMake->car_make_name}}" placeholder="Enter Car Image" />--}}
+{{--                                              </div>--}}
 
 {{--                                               <div class="col-md-6 fv-row">--}}
 {{--                                                   <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Model</label>--}}
-{{--                                                   <select name="fleet_model_id"  class="form-select form-select-solid" required>--}}
-{{--                                                   </select>--}}
+{{--                                                   <input disabled  type="text" name="{{$carData->fleet_model_id}}" class="form-control form-control-solid" value="{{$carData->fleetModel->car_model_name}}" placeholder="Enter Car Image" />--}}
 {{--                                               </div>--}}
-
-                                              <div class="col-md-6 fv-row">
-                                                   <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Maker</label>
-                                                   <input disabled type="text" name="{{$carData->fleet_make_id}}" class="form-control form-control-solid" value="{{$carData->fleetMake->car_make_name}}" placeholder="Enter Car Image" />
-                                              </div>
-
-                                               <div class="col-md-6 fv-row">
-                                                   <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Fleet Model</label>
-                                                   <input disabled  type="text" name="{{$carData->fleet_model_id}}" class="form-control form-control-solid" value="{{$carData->fleetModel->car_model_name}}" placeholder="Enter Car Image" />
-                                               </div>
 
                                                 <div class="col-md-6 fv-row">
                                                     <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Car Image</label>
@@ -209,7 +214,7 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                       @endforeach
                     </tbody>
                 </table>
             </div>
@@ -339,4 +344,50 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 </script>
+
+{{--for edit modal--}}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    document.body.addEventListener('change', function (event) {
+        if (event.target.classList.contains('fleet-type-select-for-edit')) {
+            const fleetTypeId = event.target.value;
+            const fleetMakeSelect = event.target.closest('.fv-row').nextElementSibling.querySelector('.fleet-make-select-for-edit');
+            const fleetModelSelect = event.target.closest('.fv-row').nextElementSibling.nextElementSibling.querySelector('.fleet-model-select-for-edit');
+
+            fetch(`/company/get-fleet-makes/${fleetTypeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    fleetMakeSelect.innerHTML = '<option value="">Select Fleet Make</option>';
+                    fleetModelSelect.innerHTML = '<option value="">Select Fleet Model</option>';
+                    data.forEach(make => {
+                        const option = document.createElement('option');
+                        option.value = make.id;
+                        option.textContent = make.car_make_name;
+                        fleetMakeSelect.appendChild(option);
+                    });
+                });
+        }
+
+        if (event.target.classList.contains('fleet-make-select-for-edit')) {
+            const fleetMakeId = event.target.value;
+            const fleetModelSelect = event.target.closest('.fv-row').nextElementSibling.querySelector('.fleet-model-select-for-edit');
+
+            fetch(`/company/get-fleet-models/${fleetMakeId}`)
+                .then(response => response.json())
+                .then(data => {
+                    fleetModelSelect.innerHTML = '<option value="">Select Fleet Model</option>';
+                    data.forEach(model => {
+                        const option = document.createElement('option');
+                        option.value = model.id;
+                        option.textContent = model.car_model_name;
+                        fleetModelSelect.appendChild(option);
+                    });
+                });
+        }
+    });
+});
+
+</script>
+
+
 @endsection

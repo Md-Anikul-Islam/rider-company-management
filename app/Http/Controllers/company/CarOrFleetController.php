@@ -73,7 +73,6 @@ class CarOrFleetController extends Controller
 
         public function update(Request $request, $id)
         {
-           // dd($request->all());
             try {
                 $validator = Validator::make($request->all(), [
                     'fleet_type_id' => 'required',
@@ -86,9 +85,9 @@ class CarOrFleetController extends Controller
                     return redirect()->back()->withErrors($validator)->withInput();
                 }
                 $car = CarOrFleet::findOrFail($id);
-                //$car->fleet_type_id  = $request->fleet_type_id ;
-                //$car->fleet_make_id  = $request->fleet_make_id ;
-                //$car->fleet_model_id  = $request->fleet_model_id ;
+                $car->fleet_type_id  = $request->fleet_type_id ;
+                $car->fleet_make_id  = $request->fleet_make_id ;
+                $car->fleet_model_id  = $request->fleet_model_id ;
                 $car->plate_no = $request->plate_no;
                 $car->car_name = $request->car_name;
                 $car->year = $request->year;
@@ -153,16 +152,16 @@ class CarOrFleetController extends Controller
             }
         }
 
-           public function getFleetMakes($fleetTypeId)
-           {
-               $fleetMakes = FleetMake::where('fleet_type_id', $fleetTypeId)->get();
-               return response()->json($fleetMakes);
-           }
+       public function getFleetMakes($fleetTypeId)
+       {
+           $fleetMakes = FleetMake::where('fleet_type_id', $fleetTypeId)->get();
+           return response()->json($fleetMakes);
+       }
 
-           public function getFleetModels($fleetMakeId)
-           {
-               $fleetModels = FleetModel::where('fleet_make_id', $fleetMakeId)->get();
-               return response()->json($fleetModels);
-           }
+       public function getFleetModels($fleetMakeId)
+       {
+           $fleetModels = FleetModel::where('fleet_make_id', $fleetMakeId)->get();
+           return response()->json($fleetModels);
+       }
 
 }
