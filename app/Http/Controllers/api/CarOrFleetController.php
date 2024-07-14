@@ -32,30 +32,84 @@ class CarOrFleetController extends Controller
            }
        }
 
-       public function carOrFleetUnselected(Request $request)
-       {
-          try {
+//       public function carOrFleetUnselected(Request $request)
+//       {
+//          try {
+//
+//              $driver = Driver::where('id', $request->user()->id)->first();
+//              if ($driver && $driver->company_id) {
+//                  $cars = CarOrFleet::where('company_id', $driver->company_id)->with('fleetType','fleetModel')->where('is_selected','no')->get();
+//                  return response()->json([
+//                      'status' => 'success',
+//                      'cars' => $cars
+//                  ]);
+//              }
+//              return response()->json([
+//                  'status' => 'error',
+//                  'message' => 'Driver not found or does not belong to a company'
+//              ], 404);
+//          } catch (\Exception $e) {
+//              Log::error('Error retrieving cars: ' . $e->getMessage());
+//              return response()->json([
+//                  'status' => 'error',
+//                  'message' => 'An error occurred while retrieving cars'
+//              ], 500);
+//          }
+//       }
 
-              $driver = Driver::where('id', $request->user()->id)->first();
-              if ($driver && $driver->company_id) {
-                  $cars = CarOrFleet::where('company_id', $driver->company_id)->where('is_selected','no')->get();
-                  return response()->json([
-                      'status' => 'success',
-                      'cars' => $cars
-                  ]);
-              }
-              return response()->json([
-                  'status' => 'error',
-                  'message' => 'Driver not found or does not belong to a company'
-              ], 404);
-          } catch (\Exception $e) {
-              Log::error('Error retrieving cars: ' . $e->getMessage());
-              return response()->json([
-                  'status' => 'error',
-                  'message' => 'An error occurred while retrieving cars'
-              ], 500);
-          }
-       }
+    public function carOrFleetUnselected(Request $request)
+    {
+        try {
+            $driver = Driver::where('id', $request->user()->id)->first();
+            if ($driver && $driver->company_id) {
+                $cars = CarOrFleet::where('company_id', $driver->company_id)
+                    ->with(['fleetType', 'fleetModel'])
+                    ->where('is_selected', 'no')
+                    ->get();
+
+                // Transform the cars collection
+                $carsTransformed = $cars->map(function ($car) {
+                    return [
+                        'id' => $car->id,
+                        'company_id' => $car->company_id,
+                        'fleet_type_id' => $car->fleet_type_id,
+                        'fleet_make_id' => $car->fleet_make_id,
+                        'fleet_model_id' => $car->fleet_model_id,
+                        'car_image' => $car->car_image,
+                        'plate_no' => $car->plate_no,
+                        'car_name' => $car->car_name,
+                        'year' => $car->year,
+                        'car_color' => $car->car_color,
+                        'car_register_card' => $car->car_register_card,
+                        'is_selected' => $car->is_selected,
+                        'status' => $car->status,
+                        'created_at' => $car->created_at,
+                        'updated_at' => $car->updated_at,
+                        'fleet_type_name' => $car->fleetType->name,
+                        'fleet_model_name' => $car->fleetModel->car_model_name,
+                    ];
+                });
+
+                return response()->json([
+                    'status' => 'success',
+                    'cars' => $carsTransformed
+                ]);
+            }
+
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Driver not found or does not belong to a company'
+            ], 404);
+        } catch (\Exception $e) {
+            Log::error('Error retrieving cars: ' . $e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'An error occurred while retrieving cars'
+            ], 500);
+        }
+    }
+
+
 
        public function carOrFleetType()
        {
