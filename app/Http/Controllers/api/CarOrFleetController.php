@@ -103,6 +103,9 @@ class CarOrFleetController extends Controller
                             'car_type' => $item->fleetType->name,
                             'car_make' => $item->fleetMake->car_make_name,
                             'car_model' => $item->fleetModel->car_model_name,
+                            'car_base_fare' => $item->fleetModel->car_base_fare,
+                            'car_passenger_capacity' => $item->fleetModel->car_passenger_capacity,
+                            'car_bag_capacity' => $item->fleetModel->car_bag_capacity,
                         ];
                     })
                     ->groupBy('fleet_model_id')
@@ -113,7 +116,7 @@ class CarOrFleetController extends Controller
 
                 return response()->json([
                     'status' => 'success',
-                    'cars' => $cars
+                    'fleet' => $cars
                 ]);
             } catch (\Exception $e) {
                 Log::error('Error retrieving cars: ' . $e->getMessage());
