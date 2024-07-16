@@ -300,7 +300,7 @@ class DriverController extends Controller
                                             $duration = $pickTime->diffInMinutes($dropTime);
                                             $trip->duration = gmdate('H:i', $duration * 60); // Convert minutes to HH:MM format
                                         } else {
-                                            $trip->duration = 0; // Set duration to null if drop_time is not available
+                                            $trip->duration = '0'; // Set duration to null if drop_time is not available
                                         }
                                         $trip->link = $baseUrl . '/get-specific-trip-history-verify/' . Crypt::encrypt($trip->id);
                                         return $trip;
