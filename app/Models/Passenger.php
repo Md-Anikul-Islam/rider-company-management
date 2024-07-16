@@ -20,6 +20,6 @@ class Passenger extends Model
 
       protected $casts = [
           'id' => 'integer',
-          'is_apple' => 'integer',
+          'is_apple' => 'string',
       ];
 }
