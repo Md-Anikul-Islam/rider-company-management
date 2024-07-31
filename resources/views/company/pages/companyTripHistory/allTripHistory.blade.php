@@ -74,6 +74,10 @@
                                   </td>
                               </tr>
                               @endforeach
+                              <tr>
+                                <td colspan="8" class="text-end fw-bold">Total Income:</td>
+                                <td colspan="2" class="fw-bold">{{ number_format($totalIncome, 2) }}</td>
+                              </tr>
                             </tbody>
                         </table>
                     </div>

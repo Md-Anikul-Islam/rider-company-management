@@ -198,6 +198,71 @@
               <!--end::Details-->
           </div>
         </div>
+
+        <div class="card card-flush">
+            <div class="card-header align-items-center py-5 gap-2 gap-md-5">
+                <div class="card-title">
+                    <div id="kt_datatable_example_1_export" class="d-none"></div>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
+                    <thead>
+                        <tr class="text-start text-gray-400 fw-bold fs-7 text-uppercase gs-0">
+                            <th>S/N</th>
+                            <th>Image</th>
+                            <th>Type</th>
+                            <th>Maker</th>
+                            <th>Model</th>
+                            <th>Plate No</th>
+                            <th>Name</th>
+                            <th>Year</th>
+                            <th>Color</th>
+                            <th>Registered Card</th>
+                            <th>Selected</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="fw-semibold text-gray-600">
+                        @foreach($cars as $key=>$carData)
+                        <tr>
+                            <td>{{$key+1}}</td>
+                            <td>
+                                <img src="{{ asset($carData->car_image) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
+                            </td>
+                            <td>{{ $carData->fleetType ? $carData->fleetType->name : 'N/A' }}</td>
+                            <td>{{ $carData->fleetMake ? $carData->fleetMake->car_make_name : 'N/A' }}</td>
+                            <td>{{ $carData->fleetModel ? $carData->fleetModel->car_model_name : 'N/A' }}</td>
+                            <td>{{$carData->plate_no}}</td>
+                            <td>{{$carData->car_name}}</td>
+                            <td>{{$carData->year}}</td>
+                            <td>{{$carData->car_color}}</td>
+                            <td>
+                                <img src="{{ asset($carData->car_register_card) }}" alt="" style="height: 50px; width: 50px;" class="img-fluid" id="picture__preview">
+                            </td>
+                            <td>
+                                @if( $carData->is_selected == 'yes')
+                                    <span class="badge badge-danger">YES</span>
+                                @elseif( $carData->is_selected == 'no')
+                                    <span class="badge badge-success">NO</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if( $carData->status == 'active')
+                                    <span class="badge badge-success">Active</span>
+                                @elseif( $carData->status == 'inactive')
+                                    <span class="badge badge-danger">Inactive</span>
+                                @endif
+                            </td>
+                        </tr>
+                       @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+
+
 @endsection

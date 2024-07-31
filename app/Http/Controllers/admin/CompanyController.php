@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Driver;use App\Models\TripHistory;use App\Models\User;
+use App\Models\CarOrFleet;use App\Models\Driver;use App\Models\FleetType;use App\Models\TripHistory;use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -25,7 +25,12 @@ class CompanyController extends Controller
            //dd($companyId);
            try {
                $company = User::where('id', $companyId)->first();
-               return view('admin.pages.company.details', compact('company'));
+               $cars = CarOrFleet::where('company_id', $companyId)
+                          ->with(['fleetType', 'fleetMake', 'fleetModel'])
+                          ->latest()
+                          ->get();
+               $carTypes = FleetType::all();
+               return view('admin.pages.company.details', compact('company', 'cars', 'carTypes'));
            } catch (\Exception $e) {
                return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
            }

@@ -188,7 +188,7 @@
                                                 </div>
                                                 <div class="col-md-6 fv-row">
                                                     <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Password</label>
-                                                    <input type="password" name="password" class="form-control form-control-solid" value="{{$driverData->password}}" placeholder="Enter Password" />
+                                                    <input type="password" name="password" class="form-control form-control-solid" placeholder="Enter Password" />
                                                 </div>
                                             </div>
                                             <div class="row g-9 mb-8">

@@ -3,14 +3,19 @@
 namespace App\Http\Controllers\company;
 
 use App\Http\Controllers\Controller;
-use App\Models\TripHistory;use Illuminate\Http\Request;
+use App\Models\TripHistory;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
 
 class TripController extends Controller
 {
         public function allTripHistoryUnderCompany()
         {
             $trip = TripHistory::where('company_id',auth()->user()->id)->with('passenger')->paginate(50);
-            return view('company.pages.companyTripHistory.allTripHistory', compact('trip'));
+            $totalIncome = TripHistory::where('company_id',auth()->user()->id)->sum(DB::raw('CASE 
+                    WHEN fare_received_status = 0 THEN calculated_fare 
+                    WHEN fare_received_status = 1 THEN estimated_fare 
+                    ELSE 0 
+                END'));
+            return view('company.pages.companyTripHistory.allTripHistory', compact('trip','totalIncome'));
         }
 
         public function requestTripHistoryUnderCompany()
