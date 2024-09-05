@@ -50,7 +50,8 @@
                                     </td>
                                     <td>{{$passengerData->name}}</td>
                                     <td>{{$passengerData->email? $passengerData->email:'N/A'}}</td>
-                                    <td>{{$passengerData->phone}}</td>
+                                    <td>{{$passengerData->phone? $passengerData->phone:'N/A'}}</td>
+
                                     <td>
                                         @if( $passengerData->status == 'active')
                                             <span class="badge badge-success">Active</span>

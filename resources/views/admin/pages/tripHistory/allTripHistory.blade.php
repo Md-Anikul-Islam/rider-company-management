@@ -49,9 +49,9 @@
                                   </td>
                                   <td>
                                      @if($tripData->passenger_id==null)
-                                          {{$tripData->passenger_phone}}
+                                          {{$tripData->passenger_phone?$tripData->passenger_phone:'N/A'}}
                                      @else
-                                         {{$tripData->passenger->phone}}
+                                         {{$tripData->passenger->phone? $tripData->passenger->phone:'N/A'}}
                                      @endif
                                   </td>
                                   <td>{{$tripData->origin_address}}</td>
