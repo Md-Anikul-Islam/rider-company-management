@@ -292,6 +292,7 @@ class DriverController extends Controller
 
                 $trips = TripHistory::where('driver_id', $request->user()->id)
                                     ->with('passenger', 'driver.car','agent')
+                                    ->orderBy('id', 'desc')
                                     ->paginate($perPage)
                                     ->through(function ($trip) use ($baseUrl) {
                                         if ($trip->drop_time) {
