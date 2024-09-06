@@ -215,7 +215,7 @@ class DriverController extends Controller
     public function show($id)
     {
         $driver = Driver::where('id', $id)->with('car','car.fleetMake','car.fleetModel')->first();
-        $trip = TripHistory::where('driver_id', $id)->with('passenger')->paginate(50);
+        $trip = TripHistory::where('driver_id', $id)->with('passenger')->latest()->paginate(50);
         return view('company.pages.driver.driverDetails', compact('driver', 'trip'));
     }
 
