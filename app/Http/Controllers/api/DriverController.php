@@ -19,7 +19,7 @@ class DriverController extends Controller
         {
             try {
                 $request->validate([
-                    'phone' => 'required|digits_between:10,15',
+                    'phone' => 'required',
                     'password' => 'required',
                 ]);
 
