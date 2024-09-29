@@ -147,6 +147,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/driver/details/{id}', [DriverController::class, 'show'])->name('company.driver.details.show');
         Route::put('/driver/update/{id}', [DriverController::class, 'update'])->name('company.driver.update');
         Route::get('/driver/delete/{id}', [DriverController::class, 'destroy'])->name('company.driver.delete');
+         Route::put('/driver/password/update/{id}', [DriverController::class, 'updatePassword'])->name('company.driver.password.update');
 
         //trip history
         Route::get('/trip', [TripController::class, 'allTripHistoryUnderCompany'])->name('company.trip');

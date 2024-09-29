@@ -94,6 +94,9 @@
                                        <li>
                                           <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#vModal{{$driverData->id}}"><i class="fa-solid fa-eye"></i> Verify</a>
                                        </li>
+                                        <li>
+                                         <a class="dropdown-item" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#vModalx{{$driverData->id}}"><i class="fa-solid fa-eye"></i> Password Update</a>
+                                      </li>
 
                                    </ul>
                                </div>
@@ -120,7 +123,10 @@
                                                     <select name="car_id" class="form-select form-select-solid">
                                                          <option value="" selected>Select Car If Needed</option>
                                                          @foreach($car as $carData)
-                                                            <option value="{{$carData->id}}" {{$driverData->car_id == $carData->id ? 'selected' : ''}} {{ $carData->is_selected == 'yes' ? 'disabled' : '' }}>
+{{--                                                            <option value="{{$carData->id}}" {{$driverData->car_id == $carData->id ? 'selected' : ''}} {{ $carData->is_selected == 'yes' ? 'disabled' : '' }}>--}}
+{{--                                                                {{$carData->car_name}} ({{ $carData->is_selected == 'yes' ? 'Already Selected' : 'Available' }})--}}
+{{--                                                            </option>--}}
+                                                            <option value="{{$carData->id}}" {{$driverData->car_id == $carData->id ? 'selected' : ''}}>
                                                                 {{$carData->car_name}} ({{ $carData->is_selected == 'yes' ? 'Already Selected' : 'Available' }})
                                                             </option>
                                                          @endforeach
@@ -186,20 +192,20 @@
                                                     <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Address</label>
                                                     <input type="text" name="address" class="form-control form-control-solid" value="{{$driverData->address}}" placeholder="Enter Address" />
                                                 </div>
+
+                                                        <div class="col-md-6 fv-row">
+                                                            <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Status</label>
+                                                            <select name="status" class="form-select form-select-solid">
+                                                                <option value="active" {{$driverData->status == 'active' ? 'selected' : ''}}>Active</option>
+                                                                <option value="inactive" {{$driverData->status == 'inactive' ? 'selected' : ''}}>Inactive</option>
+                                                            </select>
+                                                        </div>
+
                                                 <div class="col-md-6 fv-row">
-                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Password</label>
-                                                    <input type="password" name="password" class="form-control form-control-solid" placeholder="Enter Password" />
+                                                    <input hidden="" type="text" name="password"  value="{{$driverData->password}}" class="form-control form-control-solid" placeholder="Enter Password" />
                                                 </div>
                                             </div>
-                                            <div class="row g-9 mb-8">
-                                                <div class="col-md-12 fv-row">
-                                                    <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Status</label>
-                                                    <select name="status" class="form-select form-select-solid">
-                                                        <option value="active" {{$driverData->status == 'active' ? 'selected' : ''}}>Active</option>
-                                                        <option value="inactive" {{$driverData->status == 'inactive' ? 'selected' : ''}}>Inactive</option>
-                                                    </select>
-                                                </div>
-                                            </div>
+
                                             <div class="text-end">
                                                 <button type="submit" class="btn btn-primary">
                                                     <span class="indicator-label">Update</span>
@@ -249,6 +255,43 @@
                                 </div>
                             </div>
                         </div>
+
+
+
+
+                        <div class="modal fade" id="vModalx{{$driverData->id}}" aria-labelledby="vModalLabelx{{$driverData->id}}" tabindex="-1" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered mw-1000px">
+                            <div class="modal-content rounded">
+                                <div class="modal-header pb-0 border-0 justify-content-end">
+                                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                                        <i class="ki-outline ki-cross fs-1"></i>
+                                    </div>
+                                </div>
+                                <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
+                                    <form action="{{route('company.driver.password.update',$driverData->id)}}" method="post" class="form" enctype="multipart/form-data">
+                                    @csrf @method('PUT')
+                                    <div class="mb-13 text-center">
+                                            <h1 id="vModalLabelx{{$driverData->id}}" class="mb-3"> Driver Password Change</h1>
+                                        </div>
+                                        <div class="row g-9 mb-8">
+                                            <div class="col-md-12 fv-row">
+                                                <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Password</label>
+                                               <input type="password" name="password"   class="form-control form-control-solid" placeholder="Enter Password" />
+                                            </div>
+
+                                        </div>
+
+                                        <div class="text-end">
+                                            <button type="submit" class="btn btn-primary">
+                                                <span class="indicator-label">Update</span>
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     @endforeach
                     </tbody>
                 </table>

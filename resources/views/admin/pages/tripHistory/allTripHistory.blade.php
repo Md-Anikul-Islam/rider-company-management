@@ -17,6 +17,27 @@
 
    <div class="post d-flex flex-column-fluid mb-5" id="kt_post">
             <div id="kt_content_container" class="container-fluid">
+               {{--search form--}}
+               <div class="row">
+                   <form class="filter_area" method="GET" action="{{route('admin.all.trip.history')}}">
+                          <div class="d-flex align-items-end gap-5">
+                              <div>
+                                  <label class="d-flex align-items-center fs-6 fw-semibold mb-2 required">Filter</label>
+                                  <select name="filter" class="form-select form-select-solid w-200px" required>
+                                      <option value="">Select Trip</option>
+                                      <option value="request_trip">Request Trip</option>
+                                      <option value="manual_trip">Manual Trip</option>
+                                      <option value="agent_create_trip">Agent Trip</option>
+                                  </select>
+                              </div>
+                              <button type="submit" class="btn btn-primary mt-3">Apply Filter</button>
+                          </div>
+                      </form>
+                   </div></br>
+
+
+
+
                 <div class="card card-flush">
                     <div class="card-body pt-0">
                         <table class="table align-middle table-row-dashed fs-6 gy-5" id="">
@@ -81,10 +102,10 @@
                               </tr>
                               @endforeach
                                <!-- Total Income Row -->
-                              <tr>
-                                  <td colspan="8" class="text-end fw-bold">Total Income:</td>
-                                  <td colspan="2" class="fw-bold">{{ number_format($totalIncome, 2) }}</td>
-                              </tr>
+{{--                              <tr>--}}
+{{--                                  <td colspan="8" class="text-end fw-bold">Total Income:</td>--}}
+{{--                                  <td colspan="2" class="fw-bold">{{ number_format($totalIncome, 2) }}</td>--}}
+{{--                              </tr>--}}
                             </tbody>
                         </table>
                     </div>

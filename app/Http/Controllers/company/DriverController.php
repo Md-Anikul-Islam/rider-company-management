@@ -81,6 +81,7 @@ class DriverController extends Controller
 
     public function update(Request $request, $id)
     {
+        //dd($request->all());
         try {
             $request->validate([
                 'name' => 'required|string',
@@ -94,7 +95,6 @@ class DriverController extends Controller
 
             $driver = Driver::findOrFail($id);
             $previousCarId = $driver->car_id;
-            $driver->company_id = auth()->user()->id;
             $driver->car_id = $request->car_id??null;
             $driver->name = $request->name;
             $driver->email = $request->email;
@@ -159,6 +159,22 @@ class DriverController extends Controller
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
     }
+
+    public function updatePassword(Request $request, $id)
+        {
+
+            try {
+                $driver = Driver::findOrFail($id);
+                if ($request->password) {
+                    $driver->password = bcrypt($request->password);
+                }
+
+                Toastr::success('Password updated successfully!', 'Success');
+                return redirect()->back();
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
+            }
+        }
 
 
     protected function expireDriverTokens($driverId)

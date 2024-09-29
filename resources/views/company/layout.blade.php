@@ -71,55 +71,64 @@
                             </a>
                         </div>
 
-                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
-                            <span class="menu-link">
+                         <div class="menu-item">
+                            <a class="menu-link" href="{{route('company.trip')}}">
                                 <span class="menu-icon">
-                                    <i class="ki-outline ki-message-text fs-2"></i>
+                                    <i class="ki-outline ki-element-11 fs-2"></i>
                                 </span>
                                 <span class="menu-title">Trip</span>
-                                <span class="menu-arrow"></span>
-                            </span>
-                            <div class="menu-sub menu-sub-accordion">
-                                <div class="menu-item">
-                                    <a class="menu-link" href="{{route('company.trip')}}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                    <span class="menu-title">Trip</span>
-                                    </a>
-                                </div>
-                            </div>
-                             <div class="menu-sub menu-sub-accordion">
-                                <div class="menu-item">
-                                    <a class="menu-link" href="{{route('company.request.trip')}}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                    <span class="menu-title">Request Trip</span>
-                                    </a>
-                                </div>
-                            </div>
-                             <div class="menu-sub menu-sub-accordion">
-                                <div class="menu-item">
-                                    <a class="menu-link" href="{{route('company.manual.trip')}}">
-                                        <span class="menu-bullet">
-                                            <span class="bullet bullet-dot"></span>
-                                        </span>
-                                    <span class="menu-title">Manual Trip</span>
-                                    </a>
-                                </div>
-                            </div>
-                             <div class="menu-sub menu-sub-accordion">
-                                  <div class="menu-item">
-                                      <a class="menu-link" href="{{route('company.agent.trip')}}">
-                                          <span class="menu-bullet">
-                                              <span class="bullet bullet-dot"></span>
-                                          </span>
-                                      <span class="menu-title">Agent Trip</span>
-                                      </a>
-                                  </div>
-                              </div>
+                            </a>
                         </div>
+
+{{--                        <div data-kt-menu-trigger="click" class="menu-item menu-accordion">--}}
+{{--                            <span class="menu-link">--}}
+{{--                                <span class="menu-icon">--}}
+{{--                                    <i class="ki-outline ki-message-text fs-2"></i>--}}
+{{--                                </span>--}}
+{{--                                <span class="menu-title">Trip</span>--}}
+{{--                                <span class="menu-arrow"></span>--}}
+{{--                            </span>--}}
+{{--                            <div class="menu-sub menu-sub-accordion">--}}
+{{--                                <div class="menu-item">--}}
+{{--                                    <a class="menu-link" href="{{route('company.trip')}}">--}}
+{{--                                        <span class="menu-bullet">--}}
+{{--                                            <span class="bullet bullet-dot"></span>--}}
+{{--                                        </span>--}}
+{{--                                    <span class="menu-title">Trip</span>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                             <div class="menu-sub menu-sub-accordion">--}}
+{{--                                <div class="menu-item">--}}
+{{--                                    <a class="menu-link" href="{{route('company.request.trip')}}">--}}
+{{--                                        <span class="menu-bullet">--}}
+{{--                                            <span class="bullet bullet-dot"></span>--}}
+{{--                                        </span>--}}
+{{--                                    <span class="menu-title">Request Trip</span>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                             <div class="menu-sub menu-sub-accordion">--}}
+{{--                                <div class="menu-item">--}}
+{{--                                    <a class="menu-link" href="{{route('company.manual.trip')}}">--}}
+{{--                                        <span class="menu-bullet">--}}
+{{--                                            <span class="bullet bullet-dot"></span>--}}
+{{--                                        </span>--}}
+{{--                                    <span class="menu-title">Manual Trip</span>--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                             <div class="menu-sub menu-sub-accordion">--}}
+{{--                                  <div class="menu-item">--}}
+{{--                                      <a class="menu-link" href="{{route('company.agent.trip')}}">--}}
+{{--                                          <span class="menu-bullet">--}}
+{{--                                              <span class="bullet bullet-dot"></span>--}}
+{{--                                          </span>--}}
+{{--                                      <span class="menu-title">Agent Trip</span>--}}
+{{--                                      </a>--}}
+{{--                                  </div>--}}
+{{--                              </div>--}}
+{{--                        </div>--}}
 
                         <div data-kt-menu-trigger="click" class="menu-item menu-accordion">
                             <span class="menu-link">
