@@ -1,0 +1,205 @@
+<?php
+
+namespace App\Http\Controllers\admin;
+
+use App\Http\Controllers\Controller;
+use App\Models\Agent;use App\Models\AgentCommission;use App\Models\CompanyCommission;use App\Models\TripHistory;use App\Models\User;use Carbon\Carbon;use Illuminate\Http\Request;use Illuminate\Support\Facades\DB;
+
+class ProfitOnCompanyController extends Controller
+{
+    public function profitListForCompany()
+    {
+         // Total income
+         // Sum for request_trip where calculated_fare is always used
+         $requestTripIncome = TripHistory::where('trip_type', 'request_trip')->sum('calculated_fare');
+         // Sum for manual_trip based on fare_received_status condition
+         $manualTripIncome = TripHistory::where('trip_type', 'manual_trip')->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare END'));
+
+         $agentTripIncome = TripHistory::where('trip_type', 'agent_create_trip')
+             ->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare
+             END'));
+         $totalIncome = $requestTripIncome + $manualTripIncome + $agentTripIncome;
+
+
+
+         // Today income
+         $startOfToday = Carbon::today()->startOfDay();
+         $endOfToday = Carbon::today()->endOfDay();
+         // Sum for request_trip where calculated_fare is always used
+         $requestTripIncomeToday = TripHistory::where('trip_type', 'request_trip')
+             ->whereBetween('created_at', [$startOfToday, $endOfToday])
+             ->sum('calculated_fare');
+         // Sum for manual_trip based on fare_received_status condition
+         $manualTripIncomeToday = TripHistory::where('trip_type', 'manual_trip')
+             ->whereBetween('created_at', [$startOfToday, $endOfToday])
+             ->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare END'));
+
+         // Sum for agent_create_trip based on fare_received_status condition
+         $agentTripIncomeToday = TripHistory::where('trip_type', 'agent_create_trip')
+             ->whereBetween('created_at', [$startOfToday, $endOfToday])
+             ->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare END'));
+
+         $totalIncomeToday = $requestTripIncomeToday + $manualTripIncomeToday + $agentTripIncomeToday;
+
+         // Week income
+         $startOfWeek = Carbon::now()->startOfWeek();
+         $endOfWeek = Carbon::now()->endOfWeek();
+         $requestTripIncomeWeek = TripHistory::where('trip_type', 'request_trip')
+             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+             ->sum('calculated_fare');
+         $manualTripIncomeWeek = TripHistory::where('trip_type', 'manual_trip')
+             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+             ->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare END'));
+         $agentTripIncomeWeek = TripHistory::where('trip_type', 'agent_create_trip')
+             ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+             ->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare END'));
+
+         $totalIncomeWeek = $requestTripIncomeWeek + $manualTripIncomeWeek + $agentTripIncomeWeek;
+
+         // Month income
+         $startOfMonth = Carbon::now()->startOfMonth();
+         $endOfMonth = Carbon::now()->endOfMonth();
+         $requestTripIncomeMonth = TripHistory::where('trip_type', 'request_trip')
+             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+             ->sum('calculated_fare');
+         $manualTripIncomeMonth = TripHistory::where('trip_type', 'manual_trip')
+             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+             ->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare END'));
+         $agentTripIncomeMonth = TripHistory::where('trip_type', 'agent_create_trip')
+             ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+             ->sum(DB::raw('CASE 
+                 WHEN fare_received_status = 0 THEN calculated_fare
+                 ELSE estimated_fare END'));
+
+       $totalIncomeMonth = $requestTripIncomeMonth + $manualTripIncomeMonth + $agentTripIncomeMonth;
+
+       $company = User::where('role','company')->with('drivers', 'cars','commissions')->get();
+       return view('admin.pages.commission.profitListForCompany',compact('company','totalIncome','totalIncomeToday','totalIncomeWeek','totalIncomeMonth'));
+    }
+
+
+
+        public function earningProfitOnCompany(Request $request, $companyId)
+        {
+            $filter = $request->query('filter');
+            $company = User::find($companyId);
+            //$trips = TripHistory::where('company_id', $companyId)->with('passenger','driver')->get();
+            $query = TripHistory::where('company_id', $companyId);
+            switch ($filter) {
+                case 'today':
+                    $query->whereDate('created_at', \Carbon\Carbon::today());
+                    break;
+                case 'weekly':
+                    $query->whereBetween('created_at', [\Carbon\Carbon::now()->startOfWeek(), \Carbon\Carbon::now()->endOfWeek()]);
+                    break;
+                case 'monthly':
+                    $query->whereMonth('created_at', \Carbon\Carbon::now()->month)
+                          ->whereYear('created_at', \Carbon\Carbon::now()->year);
+                    break;
+            }
+            $trips = $query->with('passenger', 'driver')->get();
+            $totalEarnings = $trips->sum(function ($trip) {
+                return $trip->fare_received_status == 0 ? $trip->calculated_fare : $trip->estimated_fare;
+            });
+            $commissionRate = CompanyCommission::where('company_id', $companyId)->value('commission_percentage');
+            $adminEarnings = $totalEarnings * ($commissionRate / 100);
+            return view('admin.pages.commission.profitDetailsForCompany', compact('company', 'trips', 'totalEarnings', 'adminEarnings', 'commissionRate'));
+        }
+
+
+
+        //Agent Commission
+        public function profitListForAgent()
+        {
+             // Total income
+             $agentTripIncome = TripHistory::where('trip_type', 'agent_create_trip')
+                 ->sum(DB::raw('CASE 
+                     WHEN fare_received_status = 0 THEN calculated_fare
+                     ELSE estimated_fare
+                 END'));
+             $totalIncome = $agentTripIncome;
+
+
+
+             // Today income
+             $startOfToday = Carbon::today()->startOfDay();
+             $endOfToday = Carbon::today()->endOfDay();
+             // Sum for agent_create_trip based on fare_received_status condition
+             $agentTripIncomeToday = TripHistory::where('trip_type', 'agent_create_trip')
+                 ->whereBetween('created_at', [$startOfToday, $endOfToday])
+                 ->sum(DB::raw('CASE 
+                     WHEN fare_received_status = 0 THEN calculated_fare
+                     ELSE estimated_fare END'));
+
+             $totalIncomeToday = $agentTripIncomeToday;
+
+             // Week income
+             $startOfWeek = Carbon::now()->startOfWeek();
+             $endOfWeek = Carbon::now()->endOfWeek();
+             $agentTripIncomeWeek = TripHistory::where('trip_type', 'agent_create_trip')
+                 ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+                 ->sum(DB::raw('CASE 
+                     WHEN fare_received_status = 0 THEN calculated_fare
+                     ELSE estimated_fare END'));
+
+             $totalIncomeWeek = $agentTripIncomeWeek;
+
+             // Month income
+             $startOfMonth = Carbon::now()->startOfMonth();
+             $endOfMonth = Carbon::now()->endOfMonth();
+             $agentTripIncomeMonth = TripHistory::where('trip_type', 'agent_create_trip')
+                 ->whereBetween('created_at', [$startOfMonth, $endOfMonth])
+                 ->sum(DB::raw('CASE 
+                     WHEN fare_received_status = 0 THEN calculated_fare
+                     ELSE estimated_fare END'));
+
+           $totalIncomeMonth = $agentTripIncomeMonth;
+
+           $agent = Agent::with('commissions','trips')->get();
+           return view('admin.pages.commission.profitListForAgent',compact('agent','totalIncome','totalIncomeToday','totalIncomeWeek','totalIncomeMonth'));
+        }
+
+
+        public function earningProfitOnAgent(Request $request, $agentId)
+        {
+            $filter = $request->query('filter');
+            $agent = Agent::find($agentId);
+            //$trips = TripHistory::where('company_id', $companyId)->with('passenger','driver')->get();
+            $query = TripHistory::where('agent_id', $agentId);
+            switch ($filter) {
+                case 'today':
+                    $query->whereDate('created_at', \Carbon\Carbon::today());
+                    break;
+                case 'weekly':
+                    $query->whereBetween('created_at', [\Carbon\Carbon::now()->startOfWeek(), \Carbon\Carbon::now()->endOfWeek()]);
+                    break;
+                case 'monthly':
+                    $query->whereMonth('created_at', \Carbon\Carbon::now()->month)
+                          ->whereYear('created_at', \Carbon\Carbon::now()->year);
+                    break;
+            }
+            $trips = $query->with('passenger', 'driver')->get();
+            $totalEarnings = $trips->sum(function ($trip) {
+                return $trip->fare_received_status == 0 ? $trip->calculated_fare : $trip->estimated_fare;
+            });
+            $commissionRate = AgentCommission::where('agent_id', $agentId)->value('commission_percentage');
+            $adminEarnings = $totalEarnings * ($commissionRate / 100);
+            return view('admin.pages.commission.profitDetailsForAgent', compact('agent', 'trips', 'totalEarnings', 'adminEarnings', 'commissionRate'));
+        }
+
+
+}
